@@ -1,0 +1,211 @@
+---
+title: "Captação de Recursos"
+subtitle: "@ross, capítulo 15"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+footer: 'Administração Financeira - UFRGS'
+self-contained: true
+execute: 
+  echo: false
+  cache: true
+bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
+title-block-banner: true
+toc: true
+toc-depth: 1
+toc-title: "Sumário"
+---
+
+# Slide 1
+
+<!-- Image of UFRGS logo -->
+<!-- Image of Escola de Administração UFRGS logo -->
+
+# Administração Financeira
+
+# Slide 2
+
+## Introdução
+
+*   Capital é a base de qualquer negócio e, eventualmente, uma empresa precisará de recursos extras
+*   O recurso pode vir de diferentes fontes:
+    *   Interna:
+        *   Geração de caixa das atividades
+        *   Venda de ativos
+    *   Externa
+        *   Venda de participações acionárias (capital próprio)
+        *   Venda de dívidas (capital de terceiros)
+*   A escolha vai depender da posição da empresa em seu ciclo
+
+---
+
+# Slide 3
+
+## Venture Capital (VC)
+
+> "Financiamento de alto risco, focado em empreendimentos novos. Também reconhecido como capital empreendedor"
+
+*   Incluem: indivíduos, fundos de pensão, fundos soberanos, agências multilaterais, companhias seguradoras, grandes empresas e até mesmo fundos de doação de universidades.
+*   VCs são focados e especializados em estágios da empresa
+
+---
+
+# Slide 4
+
+## Como escolher um VC
+
+*   Capacidade financeira
+*   Forma de administração envolvida e controle
+*   Reputação e contatos do VC
+*   Estratégia de saída (quais são os cenários de saída)
+
+---
+
+# Slide 5
+
+## Os ciclos de uma startup
+
+<!-- IMAGE: THE STAGES OF FUNDING FOR START-UPS -->
+Image of the stages of funding for start-ups, showing Pre-Seed, Seed/Startup, Early Stage, Growth, and Exit phases with typical funding amounts and valuations.
+
+---
+
+# Slide 6
+
+## VC no Brasil
+
+<!-- IMAGE: VC no Brasil graph -->
+Image of a bar and line graph showing the volume of investment (in billions of US$) and number of deals for VC in Brazil from 2011 to 2020.
+
+---
+
+# Slide 7
+
+## Ecossistema de VC no Brasil
+
+<!-- IMAGE: Ecossistema de Anjos e VCs no Brasil V3.0.09/2019 -->
+Image depicting the ecosystem of Angel Investors and VCs in Brazil, categorized by Anjos, Aceleradoras, Pré-Seed + Seed, Series A, and Series B, along with typical investment tickets and dilution.
+
+---
+
+# Slide 8
+
+## Emissão de valores mobiliários
+
+*   Forma contratual de levantar recursos via instrumentos financeiros
+*   Na forma de ações (venda de capital próprio) ou títulos de dívida (venda de dívidas)
+*   Etapas:
+    *   Aprovação do conselho
+    *   Registro de oferta pública a CVM
+    *   Distribuição do prospecto preliminar (exemplo Track & Field) -- grande parte das informações estão no FRE (formulário de referência)
+
+---
+
+# Slide 9
+
+## IPOs - Initial Public Offering
+
+*   Primeira emissão de ações da empresa
+    *   A existência de fundo do tipo Venture Capital na gestão geralmente acelera esse processo
+*   A oferta pode ser no mercado primário (exclusivo a alguns investidores) ou no mercado secundário (acessível a todos via B3/corretora)
+
+---
+
+# Slide 10
+
+## Tipos
+
+| Forma                         | Tipo                        | Descrição                                                            |
+| :---------------------------- | :-------------------------- | :------------------------------------------------------------------- |
+| Ofertas públicas tradicionais | Oferta por garantia firme   | Banco de investimento garante levantamento de montante               |
+|                               | Oferta por melhores esforços | Bancos de investimento organizam mas não garantem o recurso         |
+| Subscrição privilegiada       | Oferta direta               | Empresa oferta novas ações a acionistas existentes                   |
+| Ofertas não tradicionais     |                             | Diferentes modalidades                                               |
+| Ofertas privadas              | Colocação direta            | Valores mobiliários vendidos direto ao comprador                     |
+
+---
+
+# Slide 11
+
+## IPOs, subprecificação e superprecificação
+
+*   Determinar o preço "correto" de um IPO pode ser muito subjetivo
+    *   Incentivos de intermediários alinham com o volume de capital levantado e consequente subprecificação da ação no curto prazo
+*   Efeito "véu de noiva"
+
+<!-- IMAGE: Table of initial IPO returns by country -->
+Image of a table showing initial IPO returns (average) for various countries and periods. (Ross p. 509)
+
+---
+
+# Slide 12
+
+## A performance de IPOs no longo prazo
+
+<!-- IMAGE: Distribution of IPO Returns Post-IPO graph -->
+Image of a stacked bar chart showing the distribution of IPO returns post-IPO over different timeframes (1-Day to 3 Yr), indexed to market benchmarks. (Source: FactSet, Nasdaq Economic Research)
+
+---
+
+# Slide 13
+
+## Emitir capital é caro!
+
+<!-- IMAGE: Table of direct costs of raising capital -->
+Image of TABELA 15.4 showing direct costs, as a percentage of gross proceeds, for IPOs, subsequent offerings, and convertible/non-convertible debt offerings in North American companies (1990-2008). (Ross p. 512)
+
+---
+
+# Slide 14
+
+## Mecanismos para investidor
+
+*   A emissão de novas ações é geralmente ruim para acionistas atuais
+    *   Diluição da posição atual
+    *   Entrada de novos acionistas e possível troca de controle
+*   Mecanismos de defesa:
+    *   Direito de preferência e subscrição (geralmente com preço melhor)
+        *   "Para cada 100 ações, o acionista atual tem direito de subscrição de 10 ações a XX R$ cada"
+
+---
+
+# Slide 15
+
+## Como abrir o capital no Brasil
+
+<!-- IMAGE: IPO - Processo ilustrativo flowchart -->
+Image of FIGURA 15.6, an illustrative flowchart of the IPO process in Brazil, including steps like team selection, due diligence, financial information, draft offering document, CVM filing, CVM comments, red herring issuance, roadshow, pricing, underwriting agreement, and closing. (Fonte: BM&FBOVESPA e Pricewaterhousecoopers)
+
+---
+
+# Slide 16
+
+## Prazos
+
+<!-- IMAGE: Timeline for IPO preparation in Brazil -->
+Image of FIGURA 15.5, a timeline showing the "ideal" contracting timeframe in relation to a public offering in Brazil: 2 to 3 years (Independent Audit), 1 year (Company's Legal Service), 6 months (Offering Coordinator), 3 months (Coordinator's Legal Service), leading to Public Offering. (Fonte: Adaptado de BM&FBOVESPA e Pricewaterhousecoopers)
+
+---
+
+# Slide 17
+
+## Segmentos de Governança Corporativa
+
+<!-- IMAGE: Comparative table of listing segments -->
+Image of a comparative table of Bovespa listing segments: Bovespa Mais, Novo Mercado (old and new rules), Nível 2, Nível 1, and Básico, detailing requirements for capital social, free float, public offerings, shareholder rights, board composition, and accumulation of positions.
+
+---
+
+# Slide 18
+
+## Estatísticas de IPO no Brasil
+
+<!-- IMAGE: Bar chart of IPO statistics in Brazil -->
+Image of a bar chart showing the number of IPOs in Brazil per year (from around 2004 to 2020), categorized by listing segment (BÁSICO, BDR, BDR Patrocinado Nível 3, MA, N1, NM, N2).
+
+
+## Referências

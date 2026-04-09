@@ -1,0 +1,498 @@
+---
+title: "Introdução a Fundos Imobiliários (FIIs)"
+subtitle: "@ross, capítulo 08"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "content/theme-msperlin.scss"
+footer: 'Administração Financeira - UFRGS'
+self-contained: true
+execute: 
+  echo: false
+  cache: false
+bibliography: "content/bibfile.bib"
+logo: "content/ufrgs3.jpg"
+toc: true
+toc-depth: 1
+toc-title: "Sumário"
+---
+
+```{r}
+#| echo: false
+classtools::setup_quarto_slides('content')
+```
+
+# Introdução
+
+## O que são FIIs?
+
+> Fundos de Investimento Imobiliário (FIIs) é um contrato típico do mercado de renda variável, onde existe uma comunhão de recursos destinados à aplicação em empreendimentos imobiliários.
+
+::: {.incremental}
+- Semelhante a uma ação de uma empresa, o FII é uma forma de investir em imóveis sem precisar comprar um imóvel físico inteiro, pois o patrimônio do fundo é dividido em **cotas**
+- O cotista tem direito a receber uma parcela das receitas (aluguéis, juros) proporcional ao número de cotas que possui
+- São negociados na bolsa de valores (B3) de forma semelhante a ações
+:::
+
+## Imóvel Físico vs. FIIs {background-image="figs/investidor.jpg" background-opacity=0.25}
+
+::: {.incremental}
+- **Liquidez:** FIIs podem ser vendidos em D+2 na bolsa; um imóvel pode levar meses ou anos
+- **Fracionamento:** É possível investir com valores muito baixos (ex: R$ 10 ou R$ 100) de forma diversificada
+- **Gestão Profissional:** Uma equipe especializada administra os inquilinos e os imóveis
+- **Diversificação:** Um único Fundo pode ter dezenas de imóveis com centenas de inquilinos
+- **Isenção de IR:** Os rendimentos (dividendos) distribuídos aos cotistas pessoa física são geralmente **isentos** de Imposto de Renda
+:::
+
+## Performance de FIIs no longíssimo prazo (USA)
+
+![Performance de REITs nos EUA - fonte: [globalxetfs](https://www.globalxetfs.com/articles/reits-a-key-portfolio-building-block)](figs/Historical-Performance-Global-REITs-image-5.png)
+
+
+## Como funciona a Distribuição de Rendimentos?
+
+::: {.incremental}
+- Pela lei ([Lei 8.668/93](https://www.planalto.gov.br/ccivil_03/leis/l8668.htm)), os FIIs devem distribuir no mínimo **95% do lucro** apurado em **regime de caixa** a cada semestre
+- No entanto, a grande maioria dos fundos opta por realizar distribuições **mensais**
+- Essa constância atrai investidores buscando geração de renda passiva (viver de aluguéis)
+- A isenção de IR sobre esses proventos mensais é o grande atrativo da classe de ativos no Brasil
+:::
+
+# Segmentos e Tipos de FIIs
+
+## Principais Tipologias
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Fundos de Tijolo**
+
+::: {.incremental}
+- Investem em imóveis físicos (reais)
+- O fundo constrói, adquire ou aluga os imóveis
+- Renda majoritariamente dos contratos de aluguel
+- Tipos de fundos de tijolos:
+  - Lajes corporativas
+  - Shoppings
+  - Galpões logísticos e industriais
+  - Desenvolvimento imobiliário
+  - Hotéis
+:::
+:::
+
+::: {.column width="50%"}
+**Fundos de Papel (Recebíveis)**
+
+::: {.incremental}
+- Investem em instrumentos financeiros atrelados ao mercado imobiliário (CRI, LCI, etc)
+- Fundos agregam dezenas de contratos de dívidas indexadas a taxa de juros e  inflação
+- Geralmente pagam maior renda (maior *dividend yield*), porém cota não se valoriza tanto quanto os fundos de tijolo
+:::
+:::
+
+::::
+
+
+## Fundos de Tijolo: Shopping Centers
+
+::: {.incremental}
+- **Portfólio:** Investem na aquisição de participações em Shopping Centers (cotas de shoppings ou propriedades inteiras).
+- **Receitas Múltiplas:** aluguéis fixos, aluguéis percentuais (atrelados ao volume de vendas dos lojistas) e da exploração do estacionamento.
+- **Sazonalidade:** Apresentam variações de receita ao longo do ano, com picos de distribuição gerados por datas comemorativas (Natal, Dia das Mães, Black Friday).
+- **Proteção contra Inflação:** Como as vendas dos lojistas tendem a acompanhar o aumento geral de preços, esses fundos oferecem boa proteção inflacionária.
+:::
+
+## Fundos de Tijolo: Galpões Logísticos e Industriais
+
+::: {.incremental}
+- **Portfólio:** Investem em grandes galpões logísticos e instalações industriais, fundamentais para a cadeia de suprimentos (ex: e-commerce).
+- **Inquilinos e Contratos:** Focam em contratos de aluguel de **longo prazo** (muitas vezes atípicos) com grandes empresas, garantindo maior previsibilidade de receita.
+- **Estabilidade de Receita:** Menor rotatividade de inquilinos em comparação a lajes corporativas, devido ao alto custo de mudança de uma operação logística.
+- **Risco de Vacância:** Embora o tempo de vacância de um galpão possa ser maior, os contratos longos com pesadas multas rescisórias mitigam esse risco no curto prazo.
+:::
+
+
+
+# Como avaliar um FII e os seus riscos?
+
+## Indicadores Quantitativos (Tijolo)
+
+::: {.incremental}
+- **Tempo de mercado:** Fundos mais novos são mais arriscados (mínimo 5 anos)
+- **Vacância:**: Percentual de vacância (física e financeira). Quanto menor, melhor.
+- **Dividend Yield (DY %):** (Dividendo dos últimos 12 meses / Preço Atual da cota) -- CUIDADO, alto DY geralmente é um sinal de algo errado..
+- **P/VP (Preço / Valor Patrimonial):** (Valor de Mercado Total / Valor de Avaliação dos Ativos do Fundo). CUIDADO, baixo P/PV geralmente é sinal de algo errado..
+- **DY CAGR, Crescimento Dividendos**: Crescimento do rendimento ao longos dos anos;
+:::
+
+## Análise Qualitativa
+
+::: {.incremental}
+- **Poder de reajuste**: Capacidade do fundo de reajustar os aluguéis acima da inflação (ex: contratos atrelados ao IPCA)
+- **Tipo de Inquilino e imóvel:** Empresas sólidas e de grande porte são mais confiáveis. Lajes corporativas são mais arriscadas que galpões logísticos, por exemplo
+- **Vencimento e Tipos de Contrato:** Contratos típicos (3-5 anos) vs. atípicos (10-15 anos com garantias rigorosas)
+- **Gestora e Governança:** O histórico do administrador importa muito. O investidor depende de gestão ética.
+:::
+
+
+## O que pode dar errado?
+
+::: {.incremental}
+- **Risco de Vacância:** O inquilino sai, rompendo contrato, e o imóvel fica vazio. Além de perder o aluguel, o fundo passa a pagar condomínio e IPTU.
+- **Risco de Inadimplência:** O locatário atrasa ou deixa de pagar o aluguel.
+- **Risco de Cotação:** Em momentos de taxa Selic alta, outros rendimentos fixos pagam mais, fazendo a cota dos FIIs se desvalorizar para se tornarem um investimento mais atraente no seu comparativo.
+- **Risco Político:** Risco sobre alterações na isenção do IR dos proventos de FIIs na legislação vigente.
+- **Risco ambiental:** Risco de desvalorização do imóvel por questões ambientais (ex: enchentes, deslizamentos, etc).
+:::
+
+
+# FIIs na Prática
+
+```{r}
+ticker <- "XPML11"
+type <- "Shopping Centers"
+```
+
+## `r ticker` (`r type`)
+
+```{r}
+exchange <- "SA"
+
+token <- classtools::get_eodhd_token()
+eodhdR2::set_token(token)
+
+prices <- eodhdR2::get_prices(ticker, exchange) |>
+  dplyr::filter(date >= Sys.Date() - 365)
+divs <- eodhdR2::get_dividends(ticker, exchange)
+
+last_year <- divs |>
+  dplyr::filter(date >= Sys.Date() - 365)
+
+sum_divs <- sum(last_year$value)
+
+last_price <- prices$close[nrow(prices)]
+div_year <- sum_divs / last_price
+
+sum_volume <- sum(prices$volume*prices$close)
+```
+
+- IPO em 2017, 16 shoppings no porfólio
+- Foco em imoveis AAA (alta qualidade), em 7 distintos estados do país
+- Alta liquidez (média diária de R$ 1,5 milhões)
+- Dividend Yield (DY) de `r classtools::format_percent(div_year)`
+
+## `r ticker`: Fluxos de caixa 
+
+```{r}
+ticker <- "XPML11"
+exchange <- "SA"
+first_date <-  Sys.Date() - 5*365
+last_date <- Sys.Date()
+
+l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
+l_plot$p
+```
+
+
+## `r ticker`: Gráfico dos Rendimentos Anuais
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+get_div_plot <- function(ticker, exchange) {
+
+  first_date <-  Sys.Date() - 5*365
+  last_date <- Sys.Date()
+  
+  divs <- eodhdR2::get_dividends(ticker, exchange) 
+
+  divs_annual <- divs |>
+    dplyr::filter(
+      date >= first_date, 
+      date <= last_date) |>
+    dplyr::mutate(
+      year = lubridate::year(date),
+      fix_value = if_else(year %in% c(max(year), min(year)), TRUE, FALSE)
+    ) |>
+    dplyr::group_by(year) |>
+    dplyr::reframe(
+      n_values = n(),
+      extra = if_else(
+        fix_value[1], mean(value)*(12 - n_values), 0
+        ),
+      sum_div = sum(value) + extra, 
+      .groups = 'drop')
+
+  cagr <- (divs_annual$sum_div[nrow(divs_annual)] / divs_annual$sum_div[1])^(1/nrow(divs_annual)) - 1
+
+  p_divs <- ggplot(divs_annual, aes(x = factor(year), y = sum_div)) +
+    geom_col() +
+    labs(title = paste0("Rendimentos anuais para ", ticker),
+          subtitle = paste0("CAGR: ", classtools::format_percent(cagr)),
+         x = "Ano",
+         y = "Soma de Rendimentos Ajustados (R$)",
+         caption = "Dados do EODHD, ajustados para meses incompletos") +
+    theme_light() +
+    geom_text(aes(label = classtools::format_cash(sum_div)), vjust = -0.5, size = 4)
+
+  return(p_divs)
+}
+
+p_divs <- get_div_plot(ticker, "SA")
+p_divs
+```
+
+```{r}
+ticker <- "HGLG11"
+type <- "Galpões Logísticos"
+```
+
+## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
+
+::: {.incremental}
+- Um dos maiores e mais tradicionais FIIs de logística do Brasil (IPO em 2010)
+- Portfólio diversificado com dezenas de galpões logísticos e industriais, localizados em pontos estratégicos de distribuição
+- Forte concentração na região Sudeste, destacando-se o estado de São Paulo
+- Inquilinos de grande porte, abrangendo setores estratégicos como e-commerce, varejo, bens de consumo e automotivo
+- Contratos Atípicos, de longíssimo prazo (10-15 anos) e com pesadas multas rescisórias, garantindo alta previsibilidade de receita
+:::
+
+## `r ticker`: Fluxos de caixa 
+
+```{r}
+exchange <- "SA"
+first_date <-  Sys.Date() - 5*365
+last_date <- Sys.Date()
+
+l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
+l_plot$p
+```
+
+
+## `r ticker`: Gráfico dos Rendimentos Anuais
+
+```{r}
+p_divs <- get_div_plot(ticker, "SA")
+p_divs
+```
+
+```{r}
+ticker <- "HGCR11"
+type <- "Papel"
+```
+
+## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
+
+::: {.incremental}
+- Um dos mais tradicionais fundos de recebíveis imobiliários (papel) da B3, gerido pelo CSHG (Credit Suisse Hedging-Griffo)
+- Investe predominantemente em Certificados de Recebíveis Imobiliários (CRIs)
+- Portfólio diversificado em títulos de dívida atrelados ao setor imobiliário, com indexadores focados em CDI e índices de inflação (IPCA)
+- Perfil focado em operações de baixo e médio risco (**High Grade**), oferecendo previsibilidade e distribuição consistente de rendimentos
+:::
+
+## `r ticker`: Fluxos de caixa
+
+```{r}
+exchange <- "SA"
+first_date <-  Sys.Date() - 5*365
+last_date <- Sys.Date()
+
+l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
+
+l_plot$p
+```
+
+## `r ticker`: Gráfico dos Rendimentos Anuais
+
+```{r}
+p_divs <- get_div_plot("HGCR11", "SA")
+p_divs
+```
+
+
+```{r}
+ticker <- "VINO11"
+type <- "Edifícios Corporativos"
+```
+
+## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
+
+::: {.incremental}
+- Fundo de tijolo gerido pela Vinci Partners, com foco principal em edifícios corporativos (lajes corporativas) de alto padrão.
+- Portfólio concentrado em prédios de escritórios bem localizados em regiões estratégicas e *premium*, principalmente nas cidades de São Paulo e Rio de Janeiro.
+- O VINO11 utilizou muita dívida para adquirir imóveis. Com o aumento da taxa Selic de 2% para 13,75%, o custo dessa dívida disparou e rendimentos diminuíram.
+:::
+
+## `r ticker`: Fluxos de caixa
+
+```{r}
+exchange <- "SA"
+first_date <-  Sys.Date() - 5*365
+last_date <- Sys.Date()
+
+l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
+
+l_plot$p
+```
+
+## `r ticker`: Gráfico dos Rendimentos Anuais
+
+```{r}
+p_divs <- get_div_plot(ticker, "SA")
+p_divs
+```
+
+
+## Evolução de Preços da Cota na Bolsa
+
+```{r}
+library(ggplot2)
+
+tickers <- c("XPML11", "HGLG11", "HGCR11", "VINO11")
+
+
+get_prices <- function(ticker) {
+  df <- eodhdR2::get_prices(ticker, "SA")
+
+  df <- df |>
+    dplyr::arrange(date) |>
+    dplyr::filter(
+      date >= Sys.Date() - 5*365,
+      date <= Sys.Date(),
+      adjusted_close > 1.06) |>
+    dplyr::mutate(cumret = adjusted_close / adjusted_close[1])
+
+  return(df)
+}
+
+df_prices <- purrr::map(tickers, get_prices) |>
+  purrr::list_rbind()  |>
+  na.omit()
+
+p <- ggplot(df_prices, aes(x=date, y = cumret, color = ticker)) + 
+  geom_line() + 
+  labs(title = "Evolução do Preço Ajustado das Cotas (5 Anos)",
+       x = 'Data',
+       y = "Preço Ajustado (R$)") + 
+  theme_light()
+
+p
+```
+
+## Retornos de diferentes FIIs
+
+```{r}
+#| label: FIIs stats
+library(dplyr)
+
+make_cols <- function(this_ticker) {
+  require(dplyr)
+
+  first_date <- as.Date("2015-01-01")
+  first_date <- Sys.Date() - 5*365
+  #first_date <- as.Date("2019-01-01")
+  
+  last_date <- Sys.Date()
+
+  prices <- eodhdR2::get_prices(this_ticker, "SA", check_quota = FALSE) |> 
+    dplyr::filter(
+      date >= first_date, 
+      date <= last_date) |>
+    dplyr::arrange(date) 
+
+  div <- eodhdR2::get_dividends(this_ticker, "SA",check_quota = FALSE) |>
+    dplyr::filter(
+      date >= first_date, 
+      date <= last_date) |>
+    dplyr::arrange(date) 
+  
+  divs_annual <- div |>
+    dplyr::mutate(
+      year = lubridate::year(date),
+      fix_value = if_else(year %in% c(max(year), min(year)), TRUE, FALSE)
+    ) |>
+    dplyr::group_by(year) |>
+    dplyr::reframe(
+      n_values = n(),
+      extra = if_else(
+        fix_value[1], mean(value)*(12 - n_values), 0
+        ),
+      sum_div = sum(value) + extra
+      )
+
+  cagr_div <- (divs_annual$sum_div[nrow(divs_annual)] / divs_annual$sum_div[1])^(1/nrow(divs_annual)) - 1
+
+  divs_last_year <- div |>
+    dplyr::filter(date >= Sys.Date() - 365)
+
+  div_yeild <- sum(divs_last_year$value) / prices$adjusted_close[nrow(prices)]
+
+  first_year <- lubridate::year(min(prices$date))
+  last_year <- lubridate::year(max(prices$date))
+  n_years <- last_year - first_year + 1
+  total_return <- prices$adjusted_close[nrow(prices)]/prices$adjusted_close[1] - 1
+  annualized_return <- (1 + total_return)^(252/nrow(prices)) - 1
+  annualized_vol <- sd(prices$ret_adj_close) * sqrt(252)
+  sharpe_ratio <- annualized_return / annualized_vol
+  max_drawndown <- PerformanceAnalytics::maxDrawdown(prices$ret_adj_close)
+
+  df_out <- dplyr::tibble(
+    ticker = this_ticker,
+    #n_years = n_years,
+    total_return = total_return,
+    annualized_return = annualized_return,
+    annualized_vol = annualized_vol,
+    sharpe_ratio = sharpe_ratio,
+    max_drawndown = max_drawndown,
+    div_yeild = div_yeild,
+    cagr_div = cagr_div
+  )
+  return(df_out)
+
+}
+
+df_stats <- purrr::map(tickers, make_cols) |>
+  purrr::list_rbind()
+
+df_stats |>
+  arrange(desc(annualized_return)) |>
+  select(-annualized_vol, -sharpe_ratio) |>
+  gt::gt() |>
+  gt::fmt_percent(columns = c(total_return, annualized_return, 
+  #annualized_vol, 
+  max_drawndown, cagr_div, div_yeild),
+                  decimals = 2) |>
+  #gt::fmt_number(columns = c(sharpe_ratio), decimals = 2) |>
+  gt::cols_label(
+    ticker = "Ticker",
+    #n_years = "Anos de Operação",
+    total_return = "Retorno Total",
+    annualized_return = "Retorno Anualizado",
+    #annualized_vol = "Volatilidade Anualizada",
+    #sharpe_ratio = "Sharpe Ratio",
+    max_drawndown = "Máximo Drawdown",
+    cagr_div = "CAGR dos Dividendos",
+    div_yeild = "DY dos Dividendos"
+  ) |>
+  gt::tab_header(
+    title = "Estatísticas de Retorno e Risco dos FIIs",
+    subtitle = glue::glue("Período: {format(min(df_prices$date), '%d/%m/%Y')} a {format(max(df_prices$date), '%d/%m/%Y')}")
+  ) 
+
+```
+
+
+## Conclusão
+
+::: {.incremental}
+- FIIs democratizaram o acesso a imóveis comerciais de alta qualidade (Padrões Triple A) para todos os brasileiros.
+- São consistentes e excelentes geradores de **renda passiva mensal isenta**.
+- Como são Renda Variável, exigem controle emocional durante as oscilações de mercado e **foco no longo prazo**.
+- O reinvestimento dos dividendos durante os primeiros anos (Fase de Acumulação) constrói ativamente o poderoso efeito de ganhos dos *juros compostos*.
+:::
+
+## Referências

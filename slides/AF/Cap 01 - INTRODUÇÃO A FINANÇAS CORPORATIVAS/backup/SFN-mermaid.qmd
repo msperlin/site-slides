@@ -1,0 +1,19 @@
+
+## Sistema Financeiro Nacional 
+
+```{mermaid}
+graph LR
+    A[Sistema Financeiro Nacional] --- B[Subsistema Normativo]
+    A --- C[Subsistema de Intermediação]
+    B --- D[Conselho Monetário Nacional]
+    B --- E[Banco Central do Brasil]
+    B --- F[Comissão de Valores Mobiliários]
+    B --- G[Instituições Especiais]
+    
+    G --- H[Banco do Brasil]
+    G --- I[BNDES]
+    
+    C --- J[Instituições Bancárias e não bancárias]
+    C --- L[Instituições Auxiliares e não financeiras]
+    
+```

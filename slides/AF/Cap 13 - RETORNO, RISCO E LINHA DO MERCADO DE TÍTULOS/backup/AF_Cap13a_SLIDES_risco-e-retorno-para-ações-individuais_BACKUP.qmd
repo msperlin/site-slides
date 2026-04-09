@@ -1,0 +1,413 @@
+---
+title: "Retorno, Risco e Linha do Mercado de Títulos"
+subtitle: "@ross, capítulo 13"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+footer: 'Administração Financeira - UFRGS'
+self-contained: true
+execute: 
+  echo: false
+  cache: true
+bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
+title-block-banner: true
+---
+
+## Visão geral da aula
+
+TODO: asdfa sdf
+
+```{r, cache=FALSE}
+library(classtools)
+link_gsheets <- ""
+```
+
+- Como calcular retornos esperados.
+- O impacto da diversificação.
+- O princípio do risco sistemático.
+- A linha do mercado de títulos e a ponderação entre risco e retorno.
+
+## Introdução 
+
+- Retorno esperado e risco são positivamente relacionados
+  - Um investimento com risco deve necessariamente oferecer um retorno esperado maior que a taxa livre de risco
+  - A diferença é chamada de prêmio por risco
+
+- Como quantificar ambos para ações?
+  - Análise objetiva/científica/acadêmica da rentabilidade futura e risco dos ativos
+  - Solução: análise estatística do comportamento histórico dos ativos
+
+## Um pouco de história
+
+- Vamos olhar o desempenho financeiro de três investimentos:
+  - Ibovespa (^BVSP) - carteira teórica do mercado de ações
+  - CDI (certificado de depósito interbancário)
+  - NTN-B Principal 150824 (Tesouro Direto)
+
+## Histórico de Retornos Anuais
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+first_date <- '2005-01-01'
+df_ibov <- yfR::yf_get("^BVSP", first_date) |>
+  mutate(year = lubridate::year(ref_date),
+         invest_name = "IBOV",
+         invest_value = cumret_adjusted_prices) 
+  
+
+df_cdi <- GetBCBData::gbcbd_get_series(c(cdi = 12), first_date) |>
+  filter(ref.date >= first_date) |>
+  mutate(cumvalue = cumprod(1+value/100),
+         year = lubridate::year(ref.date),
+         ref_date = ref.date,
+         invest_name = "CDI",
+         invest_value = cumvalue)  
+
+selected <- "NTN-B Principal 150824"
+df_td <- GetTDData::td_get("NTN-B Principal", 
+                           lubridate::year(first_date), 
+                           dl_folder = 'dl-td') |>
+  filter(asset_code == selected) |>
+  mutate(year = lubridate::year(ref_date),
+         invest_name = selected,
+         invest_value = price_bid/price_bid[1])
+
+all_invest <- df_ibov |>
+  bind_rows(df_cdi) |>
+  bind_rows(df_td) |>
+  select(ref_date, year, invest_name, invest_value)
+
+tab_perf <- all_invest |>
+  group_by(year, invest_name) |>
+  summarise(ret = last(invest_value)/first(invest_value) -1) |>
+  ungroup() |>
+  mutate(Retorno = if_else(ret >=0, "Positivo", "Negativo" ))
+
+p <- ggplot(tab_perf, aes(x = year, y = ret, fill = Retorno)) +
+  geom_col(alpha = 0.75) + 
+  facet_wrap(~invest_name, nrow = 3) + 
+  labs(title = "Retornos Anuals de Diferentes Investimentos",
+       x = "Ano",
+       y = "Retorno Anual") + 
+  theme_light() + 
+  scale_y_continuous(labels = classtools::format_percent)
+
+p
+```
+
+## Investindo 1 R$ em cada alternativa
+
+```{r}
+p <- ggplot(all_invest, aes(x = ref_date, y = invest_value,
+                            color = invest_name)) + 
+  geom_line() + 
+  labs(title = "Retornos Acumulados de Diferentes Investimentos",
+       x = "Ano",
+       y = "Retorno Diario Acumulado") + 
+  theme_light() + 
+  scale_y_continuous(labels = classtools::format_percent)
+
+p
+```
+
+
+## O Ibovespa dolarizado no Longo Prazo
+
+## Estatística + Finanças = Teoria de Carteiras
+
+## Definição de Retorno Esperado
+
+> O retorno esperado representa o retorno que um investidor espera ganhar no futuro quando no investimento em uma determinada ação
+
+- Deve ficar claro que:
+  - O retorno esperado é uma expectativa. Existe incerteza quanto ao retorno efetivo que o investidor terá
+  - O retorno esperado é sempre relativo a um período de tempo
+    - Ex. o retorno esperado para a PETR4 no próximo ano será de 15%
+  - O retorno esperado deve ser positivamente relacionado com o risco
+
+. . .
+
+**Como calcular tal medida de forma objetiva?**
+
+## Questão #1
+
+Escolha dentre as alternativas abaixo, qual a melhor medida objetiva para calcular retorno anual esperado de uma ação:
+
+a) Realizar um pesquisa com base em analistas de bancos de investimentos e tirar uma média das respostas
+b) Realizar um pool no facebook e tirar a média dos resultados
+c) Tirar uma média dos retornos anuais passados da ação
+d) Perguntar ao CEO da empresa
+e) Calcular como R= SELIC + 5%
+
+## Cálculo do Retorno Esperado
+
+> O retorno esperado é uma média simples do retorno histórico do investimento nas ações
+
+$$E(R _t) = E(\frac{P_t - P_{t-1}}{P_t}) $$
+$$E(R _t) = \frac{\sum ^T _t R_t}{T} $$
+
+## Cálculo do Risco
+
+> O risco nada mais é do que a possibilidade de perda financeira. Quanto maior a possível perda financeira, maior o risco
+
+- A existência do risco é devido:
+  - Fluxos de caixa da empresa (e dividendos) são incertos
+  - Notícias aleatórias afetam o preço da ação
+  - O risco é intrinsicamente relacionado ao retorno esperado
+  - Se um investimento qualquer oferece retorno esperado maior que a taxa livre de risco, então este investimento é necessariamente com risco
+
+. . .
+
+**Como quantificar o risco?**
+
+## Pergunta #2
+
+Dada uma ação qualquer, qual a melhor maneira objetiva de calcular o risco?
+
+a) Pedir para uma série de analistas votar entre 0 e 10 o risco da ação e tirar a média dos resultados
+b) Mandar um questionário para todos os investidores do Brasil perguntando qual o risco de cada ação
+c) Verificar qual foi a média das perdas (retornos negativos) da ação nos últimos anos
+d) Calcular o desvio padrão dos retornos passados da ação
+
+## Definição Quantitativa de Risco
+
+> O risco é definido como o desvio padrão dos retornos passados dos ativos
+
+- O desvio padrão é uma medida estatística de variação
+  - Quanto maior o desvio padrão, maior a variabilidade dos retornos em torno do retorno esperado e consequentemente maior a possibilidade de perdas altas de capital
+
+## Exemplos de Distribuições Normais
+
+```{r}
+mean_vec <- c(-0.25, 0, 0.25)
+sd_vec <- c(0.1, 0.2, 0.3)
+n_sim <- 5000
+
+grid <- tidyr::expand_grid(ret_mean = mean_vec, ret_sd = sd_vec) |>
+  mutate()
+
+simulate_vec <- function(my_mean, my_sd) {
+  rnd <- rnorm(n_sim, my_mean, my_sd) 
+  
+  df_out <- tibble(
+    ret = rnd,
+    ret_mean = my_mean,
+    ret_sd = my_sd,
+    label_mean = glue::glue("Retorno médio de {ret_mean}"),
+    label_sd = glue::glue("Desvio Padrão de {ret_sd}"),
+    Sinal = if_else(ret > 0, "Retorno Positivo", "Retorno Negativo")
+  )
+  
+  return(df_out)
+}
+
+df_res <- purrr::map2_df(grid$ret_mean, grid$ret_sd, simulate_vec)
+
+p <- ggplot(df_res, aes(x = ret, fill = Sinal)) + 
+  geom_histogram(bins = 50) + 
+  facet_grid(label_mean ~ label_sd) + 
+  labs(title = "Simulações de Retornos",
+       x = "Retorno",
+       y = "Frequência") + 
+  theme_light()
+
+p
+
+```
+
+## Risco e Desvio Padrão
+
+> O Desvio Padrão de uma ação mede a variabilidade dos retornos do título. Quanto maior o desvio padrão, maior a chance de um retorno negativo extremo e maior o risco.
+
+$$\sigma ^2 _{R_t} = E(R_t - E(R_t))^2 $$
+$$\sigma ^2 _{R_t} = \frac{\sum ^T _{t=1} (R_t - E(R_t))^2}{T-1}$$
+
+$$\sigma _{R_t} = \sqrt{\sigma ^2 _{R_t}}$$
+
+## Exemplo Cálculo Desvio Padrão
+
+[Link GSheets](`r link_gsheets`)
+
+## Retornos e Riscos Esperados para o Mercado Brasileiro
+
+```{r}
+tbl <- tab_perf |>
+  group_by(invest_name) |>
+  summarise(ret_mean = mean(ret),
+            ret_sd = sd(ret)) |>
+  ungroup()
+
+
+tbl |>
+  gt::gt() |>
+  gt::tab_header("Risco e Retorno para diferentes investimentos") |>
+  gt::cols_label(invest_name = "Investimento",
+                 ret_mean = "Retorno Médio",
+                 ret_sd = "Risco") |>
+  gt::fmt_percent(columns = c("ret_sd", "ret_mean"))
+
+
+  
+  
+```
+
+## Representação Gráfica 
+
+```{r}
+p <- ggplot(tbl, aes(x = ret_sd, y = ret_mean) ) + 
+  geom_point(size = 2 ) + 
+  ggrepel::geom_text_repel(aes(label = invest_name)) + 
+  labs(title = "Risco e Retorno Esperado para diferentes investimentos",
+       x = "Risco (Desvio Padrão)",
+       y = "Retorno Esperado") + 
+  xlim(c(0, max(tbl$ret_sd))) + 
+  ylim(c(0, max(tbl$ret_mean))) + 
+  theme_light() + 
+  scale_y_continuous(labels = classtools::format_percent) + 
+  scale_x_continuous(labels = classtools::format_percent) 
+
+p
+```
+
+
+## O que aprendemos?
+
+- Retorno Esperado pode ser quantificado como a média dos retornos históricos
+- Risco pode ser quantificado como o desvio padrão dos retornos históricos
+- A relação entre retorno esperado e risco deveria ser positiva
+
+## Teoria da Preferência e o Princípio da Dominância Estocástica
+
+> A teoria da preferência diz como um investidor se posiciona quando na escolha de diferentes investimentos com respectivos retornos esperados e riscos
+
+- O princípio da dominância estocástica define, dentro da razão retorno/risco, qual investimento é melhor
+- Diz-se que um investimento A domina outro investimento B quando:
+  - Ambos apresentam o mesmo risco e A tem maior retorno esperado
+  - Ambos apresentam o mesmo retorno esperado e A tem menor risco
+
+## Ilustração do princípio da dominância estocástica
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+df_plot <- dplyr::tibble(
+  ret_mean = c(0.25, 0.1 , 0.25, 0.1),
+  ret_sd   = c(0.05, 0.05, 0.15, 0.15),
+  label = LETTERS[1:length(ret_mean)]
+)
+
+plot_map <- function(df_plot) {
+  
+  require(ggplot2)
+  
+  p <- ggplot(df_plot, aes(x = ret_sd, y = ret_mean) ) + 
+  geom_point(size = 4, alpha = 0.5, color = "blue" ) + 
+  ggrepel::geom_text_repel(aes(label = label)) + 
+  labs(title = "Risco e Retorno Esperado para diferentes investimentos",
+       x = "Risco (Desvio Padrão)",
+       y = "Retorno Esperado") + 
+  theme_light() + 
+  scale_y_continuous(labels = classtools::format_percent) + 
+  scale_x_continuous(labels = classtools::format_percent) +
+  xlim(c(0, max(df_plot$ret_sd)*1.15)) + 
+  ylim(c(0, max(df_plot$ret_mean)*1.15)) 
+
+  return(p)
+}
+
+
+plot_map(df_plot)
+
+```
+
+:::
+
+::: {.column width="50%" .incremental}
+- Ponto A tem dominância estocástica sobre ponto B
+- Ponto C tem dominância estocástica sobre ponto D
+- Ponto A tem dominância estocástica sobre ponto C
+- Ponto B tem dominância estocástica sobre ponto D
+:::
+
+::::
+
+## Outro exemplo
+
+**Qual o melhor investimento? B ou C?**
+
+```{r}
+#| fig-width: 8
+#| fig-height: 8
+df_plot <- dplyr::tibble(
+  ret_mean = c(0.1, 0.25),
+  ret_sd   = c(0.05, 0.15),
+  label = LETTERS[1:length(ret_mean)]
+)
+
+
+
+plot_map(df_plot)
+
+```
+
+
+## Relação retorno/risco e o investidor
+
+- A análise da relação retorno/risco é pessoal!
+- Pode-se segmentar as atitudes em:
+
+```{r}
+
+my_tab <- tibble::tibble(
+  col1 = c("Avesso ao Risco", "Neutro (Indiferente) ao risco",
+           "Racional", "Propenso ao risco (risk lover)"),
+  col2 = c("Menor risco", "Indiferente", "Menor risco", "Maior risco")
+)
+
+my_tab |>
+  gt::gt() |>
+  gt::tab_header("Os diferentes perfis de investimento") |>
+  gt::cols_label(.list = list(col1 = "Perfil do Investidor",
+                              col2 = "Investimento Selecionado")) |> 
+  gt::opt_row_striping(TRUE)
+
+```
+
+- O quadro anterior pode ser incorporado dentro da análise de média/desvio padrão baseado em curvas de indiferença
+
+## Curvas de Indiferença
+
+- A curva de indiferença reflete a escala de preferência de um investidor
+- Isto é, quais relações entre retorno esperado e risco que o investidor aceitaria
+- Quaisquer pontos dentro da curva da indiferença terão a mesma utilidade do ponto de vista do investidor
+
+## Exemplo de Curva de Indiferença (1)
+
+```{r}
+
+```
+
+
+Exemplo de Curva de Indiferença (2)
+
+Exemplo de Curva de Indiferença (3)
+
+Aversão ao Risco e Curvas de Indiferença
+
+Resumo da aula
+O retorno esperado é uma função do risco
+O uso da média e desvio padrão histórico dos retornos é uma maneira de quantificar o retorno esperado e o risco de uma ação
+O princípio da dominância estocástica define, sobre certas restrições, se um investimento é melhor do que outro no âmbito de risco e retorno
+Curvas de indiferença definem quantitativamente  o grau de aversão ao risco do investidor, assim como também suas preferências de investimento
+
+## Referências

@@ -1,0 +1,423 @@
+---
+title: "VPL e outros critérios de investimento"
+subtitle: "@ross, capítulo 09"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "/home/msperlin/.quarto-slides-extras/theme-msperlin.scss"
+footer: 'Administração Financeira - UFRGS'
+self-contained: true
+execute: 
+  echo: false
+  cache: false
+bibliography: "/home/msperlin/.quarto-slides-extras/bibfile.bib"
+logo: "/home/msperlin/.quarto-slides-extras/ufrgs3.jpg"
+title-block-banner: true
+toc: true
+toc-depth: 1
+toc-title: "Sumário"
+---
+
+```{r}
+#| echo: false
+classtools::setup_quarto_slides()
+```
+
+
+```{r}
+link_gsheets <- "https://docs.google.com/spreadsheets/d/1tEvZNg-wImcp1Mx1ppQ1jo_9dvXIsFHoFVpep9tEkjg/edit?usp=sharing"
+```
+
+# Introdução a análise de projetos
+
+## Introdução
+
+> Decisão de Orçamento de Capital: Processo de decidir quais ativos imobilizados uma empresa deve adquirir. 
+
+::: {.incremental}
+
+- Qualquer empresa possui um número enorme de investimentos possíveis, determinando a natureza das operações e produtos da empresa a longo prazo.
+
+- É fundamental, pois os ativos imobilizados definem o negócio da empresa.   
+  - Pode ser chamado de "alocação estratégica de ativos".
+:::
+
+## Um projeto e seus fluxos de caixa
+
+```{r}
+l_out <- classtools::create_cashflow_plot(1000, rep(150,4), 1500)
+
+l_out$p
+```
+
+
+# Valor Presente Líquido (VPL)
+
+## Conceito
+
+> VPL = Valor justo do projeto hoje (t=0). É a soma dos fluxos de caixa descontados, considerando saídas e entradas de caixa. Mede o valor criado ou agregado hoje por um investimento. É a diferença entre o valor de mercado de um investimento e seu custo.      
+
+::: {.incremental}
+
+- Um investimento somente vale a pena se criar valor, isto é, se, após o pagamento de todos os custos, resta algum valor o seu criador.   
+  - Exemplo: Comprar uma casa por `r classtools::format_cash(350000)`, gastar `r classtools::format_cash(150000)` na reforma (custo total `r classtools::format_cash(500000)`) e vendê-la por `r classtools::format_cash(600000)`. O VPL é `r classtools::format_cash(100000)`.   
+
+:::
+
+
+## Fórmula do VPL
+
+$$VPL = - FC_0 + \sum ^T _{t=1} \frac{FC_t}{(1+r)^t}$$
+
+## Exemplo
+
+> Uma empresa está avaliando um projeto com investimento inicial de 100.000 R\$, o qual terá prejuízo de 20.000 R\$ nos dois primeiros anos e lucro de 40.000 nos restantes 3 anos. Considerando um custo de capital de 12\% ao ano, calcule o VPL do projeto.
+
+[Planilha de Cálculos](`r link_gsheets`)
+
+# Período de Payback
+
+## Conceito
+
+> Período de Payback: O tempo necessário para que um investimento gere fluxos de caixa suficientes para recuperar seu custo inicial.   
+
+- Regra do Período de Payback: Um investimento é aceitável se seu período de payback calculado for menor do que um número predeterminado de anos (período de corte).    
+
+- Cálculo: Some os fluxos de caixa futuros até que o total acumulado iguale ou exceda o investimento inicial.  
+
+## Exemplo payback simples
+
+> Quanto tempo é necessário para recuperar o valor inicial do investimento abaixo?
+
+```{r}
+CFs <- c(-100000, 
+         rep(-5000, 2),
+         rep(60000, 3))
+
+tab <- tibble::tibble(
+  Tempo = 0:(length(CFs)-1),
+  FC = CFs,
+  FCAcumulado = cumsum(FC),
+  payback = ifelse(FCAcumulado > 0, "Pagou!", "Não pagou")
+)
+
+tab |>
+  gt::gt() |>
+  gt::tab_header("Fluxos de caixa e cálculo de payback") |>
+  gt::data_color(payback) |>
+  gt::fmt_currency( columns = c("FC", "FCAcumulado"), currency = "BRL")
+```
+
+## Período de Payback Descontado
+
+> Período de Payback Descontado: O tempo necessário para que a soma dos fluxos de caixa descontados de um investimento seja igual ao seu custo inicial.    
+
+- Corrige a falha do payback tradicional de ignorar o valor do dinheiro no tempo.    
+
+- Regra do Payback Descontado: Um investimento é aceitável se seu payback descontado for menor do que um número predeterminado de anos.    
+
+- Cálculo:
+  1. Desconte cada fluxo de caixa futuro à taxa de retorno exigida.    
+  2. Some os fluxos de caixa descontados acumulados até que o total iguale o investimento inicial.    
+
+## Exemplo Payback descontado
+
+```{r}
+r <- 0.07
+```
+
+> Quanto tempo para recuperar o valor inicial, levando em conta o valor do dinheiro no tempo (`r classtools::format_percent(r)` ao ano)?
+
+```{r}
+CFs <- c(-100000, 
+         rep(-5000, 2),
+         rep(60000, 3))
+
+tab <- tibble::tibble(
+  Tempo = 0:(length(CFs)-1),
+  FC = CFs,
+  FC_Descontado = FC/(1+r)^Tempo,
+  FC_Descontado_Acumulado = cumsum(FC_Descontado),
+  payback = ifelse(FC_Descontado_Acumulado > 0, "Pagou!", "Não pagou")
+)
+
+tab |>
+  gt::gt() |>
+  gt::tab_header("Fluxos de caixa e cálculo de payback") |>
+  gt::data_color(payback) |>
+  gt::fmt_currency( columns = c("FC", "FC_Descontado_Acumulado", 
+                                "FC_Descontado"), currency = "BRL")
+```
+
+## Vantagens e Desvantagens Payback simples e descontado
+
+- Vantagens
+  - Simples e intuitivo
+  - Leva em conta a incerteza dos fluxos de caixa futuros
+  - Tem um viés a favor da liquidez
+- Desvantagens
+  - Ignora o valor do dinheiro no tempo (na versão não-descontada)
+  - Ignora fluxos de caixa além da data de corte 
+  - Tem tendência contrária a projetos de longo prazo (ex: pesquisa e desenvolvimento, projetos novos). 
+
+
+# Taxa Interna de Retorno (TIR)
+
+## Conceito
+
+> Taxa Interna de Retorno (TIR): A taxa de desconto que torna o VPL de um investimento igual a zero. É a taxa de retorno "interna" que depende apenas dos fluxos de caixa do investimento.     
+
+- Uma única taxa indicando os méritos financeiros do projeto.
+
+- Representa a remuneração de capital implícita pelo projeto.
+
+- Formalmente, a TIR é o custo do capital que faz com que o VPL seja igual a zero.
+
+
+## Representação Gráfica (1)
+
+```{r}
+l <- classtools::create_cashflow_plot(1000, 
+                                      c(-200, -100, 300, 350), 1200)
+
+l$p
+```
+
+## Representação Gráfica (2)
+
+```{r}
+library(ggplot2)
+library(ggtext)
+
+r_vec <- seq(0, 0.3, by=0.01)
+
+pvs <- purrr::map_dbl(r_vec, FinCal::npv, cf = l$cashflows$CF)
+
+my_irr <- FinCal::irr(l$cashflows$CF)
+
+df_plot <- tibble::tibble(
+  r_vec,
+  pvs
+)
+
+p <- ggplot(df_plot, aes(x = r_vec, y = pvs)) + 
+  geom_line() +
+  geom_hline(yintercept = 0, linewidth = 1, color = 'gray') + 
+  geom_point(aes(x = my_irr, y = 0), size = 5, color = "blue") +
+  geom_textbox(x = my_irr*1.5, y = -0.15*(max(pvs)-min(pvs)), 
+                   label = glue::glue("TIR é encontrada quando VPL = 0, isto é TIR={classtools::format_percent(my_irr)}" ),
+               color = 'blue') +
+  labs(x = "Custo do Capital (r)",
+       y = "VPL") + 
+  theme_light() + 
+  scale_x_continuous(labels = classtools::format_percent)
+
+p
+```
+
+
+## TIR na HP12-C e em planilhas
+
+> Um projeto possui investimento inicial de 100.000 R$ com entradas positivas de capital no valor de 60.000, para o primeiro e segundo ano de sua existência. Qual a taxa interna de retorno implícita nesse projeto?
+
+<hr>
+
+- Pela HP 12 C
+  - Passos:
+    1. 100000 CHS g PV
+    1. 60000 g PMT
+    1. 60000 g PMT
+    1. F FV	
+
+TIR = 13,06 %
+
+<hr>
+
+[Exemplo planilha](`r link_gsheets`)
+
+
+## Critério de Decisão da TIR
+
+- Se TIR > r (custo do capital)
+  - Projeto deve ser aceito (VPL > 0).
+
+- Se TIR < r (custo do capital)
+  - Projeto deve ser rejeitado (VPL < 0).
+
+# Problemas com a TIR
+
+## Fluxos de caixa não convencionais
+
+- Ocorrem quando há mais de uma mudança de sinal nos fluxos de caixa (ex: negativo, positivo, negativo).    
+
+- Podem levar a Taxas de Retorno Múltiplas (múltiplas TIRs) ou nenhuma TIR.    
+
+- Nesses casos, a regra da TIR pode ser ambígua ou levar a decisões incorretas. A regra do VPL continua válida.    
+
+## Exemplo 
+
+```{r}
+l <- classtools::create_cashflow_plot(60, 
+                                      c(155), -100)
+
+l$p
+```
+
+- Qual é  a TIR ?
+
+## Múltiplos valores de TIR
+
+
+```{r}
+library(ggplot2)
+library(ggtext)
+
+r_vec <- seq(0.2, 0.4, by=0.01)
+
+npvs <- purrr::map_dbl(r_vec, FinCal::npv, cf = l$cashflows$CF)
+
+df_plot <- tibble::tibble(
+  r_vec,
+  npvs
+)
+
+p <- ggplot(df_plot, aes(x = r_vec, y = npvs)) + 
+  geom_line(linewidth = 1.5) +
+  geom_hline(yintercept = 0, linewidth = 1, color = 'gray') + 
+  labs(title = "Exemplo com múltiplos valores de TIR",
+       x = "Custo do Capital (r)",
+       y = "VPL") + 
+  theme_light() + 
+  scale_x_continuous(labels = classtools::format_percent)
+
+p
+```
+
+## TIR inexistente (1)
+
+```{r}
+l <- classtools::create_cashflow_plot(51, 
+                                      100, -50)
+
+l$p
+```
+
+## TIR inexistente (2)
+
+
+```{r}
+library(ggplot2)
+library(ggtext)
+
+r_vec <- seq(0, 0.2, by=0.01)
+
+pvs <- purrr::map_dbl(r_vec, FinCal::npv, cf = l$cashflows$CF)
+
+df_plot <- tibble::tibble(
+  r_vec,
+  pvs
+)
+
+p <- ggplot(df_plot, aes(x = r_vec, y = pvs)) + 
+  geom_line() +
+  geom_hline(yintercept = 0, linewidth = 1, color = 'gray') + 
+  labs(title = "Exemplo de TIR inexistente",
+       x = "Custo do Capital (r)",
+       y = "VPL") + 
+  theme_light() + 
+  scale_x_continuous(labels = classtools::format_percent)
+
+p
+```
+
+## Projetos excludentes
+
+- São projetos onde a aceitação de um impede a aceitação do outro.    
+
+- A TIR pode levar a uma classificação incorreta. O projeto com a maior TIR não é necessariamente o melhor (aquele com o maior VPL).    
+
+- Conflitos entre TIR e VPL podem ocorrer dependendo da taxa de desconto.    
+
+- Sempre priorize o projeto com o maior VPL.    
+
+## Exemplo projetos excludentes
+
+```{r}
+library(ggplot2)
+library(ggtext)
+
+FCs <- tibble::tibble(
+  Tempo = 0:4,
+  FC_1 = c(-100, 50, 40, 40, 30),
+  FC_2 = c(-100, 20, 40, 50, 60)
+)
+
+FCs |>
+  gt::gt() |>
+  gt::tab_header("Fluxos de caixa de dois projetos")
+```
+
+## Curvas VPLs
+
+```{r}
+r_vec <- seq(0, 0.3, by=0.01)
+pvs_1 <- purrr::map_dbl(r_vec, FinCal::npv, cf = FCs$FC_1)
+pvs_2 <- purrr::map_dbl(r_vec, FinCal::npv, cf = FCs$FC_2)
+
+df_plot <- tibble::tibble(
+  r_vec = rep(r_vec, 2),
+  pvs = c(pvs_1, pvs_2),
+  Projeto = c(rep("Projeto 01", length(pvs_1)),
+              rep('Projeto 02', length(pvs_2)) )
+)
+
+p <- ggplot(df_plot, aes(x = r_vec, y = pvs, color = Projeto)) + 
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, linewidth = 1, color = 'gray') + 
+  labs(title = "Exemplo de projetos excludentes", 
+       x = "Custo do Capital (r)",
+       y = "VPL") + 
+  theme_light() + 
+  scale_x_continuous(labels = classtools::format_percent)
+
+p
+```
+
+## Resumo
+
+- Múltiplas soluções para a TIR
+  - Implica intervalo onde VPL >0
+- TIR Inexistente
+  - Projeto pode ser rejeitado pois VPL é negativo
+- Avaliação de projetos excludentes
+  - Critério da TIR, usado isoladamente, não é válido. Use o critério VPL
+
+
+# Índice de Rentabilidade
+
+## Conceito
+
+> Indica a rentabilidade de um projeto em termos relativos. É Intimamente ligado ao VPL
+
+$$IR = \frac{ \sum ^T _{t=1} \frac{FC_t}{(1+r)^t}}{FC_0}$$
+
+Se IR=1, VPL = 0, TIR=r
+
+Se IR>1, VPL>0, TIR>r
+
+Se IR<1, VPL<0, TIR<r
+
+## Conclusões
+  
+> O VPL é o único critério que consistentemente leva às decisões corretas para aceitar/rejeitar projetos e para escolher entre projetos mutuamente excludentes.    
+
+- Na prática, o VPL é uma estimativa e há incerteza.    
+
+- Empresas frequentemente usam múltiplos critérios para avaliar propostas: 
+  - Payback, TIR, podem fornecer "pistas" adicionais e ajudar a avaliar a confiabilidade da estimativa do VPL
+  - Sinais conflitantes entre os critérios podem indicar a necessidade de uma análise mais detalhada.    
+
+## Referências {.unlisted}
