@@ -1,0 +1,83 @@
+# Sobre a disciplina
+
+```{r}
+my_email <- "marceloperlin@gmail.com"
+my_website <- "https://www.msperlin.com/"
+```
+
+## Funcionamento da disciplina
+
+::: {.incremental}
+- Comunicação exclusiva por email: [marceloperlin@gmail.com](emailto: marceloperlin@gmail.com)
+- Identificador assunto: `r short_name`: *
+- Provas serão realizadas **PRESENCIALMENTE**
+- Slides de aula disponíveis no [website do professor](`r my_website`). Outros materiais entregues  via [Google Drive](`r grive_class_material`)  
+- Por favor, evitem chegar atrasado! A presença em 70% dos encontros é um dos requisitos para a aprovação na disciplina
+:::
+
+## Livro da disciplina [@ross]
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r}
+knitr::include_graphics('https://m.media-amazon.com/images/I/51wo8bl+MZL._SX373_BO1,204,203,200_.jpg')
+```
+:::
+
+::: {.column width="50%"}
+### Fundamentos de Administração Financeira (2013)
+O livro de Stephen Ross é a nossa base teórica. Disponível na [Amazon](https://www.amazon.com.br/Fundamentos-Administra%C3%A7%C3%A3o-Financeira-Stephen-Ross/dp/8580552249) e [Grupo A](https://loja.grupoa.com.br/fundamentos-de-administracao-financeira-13ed-p1018634).
+:::
+
+::::
+
+## Avaliação da Disciplina
+
+```{r}
+grade_df <- data.frame(
+  `Avaliação` = c('Prova I', 
+                  'Prova II',
+                  'Atividades EAD',
+                  'Atividade recuperação'),
+  `Peso` = c('40%', '40%', '20%', '40% (nota substitutiva da prova)'),
+  Data = "Ver plano de aula")
+
+grade_df |>
+  gt::gt() |>
+  gt::tab_header("Notas da Disciplina") |>
+  gt::opt_row_striping()
+```
+
+## Atividades
+
+- A cada 2-3 aulas teremos atividades, as quais contarão para nota final
+- As atividades são compostas por questões de marcar de um banco de questões
+- A resolução deve ser entregue individualmente, mas trabalho em grupo é incentivado
+
+## Formato de aula
+
+```{r}
+#knitr::include_graphics("figs/please-talk-to-me.jpg")
+```
+
+<div class="tenor-gif-embed" data-postid="13085361" data-share-method="host" data-aspect-ratio="1.33929" data-width="75%"><a href="https://tenor.com/view/cute-pout-puss-adorable-please-talk-to-me-gif-13085361">Cute Pout GIF</a>from <a href="https://tenor.com/search/cute-gifs">Cute GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+
+# Plano de Aula 
+
+## Plano de Aula e Cronograma
+
+[Link plano de aula](`r gdrive_schedule`)
+
+## Checklist Inicial
+
+::: {.callout-warning}
+### Checklist para o primeiro dia de aula
+- [ ] Confirmar recebimento de emails (IMPORTANTE)
+- [ ] Acesso aos slides no site
+- [ ] Acesso ao Google Drive
+- [ ] Teste de acesso ao Moodle
+:::
+
+**Alguma dúvida sobre funcionamento da disciplina?**
