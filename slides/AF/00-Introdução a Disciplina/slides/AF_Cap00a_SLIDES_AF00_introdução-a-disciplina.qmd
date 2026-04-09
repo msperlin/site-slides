@@ -1,6 +1,6 @@
 ---
-title: "Introdução a Disciplina"
-subtitle: "Administração Financeira (ADM 01129) "
+title: "Introdução a Disciplina (AF00: ADM 01129)"
+subtitle: "Administração Financeira"
 author: "Marcelo S. Perlin"
 date: last-modified
 date-format: DD/MM/YYYY
