@@ -8,13 +8,13 @@
 
 <div class="controls" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
     <select id="class-filter" onchange="filterSlides()">
-        <option value="all">All Classes</option>
+        <option value="all">Todas disciplinas</option>
         {% for class_name in classes %}
             <option value="{{ class_name }}">{{ class_name }}</option>
         {% endfor %}
     </select>
     <select id="chapter-filter" onchange="filterSlides()">
-        <option value="all">All Chapters</option>
+        <option value="all">Todos capítulos</option>
         {% for chapter_name in chapters %}
             <option value="{{ chapter_name }}">{{ chapter_name }}</option>
         {% endfor %}
