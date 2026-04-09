@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 from flask import Flask, render_template
 
@@ -17,6 +18,21 @@ def prettify_title(filename):
     # Capitalize the first letter and keep the rest as provided, or title case
     # Taking a safe route to title case for aesthetics
     return name.title()
+
+def extract_qmd_title(qmd_path):
+    """Extract the title from the YAML front matter of a .qmd file."""
+    if not qmd_path.exists():
+        return None
+    try:
+        content = qmd_path.read_text(encoding='utf-8')
+        # Simple regex to find title in YAML front matter
+        # It looks for 'title:' followed by optional quotes and the title text
+        match = re.search(r'^title:\s*["\']?(.*?)["\']?$', content, re.MULTILINE)
+        if match:
+            return match.group(1).strip()
+    except Exception as e:
+        print(f"Error reading {qmd_path}: {e}")
+    return None
 
 @app.route('/')
 def index():
@@ -50,7 +66,11 @@ def index():
             url = f"slides/{'/'.join(parts)}"
             thumbnail_url = url.replace('.html', '.png')
             
-            title = prettify_title(path.name)
+            # Try to get title from .qmd file, fallback to filename
+            qmd_path = path.with_suffix(".qmd")
+            title = extract_qmd_title(qmd_path)
+            if not title:
+                title = prettify_title(path.name)
             
             # Get modification date
             mtime = os.path.getmtime(path)
