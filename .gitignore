@@ -1,3 +1,7 @@
 venv
 __pycache__
 .venv
+
+# some data folders
+td-cache
+gbcb-cache
