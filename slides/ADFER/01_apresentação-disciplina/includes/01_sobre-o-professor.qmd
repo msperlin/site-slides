@@ -1,0 +1,20 @@
+```{r}
+my_email <- "marceloperlin@gmail.com"
+my_website <- "https://www.msperlin.com/"
+```
+
+# Sobre o professor
+
+## Marcelo S. Perlin (ou prof Perlin)
+
+> Professor, pesquisador, programador e autor de livros
+
+:::{.incremental}
+- Email: [`r my_email`](emailto: `r my_email`) 
+- Website: [`r my_website`](`r my_website`)
+- Interesses profissionais:
+  - Análise de dados e programação (mantenedor de diversos pacotes no CRAN)
+  - Finanças e métodos quantitativos
+  - Cientometria
+
+:::

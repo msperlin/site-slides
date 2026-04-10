@@ -1,0 +1,88 @@
+# Sobre a disciplina
+
+```{r}
+gdrive_link <-l_info$info$grive_class_material
+gdrive_schedule <- l_info$info$gdrive_schedule
+```
+
+
+## Descrição
+
+::: {.incremental}
+- Curso de **programação** e análise de dados com o **R**, voltado a pesquisa empírica com dados financeiros e econômicos
+  - Baseado no livro _Análise de Dados Financeiros e Econômicos com o R (adfeR)_;
+- **Objetivo**: Preparar alunos para a produção de suas dissertações e teses;
+- Estilo de _workshop_: teremos programação em todas as aulas, com **problemas reais** a serem resolvidos;
+- Ao final do curso, alunos devem estar aptos a conduzir, **de forma autônoma**, uma pesquisa científica usando o R.
+:::
+
+
+## Livro Referência
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](figs/CAPAdigital-AnaliseDadosR.jpg)
+:::
+
+::: {.column width="50%"}
+Disponível em:
+
+- [Amazon (pt-br)](https://www.amazon.com.br/gp/product/B08WNC27ZY/) 
+
+- [Amazon (en-us)](https://www.amazon.com.br/gp/product/B084LSNXMN)
+
+- [Versão online (pt-br)](https://www.msperlin.com/adfeR/) | [Versão online (en-us)](https://www.msperlin.com/afedR/)
+
+- [Vídeos no Youtube](https://www.youtube.com/watch?v=CFd8O4f5bm4&list=PLO0YoYcxF6WFR1i45IRTnJ7-Xosrsx-Hl)
+
+- Pdf com obra completa está disponível no [GDrive](`r gdrive_link`).
+:::
+
+::::
+
+## Avaliação do Curso
+
+```{r}
+grade_df <- tibble::tibble(
+  Evento = c('Prova I', 
+             'Prova II',
+             'Trabalho Final',
+             'Atividades em Aula',
+             'Atividade recuperação (nota substitutiva)'),
+  Notas = c('20%', 
+            '20%', 
+            '40%', 
+            '20%', 
+            '20% ')
+  )
+
+grade_df |>
+  gt::gt() |>
+  gt::tab_header('Avaliação da Disciplina')
+```
+
+
+## Plano de Aula
+
+[Link Gsheets](`r gdrive_schedule`)
+
+## Atividades EAD
+
+- A cada 2-3 aulas teremos atividades a distância, as quais contarão para nota final;
+- A resolução deve ser entregue individualmente, mas trabalho em grupo é incentivado, desde que auxilie na produção de conhecimento;
+
+## Formato de aula
+
+```{r}
+knitr::include_graphics("figs/please-talk-to-me.jpg")
+```
+
+## O que preciso de vocês (alunos)
+
+- Confirmar recebimento de email de teste de comunicação (não precisa dar reply ao email)
+- Teste do Moodle e do GDrive
+
+<br> 
+
+- Alguma dúvida??
