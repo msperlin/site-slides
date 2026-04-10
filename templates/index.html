@@ -7,7 +7,7 @@
 </header>
 
 <div class="controls" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-    <select id="class-filter" onchange="filterSlides()">
+    <select id="class-filter" onchange="filterByClass()">
         <option value="all">Todas disciplinas</option>
         {% for class_name in classes %}
             <option value="{{ class_name }}">{{ class_name }}</option>
@@ -52,6 +52,39 @@
 </footer>
 
 <script>
+    function filterByClass() {
+        updateChapterOptions();
+        filterSlides();
+    }
+
+    function updateChapterOptions() {
+        const classFilter = document.getElementById('class-filter').value;
+        const chapterSelect = document.getElementById('chapter-filter');
+        const currentChapter = chapterSelect.value;
+        const slides = document.querySelectorAll('.slide-card');
+        
+        const availableChapters = new Set();
+        slides.forEach(slide => {
+            if (classFilter === 'all' || slide.getAttribute('data-class') === classFilter) {
+                availableChapters.add(slide.getAttribute('data-chapter'));
+            }
+        });
+
+        chapterSelect.innerHTML = '<option value="all">Todos capítulos</option>';
+        Array.from(availableChapters).sort().forEach(chapter => {
+            const option = document.createElement('option');
+            option.value = chapter;
+            option.textContent = chapter;
+            chapterSelect.appendChild(option);
+        });
+
+        if (availableChapters.has(currentChapter)) {
+            chapterSelect.value = currentChapter;
+        } else {
+            chapterSelect.value = 'all';
+        }
+    }
+
     function filterSlides() {
         const classFilter = document.getElementById('class-filter').value;
         const chapterFilter = document.getElementById('chapter-filter').value;
