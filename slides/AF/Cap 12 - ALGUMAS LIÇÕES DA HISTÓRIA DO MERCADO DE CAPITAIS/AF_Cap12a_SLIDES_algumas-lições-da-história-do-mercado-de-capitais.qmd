@@ -7,13 +7,13 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
-  cache: true
-bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
+  cache: false
+bibliography: "content/bibfile.bib"
 toc: true
 toc-title: "Sumário"
 toc-depth: 1
@@ -21,6 +21,8 @@ toc-depth: 1
 
 
 ```{r}
+classtools::setup_quarto_slides('content')
+
 link_gsheets <- "https://docs.google.com/spreadsheets/d/13FjszjYGPnDm3AUqkxQI7SF7Bm9W-BYn6LdSJNa4jKc/edit?usp=sharing"
 ```
 
@@ -30,7 +32,7 @@ link_gsheets <- "https://docs.google.com/spreadsheets/d/13FjszjYGPnDm3AUqkxQI7SF
 
 - Um investidor de ações ganha dinheiro com:
   1) valorização das ações
-  2) dividendos e outros proventos em dinheiro
+  2) dividendos e outros proventos e distribuições (majoritariamente em dinheiro)
   
 ```{r}
 #| fig-cap: !expr classtools::cite_ross(391)
@@ -110,7 +112,7 @@ p
 ```
 
 
-# Um pouco de história do mercado de capitais brasileiro
+# O Desempenho Histórico do Mercado de Capitais Brasileiro e Americano
 
 ## Retornos históricos
 
@@ -142,7 +144,7 @@ df_cdi <- GetBCBData::gbcbd_get_series(c(cdi = 12), first_date) |>
 selected <- "NTN-B Principal 150824"
 df_td <- GetTDData::td_get("NTN-B Principal", 
                            lubridate::year(first_date), 
-                           dl_folder = 'dl-td') |>
+                           dl_folder = '~/.cache/dl-td') |>
   filter(asset_code == selected,
          ref_date >= first_date) |>
   mutate(year = lubridate::year(ref_date),
@@ -152,8 +154,7 @@ df_td <- GetTDData::td_get("NTN-B Principal",
 all_invest <- df_ibov |>
   bind_rows(df_cdi) |>
   bind_rows(df_td) |>
-  select(ref_date, year, invest_name, invest_value) |>
-  filter(ref_date <= as.Date("2024-08-01"))
+  select(ref_date, year, invest_name, invest_value)
 
 tab_perf <- all_invest |>
   group_by(year, invest_name) |>
