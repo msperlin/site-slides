@@ -7,19 +7,24 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
-  cache: true
-bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
+  cache: false
+bibliography: "content/bibfile.bib"
 title-block-banner: true
 toc: true
 toc-depth: 1
 ---
 
 # Introdução a Teoria de Mercados Eficientes (TME)
+
+```{r}
+classtools::setup_quarto_slides("content")
+```
+
 
 ## Introdução
 
