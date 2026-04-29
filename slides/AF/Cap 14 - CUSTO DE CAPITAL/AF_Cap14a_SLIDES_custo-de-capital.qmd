@@ -7,13 +7,13 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
-  cache: true
-bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
+  cache: false
+bibliography: "content/bibfile.bib"
 title-block-banner: true
 toc: true
 toc-depth: 1
@@ -23,6 +23,8 @@ toc-title: "Sumário"
 # Introdução ao custo de capital
 
 ```{r}
+classtools::setup_quarto_slides("content")
+
 link_sheets <- "https://docs.google.com/spreadsheets/d/1NxzxCR6cSV9g0j-rxyiDMsVge4bbyOlwresr0Kf6FEI/edit?usp=sharing"
 ```
 
@@ -196,7 +198,8 @@ library(dplyr)
 
 tickers <- c("PETR3.SA", "EGIE3.SA", 'ITSA3.SA', "SAPR3.SA", "GRND3.SA")
 selic <- classtools::get_selic_rate()$aa
-selic <- 0.075 # selic is too high!
+
+selic <- 0.1 # selic is too high!
 first_date <- Sys.Date() - 10*365
 
 df_ibov <- yfR::yf_get("^BVSP", first_date, freq_data = 'yearly') |>
