@@ -13,12 +13,14 @@
             <option value="{{ class_name }}">{{ class_name }}</option>
         {% endfor %}
     </select>
-    <select id="chapter-filter" onchange="filterSlides()">
-        <option value="all">Todos capítulos</option>
-        {% for chapter_name in chapters %}
-            <option value="{{ chapter_name }}">{{ chapter_name }}</option>
-        {% endfor %}
-    </select>
+    <div id="chapter-filter-wrapper" style="overflow: hidden; max-width: 0; opacity: 0; transition: max-width 0.4s ease, opacity 0.4s ease;">
+        <select id="chapter-filter" onchange="filterSlides()">
+            <option value="all">Todos capítulos</option>
+            {% for chapter_name in chapters %}
+                <option value="{{ chapter_name }}">{{ chapter_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
 </div>
 
 <div class="grid" id="slides-grid">
@@ -53,6 +55,22 @@
 
 <script>
     function filterByClass() {
+        const classFilter = document.getElementById('class-filter').value;
+        const wrapper = document.getElementById('chapter-filter-wrapper');
+
+        if (classFilter === 'all') {
+            // Hide the chapter dropdown
+            wrapper.style.maxWidth = '0';
+            wrapper.style.opacity = '0';
+            wrapper.style.marginLeft = '0';
+            document.getElementById('chapter-filter').value = 'all';
+        } else {
+            // Show the chapter dropdown
+            wrapper.style.maxWidth = '420px';
+            wrapper.style.opacity = '1';
+            wrapper.style.marginLeft = '0';
+        }
+
         updateChapterOptions();
         filterSlides();
     }
