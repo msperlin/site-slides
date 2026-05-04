@@ -7,13 +7,13 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
   cache: false
-bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
+bibliography: "content/bibfile.bib"
 title-block-banner: true
 toc: true
 toc-depth: 1
@@ -23,6 +23,8 @@ toc-title: "Sumário"
 # Alavancagem financeira e política de estrutura de capital
 
 ```{r}
+classtools::setup_quarto_slides('content')
+
 link_sheets <- "https://docs.google.com/spreadsheets/d/1VJ3NzCemWxtj1Z-u9wbdLW4BCZ3Foz2TKx7t6kvWZVc/edit?usp=sharing"
 ```
 
