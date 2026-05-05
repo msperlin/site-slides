@@ -121,20 +121,20 @@ classtools::setup_quarto_slides('content')
 ## Indicadores Quantitativos (Tijolo)
 
 ::: {.incremental}
-- **Tempo de mercado:** Fundos mais novos são mais arriscados (mínimo 5 anos)
-- **Vacância:**: Percentual de vacância (física e financeira). Quanto menor, melhor.
-- **Dividend Yield (DY %):** (Dividendo dos últimos 12 meses / Preço Atual da cota) -- CUIDADO, alto DY geralmente é um sinal de algo errado..
-- **P/VP (Preço / Valor Patrimonial):** (Valor de Mercado Total / Valor de Avaliação dos Ativos do Fundo). CUIDADO, baixo P/PV geralmente é sinal de algo errado..
-- **DY CAGR, Crescimento Dividendos**: Crescimento do rendimento ao longos dos anos;
+1 **DY CAGR, Crescimento Dividendos**: Crescimento do rendimento ao longos dos anos;
+1 **Tempo de mercado:** Fundos mais novos são mais arriscados (mínimo 5 anos)
+1 **Vacância:**: Percentual de vacância (física e financeira). Quanto menor, melhor.
+1 **Dividend Yield (DY %):** (Dividendo dos últimos 12 meses / Preço Atual da cota) -- [CUIDADO, alto DY geralmente é um sinal de algo errado]{style="color: red;"}
+1 **P/VP (Preço / Valor Patrimonial):** (Valor de Mercado Total / Valor de Avaliação dos Ativos do Fundo). [CUIDADO, baixo P/PV geralmente é sinal de algo errado]{style="color: red;"}.
 :::
 
 ## Análise Qualitativa
 
 ::: {.incremental}
-- **Poder de reajuste**: Capacidade do fundo de reajustar os aluguéis acima da inflação (ex: contratos atrelados ao IPCA)
-- **Tipo de Inquilino e imóvel:** Empresas sólidas e de grande porte são mais confiáveis. Lajes corporativas são mais arriscadas que galpões logísticos, por exemplo
-- **Vencimento e Tipos de Contrato:** Contratos típicos (3-5 anos) vs. atípicos (10-15 anos com garantias rigorosas)
-- **Gestora e Governança:** O histórico do administrador importa muito. O investidor depende de gestão ética.
+1 **Poder de reajuste**: Capacidade do fundo de reajustar os aluguéis acima da inflação (ex: contratos atrelados ao IPCA)
+1 **Tipo de Inquilino e imóvel:** Empresas sólidas e de grande porte são mais confiáveis. Lajes corporativas são mais arriscadas que galpões logísticos, por exemplo
+1 **Vencimento e Tipos de Contrato:** Contratos típicos (3-5 anos) vs. atípicos (10-15 anos com garantias rigorosas)
+1 **Gestora e Governança:** O histórico do administrador importa muito. O investidor depende de gestão ética.
 :::
 
 
