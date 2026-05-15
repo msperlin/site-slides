@@ -66,6 +66,15 @@ classtools::setup_quarto_slides("content")
 - A diferença entre as fontes operacionais e os usos operacionais define a necessidade de capital de giro (NCG).
 :::
 
+## CCL e CDG
+
+```{r}
+#| fig-cap: !expr classtools::cite_ross(625)
+
+knitr::include_graphics("figs/CCL-CG.png")
+```
+
+
 # Os Ciclos do Negócio
 
 ## O Ciclo Operacional
