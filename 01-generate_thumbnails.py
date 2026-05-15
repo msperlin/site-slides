@@ -24,7 +24,7 @@ def generate_all_thumbnails():
             print(f"Generating thumbnail for {path}...")
             try:
                 subprocess.run([
-                    "google-chrome",
+                    "google-chrome-stable",
                     "--headless",
                     "--disable-gpu",
                     f"--screenshot={thumbnail_path}",
