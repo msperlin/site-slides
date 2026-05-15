@@ -100,7 +100,12 @@ knitr::include_graphics("figs/CCL-CG.png")
 
 ## A Linha do Tempo dos Fluxos de Caixa
 
-![Linha do tempo dos fluxos de caixa e atividades operacionais de curto prazo](figs/timeline-ciclos.png){fig-align="center"}
+
+```{r}
+#| fig-cap: !expr classtools::cite_ross(628)
+#| fig-align: "center"
+knitr::include_graphics('figs/ciclo-operacional.png')
+```
 
 - O **Ciclo Operacional** abrange desde a Compra de Estoque até a Entrada de Caixa das Vendas.
 - O **Ciclo Financeiro** inicia na Saída de Caixa (pagamento de estoque) e termina na Entrada de Caixa (recebimento das vendas).
@@ -208,3 +213,5 @@ knitr::include_graphics("figs/CCL-CG.png")
   3. **Taxas de juros relativas:** As taxas de curto prazo costumam ser mais voláteis e menores que as de longo prazo (porém no Brasil há distorções com linhas subsidiadas).
 - Na prática, empresas utilizam uma **Política Intermediária**, combinando parte em reservas de liquidez e parte dependendo de empréstimos em picos extremos.
 :::
+
+## Referências {.unlisted}
