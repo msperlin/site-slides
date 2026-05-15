@@ -1,5 +1,5 @@
 ---
-title: "Planejamento e Finanças de Curto Prazo"
+title: "Planejamento Financeiro de Curto Prazo -- Introdução"
 subtitle: "Capítulo 18"
 author: "Marcelo S. Perlin"
 date: last-modified
@@ -95,6 +95,7 @@ knitr::include_graphics("figs/CCL-CG.png")
 - Incorpora o prazo negociado com os fornecedores:
   - **Prazo Médio de Pagamento (PMP):** Tempo entre a aquisição do estoque e o seu efetivo pagamento.
 - Define o tempo durante o qual a empresa precisará financiar seu giro.
+- *Quanto maior o ciclo financeiro, maior a necessidade de financiamento.*
 - $Ciclo \ Financeiro = Ciclo \ Operacional - PMP$
 :::
 
@@ -107,9 +108,6 @@ knitr::include_graphics("figs/CCL-CG.png")
 knitr::include_graphics('figs/ciclo-operacional.png')
 ```
 
-- O **Ciclo Operacional** abrange desde a Compra de Estoque até a Entrada de Caixa das Vendas.
-- O **Ciclo Financeiro** inicia na Saída de Caixa (pagamento de estoque) e termina na Entrada de Caixa (recebimento das vendas).
-- *Quanto maior o ciclo financeiro, maior a necessidade de financiamento.*
 
 ## O Organograma da Empresa e os Ciclos
 
