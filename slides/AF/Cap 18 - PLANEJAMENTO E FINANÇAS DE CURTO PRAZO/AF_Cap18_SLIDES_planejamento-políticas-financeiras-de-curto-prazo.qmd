@@ -1,5 +1,5 @@
 ---
-title: "Planejamento Financeiro de Curto Prazo -- Introdução"
+title: "Planejamento e Políticas Financeiras de Curto Prazo"
 subtitle: "Capítulo 18"
 author: "Marcelo S. Perlin"
 date: last-modified
@@ -38,19 +38,21 @@ classtools::setup_quarto_slides("content")
 - A gestão financeira de curto prazo é frequentemente chamada de **administração do capital de giro**.
 :::
 
-## Capital Circulante Líquido (CCL) e Capital de Giro (CDG)
+## O caminho do caixa
 
-:::{.incremental}
-- **Capital Circulante Líquido (CCL)**:
-  - É a diferença entre o ativo e o passivo circulantes.
-  - Representa o uso de recursos provenientes do capital de giro.
-  - $CCL = Ativo \ Circulante - Passivo \ Circulante$
-- **Capital de Giro (CDG)**:
-  - Formado pelos recursos do patrimônio líquido e passivo não circulante que excedem o ativo não circulante.
-  - São os recursos disponíveis para financiar o giro das operações.
-  - $CDG = (Passivo \ Não \ Circ. + Patrimônio \ Líq.) - Ativo \ Não \ Circ.$
-- Por construção do balanço patrimonial: **$CCL = CDG$**.
-:::
+- O AC é composto pelo caixa e por outros ati-
+vos que se espera converter em caixa durante o ano: estoques e crédito. 
+
+- O PC contém as obrigações de curto prazo que exigem pagamento em dinheiro dentro de um ano
+
+- O ponto central da análise são as variáções da conta **caixa** em funções de eventos corporativos
+
+$$CCL + AnC = PnC + PL$$
+
+$$CCL = (Caixa - OutrosAC) - Passivo circulante$$
+
+$$Caixa=PnC + PL + PC - OutrosAC - AnC$$
+
 
 ## Fontes e Usos de Caixa
 
@@ -66,7 +68,22 @@ classtools::setup_quarto_slides("content")
 - A diferença entre as fontes operacionais e os usos operacionais define a necessidade de capital de giro (NCG).
 :::
 
-## CCL e CDG
+
+## Capital Circulante Líquido (CCL) e Capital de Giro (CDG)
+
+:::{.incremental}
+- **Capital Circulante Líquido (CCL)**:
+  - É a diferença entre o ativo e o passivo circulantes.
+  - Representa o uso de recursos provenientes do capital de giro.
+  - $CCL = Ativo \ Circulante - Passivo \ Circulante$
+- **Capital de Giro (CDG)**:
+  - Formado pelos recursos do patrimônio líquido e passivo não circulante que excedem o ativo não circulante.
+  - São os recursos disponíveis para financiar o giro das operações.
+  - $CDG = (Passivo \ Não \ Circ. + Patrimônio \ Líq.) - Ativo \ Não \ Circ.$
+- Por construção do balanço patrimonial: **$CCL = CDG$**.
+:::
+
+## Ilustração: CCL & CDG
 
 ```{r}
 #| fig-cap: !expr classtools::cite_ross(625)
@@ -74,8 +91,22 @@ classtools::setup_quarto_slides("content")
 knitr::include_graphics("figs/CCL-CG.png")
 ```
 
-
 # Os Ciclos do Negócio
+
+## Introdução
+
+- As principais preocupações nas finanças de curto prazo são as atividades operacionais e financeiras correntes
+
+- Essas atividades criam sequências de fluxos de caixa  não sincronizados e incertos.
+
+| Evento | Decisão |
+|---|---|
+| 1. Compra de matéria-prima | 1. Quanto de estoque deve ser encomendado? |
+| 2. Pagamento em dinheiro | 2. Tomar um empréstimo ou usar os saldos de caixa? |
+| 3. Fabricação do produto | 3. Que tecnologia de produção escolher? |
+| 4. Venda dos produtos | 4. Conceder ou não crédito a um determinado cliente? |
+| 5. Cobrança das vendas | 5. Como cobrar? |
+
 
 ## O Ciclo Operacional
 
@@ -87,6 +118,7 @@ knitr::include_graphics("figs/CCL-CG.png")
   2. **Prazo Médio de Recebimento (PMR):** Tempo que leva para receber o pagamento das vendas a prazo.
 - $Ciclo \ Operacional = PME + PMR$
 :::
+
 
 ## O Ciclo Financeiro
 
@@ -100,7 +132,6 @@ knitr::include_graphics("figs/CCL-CG.png")
 :::
 
 ## A Linha do Tempo dos Fluxos de Caixa
-
 
 ```{r}
 #| fig-cap: !expr classtools::cite_ross(628)
@@ -141,7 +172,21 @@ knitr::include_graphics('figs/ciclo-operacional.png')
 - Existe uma ligação direta entre giro do ativo, lucratividade (ROA, ROE) e o tamanho do ciclo financeiro.
 :::
 
-# Políticas Financeiras
+# Políticas Financeiras de Financiamento
+
+## Introdução
+
+A política financeira de curto prazo de uma empresa reflete-se pelo menos de duas maneiras:
+
+1. tamanho do investimento da empresa em ativos circulantes
+  - Uma política flexível, ou acomodativa, manteria um índice relativamente alto entre ativo circulante e vendas. 
+  - Uma política financeira de curto prazo restritiva implicaria um índice baixo.
+
+2. O financiamento do ativo circulante: medido como a proporção entre as dívidas de curto
+prazo e as dívidas de longo prazo usadas para financiar o ativo circulante. 
+  - Uma política **flexível** implicaria uma baixa proporção de dívidas de curto prazo em relação ao financiamento de longo prazo.
+  - Uma política **restritiva** significa uma alta proporção de dívidas de curto prazo em relação ao financiamento de longo prazo
+  
 
 ## O Tamanho do Investimento (Flexível vs Restritivo)
 
@@ -150,6 +195,7 @@ knitr::include_graphics('figs/ciclo-operacional.png')
   - Mantém alto nível de ativos circulantes em relação às vendas.
   - Grandes saldos de caixa, aplicações financeiras e estoques.
   - Condições de crédito liberais (alto contas a receber).
+
 - **Política Restritiva:**
   - Mantém baixo nível de ativos circulantes.
   - Saldos de caixa mínimos e poucos estoques.
@@ -201,6 +247,15 @@ knitr::include_graphics('figs/ciclo-operacional.png')
 - À medida que as necessidades caem, o caixa gerado é usado para pagar o empréstimo de curto prazo.
 - Maior risco (dependência de crédito bancário frequente), mas otimiza o uso do capital.
 :::
+
+## Ilustração - Políticas de financiamento flexível e restritivo
+
+```{r}
+#| fig-cap: !expr classtools::cite_ross(637)
+#| fig-align: "center"
+knitr::include_graphics('figs/ilustração-políticas-financiamento.png')
+```
+
 
 ## Qual é a melhor política?
 
