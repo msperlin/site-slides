@@ -1,6 +1,6 @@
 ---
 title: "Planejamento e Políticas Financeiras de Curto Prazo"
-subtitle: "Capítulo 18"
+subtitle: "@ross, Capítulo 18"
 author: "Marcelo S. Perlin"
 date: last-modified
 date-format: DD/MM/YYYY
