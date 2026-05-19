@@ -22,19 +22,11 @@ toc-title: "Sumário"
 
 ```{r}
 classtools::setup_quarto_slides("content")
+
+link_gsheet <- "https://docs.google.com/spreadsheets/d/1DCPpq3ekiuJwTGFZb0s9Di_l2shOG-PL/edit?usp=sharing&ouid=103156289155136363092&rtpof=true&sd=true"
 ```
 
 # Introdução
-
-## Objetivos de Aprendizado
-
-:::{.incremental}
-- **OA1**: Entender o conceito de *float* e seu impacto nos saldos.
-- **OA2**: Conhecer as técnicas de cobrança e desembolso.
-- **OA3**: Avaliar os custos de manter caixa ocioso.
-- **OA4**: Compreender o funcionamento das reservas bancárias no Brasil.
-- **OA5**: Identificar os principais instrumentos de investimento de curto prazo.
-:::
 
 ## Motivos para Manter Caixa
 
@@ -71,7 +63,11 @@ knitr::include_graphics('figs/estrutura-juro-privado.png')
 :::{.incremental}
 - **Float de Cobrança**: Atraso entre o recebimento do cliente e a disponibilidade do dinheiro.
 - **Float de Desembolso**: Atraso entre a emissão do pagamento e a saída efetiva do caixa.
+
+- Ciclo do Float e Prazos de Disponibilidade
+  - O tempo total é composto por trânsito, processamento e compensação.
 :::
+
 
 ## Exemplo de Float e Prazos
 
@@ -80,20 +76,20 @@ knitr::include_graphics('figs/estrutura-juro-privado.png')
 knitr::include_graphics('figs/exemplo-float.png')
 ```
 
-## Ciclo do Float e Prazos de Disponibilidade
 
-O tempo total é composto por trânsito, processamento e compensação.
 
 
 # Cobrança e Concentração
 
 ## Estratégias de Cobrança
 
-O objetivo é acelerar a entrada de recursos.
+O objetivo principal é **acelerar a entrada de recursos** e **reduzir o *float* de cobrança**.
 
 :::{.incremental}
-- No Brasil, o **Boleto Bancário** é a ferramenta central, integrada ao sistema de compensação nacional.
-- O uso de canais eletrônicos minimiza o tempo de processamento.
+- **PIX:** Revolucionou a cobrança no Brasil ao permitir liquidação instantânea, eliminando o *float* de trânsito e compensação.
+- **Boleto Bancário:** Ferramenta tradicional e ainda central, amplamente integrada ao sistema de compensação nacional.
+- **Canais Eletrônicos (EDI/APIs):** A integração direta entre os sistemas da empresa e do banco minimiza drasticamente o tempo de processamento.
+- **Antecipação de Recebíveis:** Estratégia de desconto de duplicatas ou faturas de cartão para injetar liquidez imediata no caixa.
 :::
 
 ## Exemplo de Processamento de Cobranças
@@ -148,23 +144,58 @@ knitr::include_graphics('figs/exemplo-contas-saldo-zero.png')
 - **Tributação**: Imposto de renda sobre ganho de capital + IOF para resgates em curto prazo.
 :::
 
-## Exemplo de aplicação de recursos
+## Exemplo simples de aplicação de recursos
 
 > Uma determinada empresa possui um montante de 100.000 R$ em sua conta caixa, o qual não será utilizado nos próximos 15 dias. Considerando uma taxa do CDI de 0.8% ao mês, qual o montante resgatado no final do período de 15 dias (10 dias úteis) através de uma operação no mercado de moedas?
 
 r_diário (taxa over) = 0.8%/30 = 0.0267%
+
 Valor resgate = 100000*(1+0.0267%)^10 = 100267 R$
 
-# Modelos Matemáticos
+## Exemplo completo de aplicação de recursos
+
+Produto: [BB CDI Corporate](https://www.bb.com.br/pbb/pagina-inicial/corporate/produtos-e-servicos/investimentos/que-tenha-pouco-risco-e-me-de-retorno,-mesmo-que-a-longo-prazo/bb-cdb-di#/)
+
+Cálculos: [Link](`r link_gsheet`)
+
+# Modelos Matemáticos para determinação do saldo de caixa
+
+## Modelo do Saldo Mínimo Operacional (Assaf Neto cap. 4, pag. 88)
+
+- Utiliza o desembolso total previsto no período e o ciclo de caixa para determinar o valor mínimo de caixa
+- O ciclo de caixa define o período compreendido entre o pagamento da compra de matéria prima até o momento do recebimento das vendas
+- Um alto giro do caixa define que a empresa tem maior capacidade de gerar recursos, o que diminui o valor mínimo a ser mantido em caixa
+
+$$ValorMínimoCaixa = \frac{DesembolsoTotalPrevisto}{GiroDoCaixa}$$
+
+$$GiroDoCaixa = \frac{Vendas}{CiclodeCaixa}$$
+
+$$CicloDoCaixa = CicloOperacional - PrazoMedioPagamentoFornecedores$$
+
+## Críticas ao modelo do saldo mínimo operacional
+
+- Baseado em fortes premissas
+  - Fluxos são conhecidos
+
+- O modelo não assume sazonalidades nos fluxos de caixa
+
+- O método não define o montante máximo
+
+- A abordagem tem enfoque flexível (mais $ em caixa)
 
 ## Modelo BAT (Baumol-Allais-Tobin)
 
-Abordagem para encontrar o saldo de caixa ótimo minimizando custos totais.
+> Baseado no modelo do lote econômico de produção, o modelo BAT é uma abordagem clássica para a gestão de caixa que busca equilibrar os custos de manutenção de caixa e os custos de transação.
 
-:::{.incremental}
-- **Custo de Oportunidade**: Sobe com o saldo médio.
-- **Custo de Transação**: Cai com saldos maiores (menos idas ao banco).
-:::
+- Análise específica dos custos e benefícios de manter caixa
+
+- Permite definir matematicamente o montante máximo a ser deixado em caixa com base em uma fórmula intuitiva
+
+- Elementos:
+  - Custo fixo de conversão de caixa  (custo do pedido)
+  - Custo de oportunidade (investimento em títulos de renda fixa)
+  - Demanda de caixa (determinada pela demanda total do período e assumida fixa para cada intervalo)
+  - A empresa SEMPRE gasta o mesmo valor para cada período
 
 ```{r}
 #| fig-cap: "Custos de Manutenção de Caixa"
