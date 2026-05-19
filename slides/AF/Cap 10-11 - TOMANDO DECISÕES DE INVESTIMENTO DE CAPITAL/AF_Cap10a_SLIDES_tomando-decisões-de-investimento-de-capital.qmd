@@ -23,7 +23,7 @@ toc-title: "Sumário"
 ```{r}
 classtools::setup_quarto_slides('content')
 
-link_gsheets <- "https://docs.google.com/spreadsheets/d/1mAud4F9z2bngr_i6GS-IggAt4dQMUhKDi8J9qTMh3kI/edit?usp=sharing"
+link_gsheets <- "https://docs.google.com/spreadsheets/d/1IhoE36u2oxeHkt5aEq88KfT7rQujJXfBqIFeQHfZphw/edit?usp=sharing"
 ```
 
 ## Introdução ao orçamento de capital

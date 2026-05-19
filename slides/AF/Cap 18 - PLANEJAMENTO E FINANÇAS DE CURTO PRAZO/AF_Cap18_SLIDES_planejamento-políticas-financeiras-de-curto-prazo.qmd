@@ -48,7 +48,7 @@ classtools::setup_quarto_slides("content")
 
 $$CCL + AnC = PnC + PL$$
 
-$$CCL = (Caixa - OutrosAC) - Passivo circulante$$
+$$CCL = (Caixa + OutrosAC) - PC$$
 
 $$Caixa=PnC + PL + PC - OutrosAC - AnC$$
 
