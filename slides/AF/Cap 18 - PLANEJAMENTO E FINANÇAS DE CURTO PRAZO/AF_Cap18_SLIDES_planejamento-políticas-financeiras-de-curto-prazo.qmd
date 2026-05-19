@@ -175,17 +175,32 @@ knitr::include_graphics('figs/ciclo-operacional.png')
 
 ## Introdução
 
+::: {.incremental}
 A política financeira de curto prazo de uma empresa reflete-se pelo menos de duas maneiras:
 
-1. tamanho do investimento da empresa em ativos circulantes
-  - Uma política flexível, ou acomodativa, manteria um índice relativamente alto entre ativo circulante e vendas. 
-  - Uma política financeira de curto prazo restritiva implicaria um índice baixo.
+::: {.columns}
 
-2. O financiamento do ativo circulante: medido como a proporção entre as dívidas de curto
-prazo e as dívidas de longo prazo usadas para financiar o ativo circulante. 
-  - Uma política **flexível** implicaria uma baixa proporção de dívidas de curto prazo em relação ao financiamento de longo prazo.
-  - Uma política **restritiva** significa uma alta proporção de dívidas de curto prazo em relação ao financiamento de longo prazo
-  
+::: {.column}
+
+**Tamanho do investimento da empresa em ativos circulantes**
+
+- Uma política flexível, ou acomodativa, manteria um índice relativamente alto entre ativo circulante e vendas. 
+- Uma política financeira de curto prazo restritiva implicaria um índice baixo.
+
+:::
+
+::: {.column}
+
+**Forma de financiamento do ativo circulante**
+
+- Uma política **flexível** implicaria uma baixa proporção de dívidas de curto prazo em relação ao financiamento de longo prazo.
+- Uma política **restritiva** significa uma alta proporção de dívidas de curto prazo em relação ao financiamento de longo prazo
+
+:::
+
+:::
+
+:::
 
 ## O Tamanho do Investimento (Flexível vs Restritivo)
 
