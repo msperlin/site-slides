@@ -40,8 +40,7 @@ classtools::setup_quarto_slides("content")
 
 ## O caminho do caixa
 
-- O AC é composto pelo caixa e por outros ati-
-vos que se espera converter em caixa durante o ano: estoques e crédito. 
+- O AC é composto pelo caixa e por outros ativos que se espera converter em caixa durante o ano: estoques e crédito. 
 
 - O PC contém as obrigações de curto prazo que exigem pagamento em dinheiro dentro de um ano
 
