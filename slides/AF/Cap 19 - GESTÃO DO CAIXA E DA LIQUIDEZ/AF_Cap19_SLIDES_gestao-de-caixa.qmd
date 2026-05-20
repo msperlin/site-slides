@@ -23,14 +23,14 @@ toc-title: "Sumário"
 ```{r}
 classtools::setup_quarto_slides("content")
 
-link_gsheet <- "https://docs.google.com/spreadsheets/d/1DCPpq3ekiuJwTGFZb0s9Di_l2shOG-PL/edit?usp=sharing&ouid=103156289155136363092&rtpof=true&sd=true"
+link_gsheet <- "https://docs.google.com/spreadsheets/d/1aO1SYa_EK3KAQs6jTYqYKdQ3FqgoD8Zh7Fnd32xrwao/edit?usp=sharing"
 ```
 
 # Introdução
 
 ## Motivos para Manter Caixa
 
-Segundo Keynes, existem três motivos principais:
+Existem três motivos principais para se manter caixa na empresa:
 
 :::{.incremental}
 1. **Transação**: Necessidade de pagar as contas rotineiras.
@@ -52,7 +52,7 @@ No Brasil, a gestão de caixa é pautada pela eficiência do sistema eletrônico
 
 ## Estrutura do juro privado e Taxa DI
 ```{r}
-#| fig-cap: "Estrutura de juro privado e Taxa DI"
+#| fig-cap: !expr classtools::cite_ross(665)
 knitr::include_graphics('figs/estrutura-juro-privado.png')
 ```
 
@@ -62,6 +62,7 @@ knitr::include_graphics('figs/estrutura-juro-privado.png')
 
 :::{.incremental}
 - **Float de Cobrança**: Atraso entre o recebimento do cliente e a disponibilidade do dinheiro.
+
 - **Float de Desembolso**: Atraso entre a emissão do pagamento e a saída efetiva do caixa.
 
 - Ciclo do Float e Prazos de Disponibilidade
@@ -72,7 +73,8 @@ knitr::include_graphics('figs/estrutura-juro-privado.png')
 ## Exemplo de Float e Prazos
 
 ```{r}
-#| fig-cap: "Composição do Float e Prazos"
+#| fig-cap: !expr classtools::cite_ross(674)
+
 knitr::include_graphics('figs/exemplo-float.png')
 ```
 
@@ -95,7 +97,8 @@ O objetivo principal é **acelerar a entrada de recursos** e **reduzir o *float*
 ## Exemplo de Processamento de Cobranças
 
 ```{r}
-#| fig-cap: "Visão Geral do Processamento de Cobranças"
+#| fig-cap: !expr classtools::cite_ross(681)
+
 knitr::include_graphics('figs/exemplo-processamento-cheque.png')
 ```
 
@@ -111,7 +114,8 @@ Centralizar recursos em uma "conta-mãe" permite melhor gestão.
 ## Exemplo concentrador de Cheques
 
 ```{r}
-#| fig-cap: "Fluxo de Concentração de Caixa"
+#| fig-cap: !expr classtools::cite_ross(682)
+
 knitr::include_graphics('figs/exemplo-concentrador-de-cheque.png')
 ```
 
@@ -128,7 +132,7 @@ Gerir pagamentos para maximizar o float de desembolso (dentro da ética e contra
 
 ## Exemplo de Contas de Saldo Zero
 ```{r}
-#| fig-cap: "Mecanismo de Contas de Saldo Zero"
+#| fig-cap: !expr classtools::cite_ross(684)
 knitr::include_graphics('figs/exemplo-contas-saldo-zero.png')
 ```
 
@@ -197,33 +201,46 @@ $$CicloDoCaixa = CicloOperacional - PrazoMedioPagamentoFornecedores$$
   - Demanda de caixa (determinada pela demanda total do período e assumida fixa para cada intervalo)
   - A empresa SEMPRE gasta o mesmo valor para cada período
 
-```{r}
-#| fig-cap: "Custos de Manutenção de Caixa"
-knitr::include_graphics('figs/figura-19a-1.png')
-```
-
-## Saldo de Caixa Ótimo (BAT)
-
-A fórmula de lote econômico aplicada ao caixa: $C^* = \sqrt{2TF/R}$.
+## Ilustração Modelo de Baumol
 
 ```{r}
-#| fig-cap: "Minimização dos Custos Totais"
-knitr::include_graphics('figs/figura-19a-2.png')
+#| fig-cap: Exemplo de aplicação do modelo de Baumol
+ 
+knitr::include_graphics('figs/modelo-baumol.png')
 ```
 
-## Modelo de Miller-Orr
+## Determinação do caixa ótimo
 
-Modelo estocástico que trabalha com limites de controle (Superior, Inferior e Retorno).
+$$CustoTotal = CC*\frac{M}{m} + i*\frac{m}{2}$$
+
+$CC$: Custo fixo de conversão de caixa (custo do pedido)
+
+$M$: Demanda total de caixa para o período
+
+$m$: Montante de caixa retirado a cada conversão
+
+$i$: Custo de oportunidade (taxa de juros)
+
+> Como achar o valor de $m$ que minimiza o custo total?
+
+Solução: $$m^* = \sqrt{\frac{2*CC*M}{i}}$$
+
+## Modelo de Miller-Orr (1966)
+
+Proposta baseada em modelo estocástico, sujeito a chances, que trabalha com limites de controle (Superior, Inferior e Retorno).
 
 :::{.incremental}
 - Adequado quando os fluxos de caixa são imprevisíveis.
 - Define o ponto de retorno $Z$ e o limite superior $H$.
 :::
 
+## Ilustração Modelo de Miller-Orr
+
 ```{r}
 #| fig-cap: "Limites de Controle de Miller-Orr"
-knitr::include_graphics('figs/figura-19a-3.png')
+knitr::include_graphics('figs/modelo-miller-orr.png')
 ```
+
 
 # Resumo
 
@@ -238,4 +255,3 @@ knitr::include_graphics('figs/figura-19a-3.png')
 
 ## Referências {.unlisted}
 
-Ross, Westerfield, Jaffe. *Administração Financeira*. 10ª Edição. McGraw Hill Brasil, 2013. Capítulo 19.
