@@ -1,0 +1,12 @@
+title: Mmm
+author: msperlin
+version: 1.0.0
+quarto-required: ">=1.9.0"
+contributes:
+  revealjs-plugins:
+    - name: RevealMmm
+      script:
+        - mmm.js
+      stylesheet:
+        - mmm.css
+
