@@ -8,6 +8,7 @@ institute: EA-UFRGS
 format:
   revealjs: 
     theme: "content/theme-msperlin.scss"
+    include-after-body: content/clock.html
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
@@ -136,7 +137,7 @@ Gerir pagamentos para maximizar o float de desembolso (dentro da ética e contra
 knitr::include_graphics('figs/exemplo-contas-saldo-zero.png')
 ```
 
-# Investimento e Sazonalidade
+# Investimentos de curto prazo
 
 ## Investimento do caixa ocioso
 
