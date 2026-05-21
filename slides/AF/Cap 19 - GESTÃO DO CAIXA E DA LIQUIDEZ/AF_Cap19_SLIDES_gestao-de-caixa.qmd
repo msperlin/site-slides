@@ -242,6 +242,23 @@ Proposta baseada em modelo estocástico, sujeito a chances, que trabalha com lim
 knitr::include_graphics('figs/modelo-miller-orr.png')
 ```
 
+## Equação Miller-orr
+
+$$z^* = m + \sqrt[3]{\frac{0.75 * CC * \sigma^2}{i}}$$
+
+$$h^* = m + 3 z^*$$
+
+$m$ - Ponto mínimo do caixa (definido arbitrariamente)
+
+$z^*$ - Ponto médio de caixa
+
+$h^*$ - Ponto máximo de caixa
+
+$CC$ - Custo de conversão
+
+$\sigma^2$ - Variância dos fluxos de caixa
+
+$i$ - Custo de oportunidade
 
 # Resumo
 
