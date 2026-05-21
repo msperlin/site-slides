@@ -7,14 +7,14 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "content/theme-msperlin.scss"
-    include-after-body: content/clock.htmlx
+    theme: "./quarto-slides-extras/theme-msperlin.scss"
+    include-after-body: "./quarto-slides-extras/clock.txt"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
   cache: false
-bibliography: "content/bibfile.bib"
+bibliography: "quarto-slides-extras/bibfile.bib"
 title-block-banner: true
 toc: true
 toc-depth: 1
@@ -22,7 +22,7 @@ toc-title: "Sumário"
 ---
 
 ```{r}
-classtools::setup_quarto_slides("content")
+classtools::setup_quarto_slides()
 
 link_gsheet <- "https://docs.google.com/spreadsheets/d/1aO1SYa_EK3KAQs6jTYqYKdQ3FqgoD8Zh7Fnd32xrwao/edit?usp=sharing"
 ```
