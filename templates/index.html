@@ -423,7 +423,7 @@
             <select id="class-filter" onchange="filterByClass()" class="filter-select">
                 <option value="all">Todas disciplinas</option>
                 {% for class_name in classes %}
-                    <option value="{{ class_name }}">{{ class_name }}</option>
+                    <option value="{{ class_name }}" {% if class_name == 'AF' %}selected{% endif %}>{{ class_name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -575,5 +575,10 @@
             emptyState.style.display = 'none';
         }
     }
+
+    // Trigger initial filter on page load to apply default selection
+    document.addEventListener('DOMContentLoaded', () => {
+        filterByClass();
+    });
 </script>
 {% endblock %}
