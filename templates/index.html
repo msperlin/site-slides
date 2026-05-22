@@ -290,16 +290,6 @@
     <div class="subtitle">Acesso a slides e recursos de cursos</div>
 </header>
 
-<!-- Instant Search Bar -->
-<div class="search-container" style="margin-top: 10px; margin-bottom: 25px;">
-    <div class="search-input-wrapper">
-        <svg class="search-icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input type="text" id="search-input" class="search-input" placeholder="Buscar slides... (Pressione '/' para focar)" oninput="filterSlides()" autocomplete="off">
-        <div class="search-kbd-hint">/</div>
-    </div>
-</div>
 
 <div class="stats-summary" style="margin-bottom: 35px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--border-radius); padding: 20px; box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
     <h3 style="margin-top: 0; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
@@ -434,7 +424,6 @@
     function filterSlides() {
         const classFilter = document.getElementById('class-filter').value;
         const chapterFilter = document.getElementById('chapter-filter').value;
-        const searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
         const slides = document.querySelectorAll('.slide-card');
         const emptyState = document.getElementById('empty-state');
         let visibleCount = 0;
@@ -442,20 +431,11 @@
         slides.forEach(slide => {
             const slideClass = slide.getAttribute('data-class');
             const slideChapter = slide.getAttribute('data-chapter');
-            const slideTitle = slide.querySelector('.slide-title').textContent.toLowerCase();
-            const slideFilename = slide.querySelector('.slide-filename span').textContent.toLowerCase();
 
             const classMatch = classFilter === 'all' || slideClass === classFilter;
             const chapterMatch = chapterFilter === 'all' || slideChapter === chapterFilter;
             
-            // Fuzzy search matched in title, filename, class, or chapter
-            const searchMatch = !searchQuery || 
-                                slideTitle.includes(searchQuery) || 
-                                slideFilename.includes(searchQuery) ||
-                                slideClass.toLowerCase().includes(searchQuery) ||
-                                slideChapter.toLowerCase().includes(searchQuery);
-
-            if (classMatch && chapterMatch && searchMatch) {
+            if (classMatch && chapterMatch) {
                 slide.style.display = 'flex';
                 // Trigger a smooth transition
                 slide.style.opacity = '0';
@@ -472,13 +452,5 @@
             emptyState.style.display = 'none';
         }
     }
-
-    // Keyboard shortcut handler
-    window.addEventListener('keydown', (e) => {
-        if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT' && document.activeElement.tagName !== 'TEXTAREA') {
-            e.preventDefault();
-            document.getElementById('search-input').focus();
-        }
-    });
 </script>
 {% endblock %}
