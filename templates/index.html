@@ -385,48 +385,6 @@
     </div>
 </div>
 
-<!-- Recently Updated Slides Carousel -->
-{% if recent_slides %}
-<div class="carousel-container">
-    <div class="carousel-title">Slides Atualizados Recentemente</div>
-    <div class="carousel-track">
-        {% for slide in recent_slides %}
-            <div class="carousel-card card-clickable-container" data-class="{{ slide.class_name }}">
-                <!-- Absolute Main Link Overlay -->
-                <a href="{{ slide.url }}" class="card-main-link" aria-label="Abrir slides de {{ slide.title }}"></a>
-                
-                <div class="carousel-card-badge" data-class="{{ slide.class_name }}">{{ slide.class_name }}</div>
-                <div class="carousel-card-title" style="position: relative; z-index: 2;">{{ slide.title }}</div>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; width: 100%; gap: 6px; position: relative; z-index: 2;">
-                    <div class="carousel-card-date" style="margin-top: 0; display: flex; align-items: center; gap: 3px; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
-                        <svg style="width: 12px; height: 12px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span style="overflow: hidden; text-overflow: ellipsis;">{{ slide.date.split(',')[0] }}</span>
-                    </div>
-                    <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
-                        <a href="{{ slide.url }}" target="_blank" class="html-link-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir Slides">
-                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                            <span>HTML</span>
-                        </a>
-                        {% if slide.pdf_url %}
-                        <a href="{{ slide.pdf_url }}" target="_blank" class="pdf-download-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir PDF em nova aba">
-                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span>PDF</span>
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}
 
 <footer>
     &copy; {{ classes|length }} Disciplinas, {{ chapters|length }} Capítulos Disponíveis
