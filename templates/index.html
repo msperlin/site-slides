@@ -290,23 +290,6 @@
     <div class="subtitle">Acesso a slides e recursos de cursos</div>
 </header>
 
-<!-- Metrics Dashboard Grid -->
-<div class="metrics-grid">
-    <div class="metric-card">
-        <div class="metric-value">{{ classes|length }}</div>
-        <div class="metric-label">Disciplinas</div>
-    </div>
-    <div class="metric-card">
-        <div class="metric-value">{{ slides|length }}</div>
-        <div class="metric-label">Slides Totais</div>
-    </div>
-    <div class="metric-card">
-        <div class="metric-value" style="font-size: 0.9rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%;">
-            {% if recent_slides %}{{ recent_slides[0].date }}{% else %}-{% endif %}
-        </div>
-        <div class="metric-label">Último Update</div>
-    </div>
-</div>
 
 <div class="stats-summary" style="margin-bottom: 35px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--border-radius); padding: 20px; box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
     <h3 style="margin-top: 0; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
