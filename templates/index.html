@@ -1,19 +1,337 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    /* Carousel Styling */
+    .carousel-container {
+        margin-top: 40px;
+        margin-bottom: 45px;
+        position: relative;
+    }
+    
+    .carousel-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-main);
+    }
+    
+    .carousel-title::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 22px;
+        background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+        border-radius: 4px;
+    }
+    
+    .carousel-track {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 4px 4px 18px 4px;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: var(--card-border) transparent;
+    }
+    
+    .carousel-track::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .carousel-track::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    .carousel-track::-webkit-scrollbar-thumb {
+        background-color: var(--card-border);
+        border-radius: 20px;
+    }
+    
+    .carousel-card {
+        min-width: 260px;
+        width: 260px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--border-radius);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-decoration: none;
+        color: inherit;
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        
+        --accent-card-rgb: 37, 99, 235;
+        --accent-card-gradient: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    }
+    
+    .carousel-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--accent-card-gradient);
+        opacity: 0.8;
+    }
+    
+    .carousel-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(var(--accent-card-rgb), 0.4);
+        box-shadow: var(--shadow-hover);
+    }
+    
+    .carousel-card-badge {
+        align-self: flex-start;
+        background-color: rgba(var(--accent-card-rgb), 0.1);
+        color: rgb(var(--accent-card-rgb));
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 1px solid rgba(var(--accent-card-rgb), 0.12);
+    }
+    
+    [data-theme="dark"] .carousel-card-badge {
+        background-color: rgba(var(--accent-card-rgb), 0.2);
+        color: #ffffff;
+        border-color: rgba(var(--accent-card-rgb), 0.25);
+    }
+    
+    .carousel-card-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 12px 0 10px 0;
+        line-height: 1.4;
+        color: var(--text-main);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .carousel-card-date {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: auto;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    /* Metrics grid */
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 45px;
+    }
+    
+    @media (min-width: 768px) {
+        .metrics-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+    }
+    
+    .metric-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius);
+        padding: 16px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent);
+        box-shadow: 0 10px 20px -10px rgba(var(--accent-rgb), 0.15);
+    }
+    
+    .metric-value {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 3px;
+        line-height: 1.2;
+    }
+    
+    .metric-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Search Box Styling */
+    .search-container {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto 30px auto;
+        width: 100%;
+    }
+    
+    .search-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-input {
+        width: 100%;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 13px 44px 13px 44px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-main);
+        outline: none;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        font-family: 'Inter', sans-serif;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .search-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
+        background: var(--glass-bg);
+    }
+    
+    .search-icon-left {
+        position: absolute;
+        left: 15px;
+        width: 18px;
+        height: 18px;
+        color: var(--text-muted);
+        pointer-events: none;
+    }
+    
+    .search-kbd-hint {
+        position: absolute;
+        right: 15px;
+        background: var(--card-border);
+        color: var(--text-muted);
+        padding: 3px 7px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-family: monospace;
+        font-weight: 700;
+        pointer-events: none;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    
+    /* Grid Thumbnails Styling */
+    .slide-thumbnail {
+        width: 100%;
+        height: 150px;
+        flex-shrink: 0;
+        background-color: var(--glass-bg);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        align-self: center;
+        transition: var(--transition);
+    }
+    
+    .slide-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: var(--transition);
+    }
+    
+    .slide-card:hover .slide-thumbnail img {
+        transform: scale(1.04);
+    }
+    
+    @media (min-width: 640px) {
+        .slide-thumbnail {
+            width: 240px;
+            min-width: 240px;
+            height: 135px;
+        }
+    }
+</style>
+
 <header>
     <h1>Repositório de Slides - Prof. Marcelo S. Perlin</h1>
     <div class="subtitle">Acesso a slides e recursos de cursos</div>
 </header>
 
-<div class="controls" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+<!-- Metrics Dashboard Grid -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-value">{% if slides %}{{ slides[0].class_name }}{% else %}-{% endif %}</div>
+        <div class="metric-label">Principal</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">{{ classes|length }}</div>
+        <div class="metric-label">Disciplinas</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">{{ slides|length }}</div>
+        <div class="metric-label">Slides Totais</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value" style="font-size: 0.9rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%;">
+            {% if recent_slides %}{{ recent_slides[0].date }}{% else %}-{% endif %}
+        </div>
+        <div class="metric-label">Último Update</div>
+    </div>
+</div>
+
+<!-- Instant Search Bar -->
+<div class="search-container">
+    <div class="search-input-wrapper">
+        <svg class="search-icon-left" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="text" id="search-input" class="search-input" placeholder="Buscar slides... (Pressione '/' para focar)" oninput="filterSlides()" autocomplete="off">
+        <div class="search-kbd-hint">/</div>
+    </div>
+</div>
+
+<!-- Controls Dropdown -->
+<div class="controls" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
     <select id="class-filter" onchange="filterByClass()">
         <option value="all">Todas disciplinas</option>
         {% for class_name in classes %}
             <option value="{{ class_name }}">{{ class_name }}</option>
         {% endfor %}
     </select>
-    <div id="chapter-filter-wrapper" style="overflow: hidden; max-width: 0; opacity: 0; transition: max-width 0.4s ease, opacity 0.4s ease;">
+    <div id="chapter-filter-wrapper" style="overflow: hidden; max-width: 0; opacity: 0; transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;">
         <select id="chapter-filter" onchange="filterSlides()">
             <option value="all">Todos capítulos</option>
             {% for chapter_name in chapters %}
@@ -23,34 +341,56 @@
     </div>
 </div>
 
+<!-- Grid List of Slides -->
 <div class="grid" id="slides-grid">
     {% for slide in slides %}
         <a href="{{ slide.url }}" class="slide-card" data-class="{{ slide.class_name }}" data-chapter="{{ slide.chapter_name }}">
-            <div class="slide-info" style="flex: 1; padding-right: 20px;">
+            <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
                 <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge">{{ slide.class_name }}</span>
+                    <span class="class-badge" style="margin-bottom: 0;">{{ slide.class_name }}</span>
                     {% if slide.chapter_name != 'General' %}
-                    <span class="class-badge" style="background-color: #e2e8f0; color: #475569;">{{ slide.chapter_name }}</span>
+                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">{{ slide.chapter_name }}</span>
                     {% endif %}
                 </div>
-                <h3 class="slide-title" style="margin-top: 0;">{{ slide.title }}</h3>
+                <h3 class="slide-title">{{ slide.title }}</h3>
                 <div class="slide-filename">
                     <span>{{ slide.filename }}</span>
-                    <span style="display: block; margin-top: 5px; font-weight: 500;">Last Updated: {{ slide.date }}</span>
+                    <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: {{ slide.date }}</span>
                 </div>
             </div>
-            <div class="slide-thumbnail" style="width: 240px; min-width: 240px; height: 135px; flex-shrink: 0; background-color: #f1f5f9; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); align-self: center;">
-                <img src="{{ slide.thumbnail_url }}" alt="Slide Thumbnail" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.style.display='none'; this.parentElement.style.display='none';">
+            <div class="slide-thumbnail">
+                <img src="{{ slide.thumbnail_url }}" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
         </a>
     {% endfor %}
     <div class="empty-state" id="empty-state">
-        No slides found for the selected category.
+        Nenhum slide encontrado correspondente aos critérios de busca.
     </div>
 </div>
 
+<!-- Recently Updated Slides Carousel -->
+{% if recent_slides %}
+<div class="carousel-container">
+    <div class="carousel-title">Slides Atualizados Recentemente</div>
+    <div class="carousel-track">
+        {% for slide in recent_slides %}
+            <a href="{{ slide.url }}" class="carousel-card" data-class="{{ slide.class_name }}">
+                <div class="carousel-card-badge" data-class="{{ slide.class_name }}">{{ slide.class_name }}</div>
+                <div class="carousel-card-title">{{ slide.title }}</div>
+                <div class="carousel-card-date">
+                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ slide.date }}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
 <footer>
-    &copy; {{ classes|length }} Classes, {{ chapters|length }} Chapters Available
+    &copy; {{ classes|length }} Disciplinas, {{ chapters|length }} Capítulos Disponíveis
 </footer>
 
 <script>
@@ -59,16 +399,12 @@
         const wrapper = document.getElementById('chapter-filter-wrapper');
 
         if (classFilter === 'all') {
-            // Hide the chapter dropdown
             wrapper.style.maxWidth = '0';
             wrapper.style.opacity = '0';
-            wrapper.style.marginLeft = '0';
             document.getElementById('chapter-filter').value = 'all';
         } else {
-            // Show the chapter dropdown
-            wrapper.style.maxWidth = '420px';
+            wrapper.style.maxWidth = '320px';
             wrapper.style.opacity = '1';
-            wrapper.style.marginLeft = '0';
         }
 
         updateChapterOptions();
@@ -106,17 +442,30 @@
     function filterSlides() {
         const classFilter = document.getElementById('class-filter').value;
         const chapterFilter = document.getElementById('chapter-filter').value;
+        const searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
         const slides = document.querySelectorAll('.slide-card');
         const emptyState = document.getElementById('empty-state');
         let visibleCount = 0;
 
         slides.forEach(slide => {
-            const classMatch = classFilter === 'all' || slide.getAttribute('data-class') === classFilter;
-            const chapterMatch = chapterFilter === 'all' || slide.getAttribute('data-chapter') === chapterFilter;
+            const slideClass = slide.getAttribute('data-class');
+            const slideChapter = slide.getAttribute('data-chapter');
+            const slideTitle = slide.querySelector('.slide-title').textContent.toLowerCase();
+            const slideFilename = slide.querySelector('.slide-filename span').textContent.toLowerCase();
 
-            if (classMatch && chapterMatch) {
+            const classMatch = classFilter === 'all' || slideClass === classFilter;
+            const chapterMatch = chapterFilter === 'all' || slideChapter === chapterFilter;
+            
+            // Fuzzy search matched in title, filename, class, or chapter
+            const searchMatch = !searchQuery || 
+                                slideTitle.includes(searchQuery) || 
+                                slideFilename.includes(searchQuery) ||
+                                slideClass.toLowerCase().includes(searchQuery) ||
+                                slideChapter.toLowerCase().includes(searchQuery);
+
+            if (classMatch && chapterMatch && searchMatch) {
                 slide.style.display = 'flex';
-                // Trigger a tiny reflow for animation if wanted
+                // Trigger a smooth transition
                 slide.style.opacity = '0';
                 setTimeout(() => { slide.style.opacity = '1'; }, 10);
                 visibleCount++;
@@ -125,12 +474,19 @@
             }
         });
 
-        // Show empty state if no slides are visible
         if (visibleCount === 0) {
             emptyState.style.display = 'block';
         } else {
             emptyState.style.display = 'none';
         }
     }
+
+    // Keyboard shortcut handler
+    window.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            document.getElementById('search-input').focus();
+        }
+    });
 </script>
 {% endblock %}
