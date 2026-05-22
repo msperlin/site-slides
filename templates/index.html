@@ -283,6 +283,110 @@
             height: 135px;
         }
     }
+    
+    /* Modernized Controls & Select Pickers */
+    .controls-wrapper {
+        max-width: 700px;
+        margin: 0 auto 40px auto;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        transition: var(--transition);
+    }
+    
+    .controls-wrapper:hover {
+        border-color: rgba(var(--accent-rgb), 0.25);
+        box-shadow: var(--shadow-hover);
+    }
+    
+    .controls-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+    
+    @media (min-width: 640px) {
+        .controls-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+    }
+    
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: var(--transition);
+    }
+    
+    .filter-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.75px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
+    }
+    
+    .filter-group:focus-within .filter-label {
+        color: var(--accent);
+    }
+    
+    .filter-select {
+        width: 100%;
+        background-color: var(--card-bg);
+        color: var(--text-main);
+        border: 1px solid var(--card-border);
+        padding: 14px 44px 14px 18px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        outline: none;
+        transition: var(--transition);
+        font-family: 'Inter', sans-serif;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233b82f6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 16px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    [data-theme="dark"] .filter-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2360a5fa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    }
+    
+    .filter-select:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.08);
+    }
+    
+    .filter-select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
+        background-color: var(--glass-bg);
+    }
+    
+    #chapter-filter-container {
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+    }
+    
+    .filter-disabled {
+        opacity: 0.4;
+        pointer-events: none;
+        filter: grayscale(80%);
+        transform: translateY(2px);
+    }
 </style>
 
 <header>
@@ -305,20 +409,41 @@
 </div>
 
 <!-- Controls Dropdown -->
-<div class="controls" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-    <select id="class-filter" onchange="filterByClass()">
-        <option value="all">Todas disciplinas</option>
-        {% for class_name in classes %}
-            <option value="{{ class_name }}">{{ class_name }}</option>
-        {% endfor %}
-    </select>
-    <div id="chapter-filter-wrapper" style="overflow: hidden; max-width: 0; opacity: 0; transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;">
-        <select id="chapter-filter" onchange="filterSlides()">
-            <option value="all">Todos capítulos</option>
-            {% for chapter_name in chapters %}
-                <option value="{{ chapter_name }}">{{ chapter_name }}</option>
-            {% endfor %}
-        </select>
+<div class="controls-wrapper">
+    <div class="controls-grid">
+        
+        <!-- Class Filter -->
+        <div class="filter-group">
+            <label for="class-filter" class="filter-label">
+                <svg style="width: 14px; height: 14px; color: var(--accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Filtrar por Disciplina
+            </label>
+            <select id="class-filter" onchange="filterByClass()" class="filter-select">
+                <option value="all">Todas disciplinas</option>
+                {% for class_name in classes %}
+                    <option value="{{ class_name }}">{{ class_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- Chapter Filter -->
+        <div id="chapter-filter-container" class="filter-group filter-disabled">
+            <label for="chapter-filter" class="filter-label">
+                <svg style="width: 14px; height: 14px; color: var(--accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                </svg>
+                Filtrar por Capítulo
+            </label>
+            <select id="chapter-filter" onchange="filterSlides()" class="filter-select">
+                <option value="all">Todos capítulos</option>
+                {% for chapter_name in chapters %}
+                    <option value="{{ chapter_name }}">{{ chapter_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
     </div>
 </div>
 
@@ -378,15 +503,13 @@
 <script>
     function filterByClass() {
         const classFilter = document.getElementById('class-filter').value;
-        const wrapper = document.getElementById('chapter-filter-wrapper');
+        const container = document.getElementById('chapter-filter-container');
 
         if (classFilter === 'all') {
-            wrapper.style.maxWidth = '0';
-            wrapper.style.opacity = '0';
+            container.classList.add('filter-disabled');
             document.getElementById('chapter-filter').value = 'all';
         } else {
-            wrapper.style.maxWidth = '320px';
-            wrapper.style.opacity = '1';
+            container.classList.remove('filter-disabled');
         }
 
         updateChapterOptions();
