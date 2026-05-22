@@ -316,6 +316,114 @@
             font-size: 0.9rem;
             font-weight: 500;
         }
+
+        /* PDF Download Button Premium Glassmorphism */
+        .pdf-download-btn {
+            position: relative;
+            z-index: 5;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(239, 68, 68, 0.08);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        [data-theme="dark"] .pdf-download-btn {
+            background: rgba(239, 68, 68, 0.18);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+
+        .pdf-download-btn:hover {
+            background: #ef4444;
+            color: #ffffff;
+            border-color: #ef4444;
+            transform: translateY(-1.5px) scale(1.03);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .pdf-download-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* HTML Link Button Premium Glassmorphism */
+        .html-link-btn {
+            position: relative;
+            z-index: 5;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        [data-theme="dark"] .html-link-btn {
+            background: rgba(59, 130, 246, 0.18);
+            color: #93c5fd;
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .html-link-btn:hover {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+            transform: translateY(-1.5px) scale(1.03);
+            box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);
+        }
+
+        .html-link-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Card Overlay Link Technique to avoid nested <a> tags */
+        .card-clickable-container {
+            position: relative;
+        }
+
+        .card-main-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            border-radius: var(--border-radius);
+        }
+
+        /* Focus outline indicator for accessibility */
+        .card-main-link:focus-visible {
+            outline: 3px solid rgba(var(--accent-rgb), 0.5);
+            outline-offset: 2px;
+        }
+
+        .pdf-download-btn:focus-visible {
+            outline: 3px solid rgba(239, 68, 68, 0.5);
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
@@ -710,556 +818,1165 @@
 <!-- Grid List of Slides -->
 <div class="grid" id="slides-grid">
     
-        <a href="slides/ADFER/01_apresentação-disciplina/ADFER_01_SLIDES_apresentacao-disciplina.html" class="slide-card" data-class="ADFER" data-chapter="01_apresentação-disciplina">
+        <div class="slide-card card-clickable-container" data-class="ADFER" data-chapter="01_apresentação-disciplina">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/ADFER/01_apresentação-disciplina/ADFER_01_SLIDES_apresentacao-disciplina.html" class="card-main-link" aria-label="Abrir slides de Análise de Dados Financeiros e Econômicos com o R"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">ADFER</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">01_apresentação-disciplina</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">ADFER</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">01_apresentação-disciplina</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/ADFER/01_apresentação-disciplina/ADFER_01_SLIDES_apresentacao-disciplina.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/ADFER/01_apresentação-disciplina/ADFER_01_SLIDES_apresentacao-disciplina.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Análise de Dados Financeiros e Econômicos com o R</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Análise de Dados Financeiros e Econômicos com o R</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>ADFER_01_SLIDES_apresentacao-disciplina.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/ADFER/01_apresentação-disciplina/ADFER_01_SLIDES_apresentacao-disciplina.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF00_introdução-a-disciplina.html" class="slide-card" data-class="AF" data-chapter="Cap 00- INTRODUÇÃO A DISCIPLINAS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 00- INTRODUÇÃO A DISCIPLINAS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF00_introdução-a-disciplina.html" class="card-main-link" aria-label="Abrir slides de Introdução a Disciplina (AF00: ADM 01129)"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 00- INTRODUÇÃO A DISCIPLINAS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 00- INTRODUÇÃO A DISCIPLINAS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF00_introdução-a-disciplina.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF00_introdução-a-disciplina.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Introdução a Disciplina (AF00: ADM 01129)</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Introdução a Disciplina (AF00: ADM 01129)</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap00a_SLIDES_AF00_introdução-a-disciplina.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF00_introdução-a-disciplina.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF01_introdução-a-disciplina.html" class="slide-card" data-class="AF" data-chapter="Cap 00- INTRODUÇÃO A DISCIPLINAS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 00- INTRODUÇÃO A DISCIPLINAS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF01_introdução-a-disciplina.html" class="card-main-link" aria-label="Abrir slides de Introdução a Disciplina (AF01: ADM 01139)"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 00- INTRODUÇÃO A DISCIPLINAS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 00- INTRODUÇÃO A DISCIPLINAS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF01_introdução-a-disciplina.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF01_introdução-a-disciplina.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Introdução a Disciplina (AF01: ADM 01139)</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Introdução a Disciplina (AF01: ADM 01139)</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap00a_SLIDES_AF01_introdução-a-disciplina.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 00- INTRODUÇÃO A DISCIPLINAS/slides/AF_Cap00a_SLIDES_AF01_introdução-a-disciplina.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01a_SLIDES_função-financeira-nas-empresas-e-problema-agencia.html" class="slide-card" data-class="AF" data-chapter="Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01a_SLIDES_função-financeira-nas-empresas-e-problema-agencia.html" class="card-main-link" aria-label="Abrir slides de Função Financeira nas Empresas e o Problema de Agência"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01a_SLIDES_função-financeira-nas-empresas-e-problema-agencia.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01a_SLIDES_função-financeira-nas-empresas-e-problema-agencia.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Função Financeira nas Empresas e o Problema de Agência</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Função Financeira nas Empresas e o Problema de Agência</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap01a_SLIDES_função-financeira-nas-empresas-e-problema-agencia.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01a_SLIDES_função-financeira-nas-empresas-e-problema-agencia.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01b_SLIDES_mercado-financeiro-e-a-empresa.html" class="slide-card" data-class="AF" data-chapter="Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01b_SLIDES_mercado-financeiro-e-a-empresa.html" class="card-main-link" aria-label="Abrir slides de Mercado Financeiro e a Empresa"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01b_SLIDES_mercado-financeiro-e-a-empresa.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01b_SLIDES_mercado-financeiro-e-a-empresa.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Mercado Financeiro e a Empresa</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Mercado Financeiro e a Empresa</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap01b_SLIDES_mercado-financeiro-e-a-empresa.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 01 - INTRODUÇÃO A FINANÇAS CORPORATIVAS/AF_Cap01b_SLIDES_mercado-financeiro-e-a-empresa.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA/AF_Cap02a_SLIDES_demonstrações-impostos-fluxo-de-caixa.html" class="slide-card" data-class="AF" data-chapter="Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA/AF_Cap02a_SLIDES_demonstrações-impostos-fluxo-de-caixa.html" class="card-main-link" aria-label="Abrir slides de Demonstrações Contábeis, Impostos e Fluxo de Caixa"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA/AF_Cap02a_SLIDES_demonstrações-impostos-fluxo-de-caixa.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA/AF_Cap02a_SLIDES_demonstrações-impostos-fluxo-de-caixa.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Demonstrações Contábeis, Impostos e Fluxo de Caixa</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Demonstrações Contábeis, Impostos e Fluxo de Caixa</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap02a_SLIDES_demonstrações-impostos-fluxo-de-caixa.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 02 - DEMONSTRAÇÕES CONTÁBEIS, IMPOSTOS E FLUXO DE CAIXA/AF_Cap02a_SLIDES_demonstrações-impostos-fluxo-de-caixa.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03a_SLIDES_análise-demonstrativos-financeiros.html" class="slide-card" data-class="AF" data-chapter="Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03a_SLIDES_análise-demonstrativos-financeiros.html" class="card-main-link" aria-label="Abrir slides de Análise de Demonstrativos e Indicadores"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03a_SLIDES_análise-demonstrativos-financeiros.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03a_SLIDES_análise-demonstrativos-financeiros.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Análise de Demonstrativos e Indicadores</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Análise de Demonstrativos e Indicadores</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap03a_SLIDES_análise-demonstrativos-financeiros.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03a_SLIDES_análise-demonstrativos-financeiros.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03b_SLIDES_dupont.html" class="slide-card" data-class="AF" data-chapter="Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03b_SLIDES_dupont.html" class="card-main-link" aria-label="Abrir slides de Análise Dupont"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03b_SLIDES_dupont.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03b_SLIDES_dupont.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Análise Dupont</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Análise Dupont</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap03b_SLIDES_dupont.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 03 - TRABALHANDO COM DEMONSTRAÇÕES CONTÁBEIS/AF_Cap03b_SLIDES_dupont.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO/AF_Cap04a_SLIDES_planejamento-financeiro-de-longo-prazo-e-crescimento.html" class="slide-card" data-class="AF" data-chapter="Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO/AF_Cap04a_SLIDES_planejamento-financeiro-de-longo-prazo-e-crescimento.html" class="card-main-link" aria-label="Abrir slides de Planejamento Financeiro de Longo Prazo e Crescimento"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO/AF_Cap04a_SLIDES_planejamento-financeiro-de-longo-prazo-e-crescimento.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO/AF_Cap04a_SLIDES_planejamento-financeiro-de-longo-prazo-e-crescimento.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Planejamento Financeiro de Longo Prazo e Crescimento</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Planejamento Financeiro de Longo Prazo e Crescimento</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap04a_SLIDES_planejamento-financeiro-de-longo-prazo-e-crescimento.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 04 - PLANEJAMENTO FINANCEIRO DE LONGO PRAZO/AF_Cap04a_SLIDES_planejamento-financeiro-de-longo-prazo-e-crescimento.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 05 - INTRODUÇÃO A VALORAÇÃO/AF_Cap05a_SLIDES_introdução-a-valoração.html" class="slide-card" data-class="AF" data-chapter="Cap 05 - INTRODUÇÃO A VALORAÇÃO">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 05 - INTRODUÇÃO A VALORAÇÃO">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 05 - INTRODUÇÃO A VALORAÇÃO/AF_Cap05a_SLIDES_introdução-a-valoração.html" class="card-main-link" aria-label="Abrir slides de Introdução à Valoração: O Valor do Dinheiro no Tempo"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 05 - INTRODUÇÃO A VALORAÇÃO</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 05 - INTRODUÇÃO A VALORAÇÃO</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 05 - INTRODUÇÃO A VALORAÇÃO/AF_Cap05a_SLIDES_introdução-a-valoração.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 05 - INTRODUÇÃO A VALORAÇÃO/AF_Cap05a_SLIDES_introdução-a-valoração.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Introdução à Valoração: O Valor do Dinheiro no Tempo</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Introdução à Valoração: O Valor do Dinheiro no Tempo</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap05a_SLIDES_introdução-a-valoração.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 05 - INTRODUÇÃO A VALORAÇÃO/AF_Cap05a_SLIDES_introdução-a-valoração.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS/AF_Cap06a_SLIDES_avaliação-por-fluxos-de-caixa-descontados.html" class="slide-card" data-class="AF" data-chapter="Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS/AF_Cap06a_SLIDES_avaliação-por-fluxos-de-caixa-descontados.html" class="card-main-link" aria-label="Abrir slides de Avaliação por Fluxos de Caixa Descontados"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS/AF_Cap06a_SLIDES_avaliação-por-fluxos-de-caixa-descontados.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS/AF_Cap06a_SLIDES_avaliação-por-fluxos-de-caixa-descontados.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Avaliação por Fluxos de Caixa Descontados</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Avaliação por Fluxos de Caixa Descontados</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap06a_SLIDES_avaliação-por-fluxos-de-caixa-descontados.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 06 - AVALIAÇÃO POR FLUXOS DE CAIXA DESCONTADOS/AF_Cap06a_SLIDES_avaliação-por-fluxos-de-caixa-descontados.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07a_SLIDES_introdução-a-títulos-de-dívida.html" class="slide-card" data-class="AF" data-chapter="Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07a_SLIDES_introdução-a-títulos-de-dívida.html" class="card-main-link" aria-label="Abrir slides de Introdução a Títulos de Dívida"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07a_SLIDES_introdução-a-títulos-de-dívida.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07a_SLIDES_introdução-a-títulos-de-dívida.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Introdução a Títulos de Dívida</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Introdução a Títulos de Dívida</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap07a_SLIDES_introdução-a-títulos-de-dívida.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07a_SLIDES_introdução-a-títulos-de-dívida.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07b_SLIDES_precificação-de-títulos-de-dívida.html" class="slide-card" data-class="AF" data-chapter="Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07b_SLIDES_precificação-de-títulos-de-dívida.html" class="card-main-link" aria-label="Abrir slides de Precificação de Títulos de Dívida"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07b_SLIDES_precificação-de-títulos-de-dívida.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07b_SLIDES_precificação-de-títulos-de-dívida.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Precificação de Títulos de Dívida</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Precificação de Títulos de Dívida</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap07b_SLIDES_precificação-de-títulos-de-dívida.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 07 - TAXAS DE JUROS E AVALIAÇÃO DE TÍTULOS DE DÍVIDA/AF_Cap07b_SLIDES_precificação-de-títulos-de-dívida.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08a_SLIDES_introdução-a-renda-variável.html" class="slide-card" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08a_SLIDES_introdução-a-renda-variável.html" class="card-main-link" aria-label="Abrir slides de Introdução a Renda Variável (Ações)"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08a_SLIDES_introdução-a-renda-variável.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08a_SLIDES_introdução-a-renda-variável.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Introdução a Renda Variável (Ações)</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Introdução a Renda Variável (Ações)</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap08a_SLIDES_introdução-a-renda-variável.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08a_SLIDES_introdução-a-renda-variável.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08b_SLIDES_fundos-imobiliarios.html" class="slide-card" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08b_SLIDES_fundos-imobiliarios.html" class="card-main-link" aria-label="Abrir slides de Introdução a Fundos Imobiliários (FIIs)"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08b_SLIDES_fundos-imobiliarios.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08b_SLIDES_fundos-imobiliarios.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Introdução a Fundos Imobiliários (FIIs)</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Introdução a Fundos Imobiliários (FIIs)</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap08b_SLIDES_fundos-imobiliarios.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 09, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08b_SLIDES_fundos-imobiliarios.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08c_SLIDES_precificação-de-ações.html" class="slide-card" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08c_SLIDES_precificação-de-ações.html" class="card-main-link" aria-label="Abrir slides de Precificação de Contratos de Renda Variável"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08c_SLIDES_precificação-de-ações.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08c_SLIDES_precificação-de-ações.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Precificação de Contratos de Renda Variável</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Precificação de Contratos de Renda Variável</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap08c_SLIDES_precificação-de-ações.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08c_SLIDES_precificação-de-ações.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08d_SLIDES_independência-financeira.html" class="slide-card" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 08 - AVALIAÇÃO DE AÇÕES">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08d_SLIDES_independência-financeira.html" class="card-main-link" aria-label="Abrir slides de Independência Financeira"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 08 - AVALIAÇÃO DE AÇÕES</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08d_SLIDES_independência-financeira.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08d_SLIDES_independência-financeira.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Independência Financeira</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Independência Financeira</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap08d_SLIDES_independência-financeira.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 08 - AVALIAÇÃO DE AÇÕES/AF_Cap08d_SLIDES_independência-financeira.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO/AF_Cap09a_SLIDES_VPL-e-outros-critérios-de-investimento.html" class="slide-card" data-class="AF" data-chapter="Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO/AF_Cap09a_SLIDES_VPL-e-outros-critérios-de-investimento.html" class="card-main-link" aria-label="Abrir slides de VPL e outros critérios de investimento"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO/AF_Cap09a_SLIDES_VPL-e-outros-critérios-de-investimento.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO/AF_Cap09a_SLIDES_VPL-e-outros-critérios-de-investimento.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">VPL e outros critérios de investimento</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">VPL e outros critérios de investimento</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap09a_SLIDES_VPL-e-outros-critérios-de-investimento.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 14, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 09 - VALOR PRESENTE LÍQUIDO E OUTROS CRITÉRIOS DE INVESTIMENTO/AF_Cap09a_SLIDES_VPL-e-outros-critérios-de-investimento.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html" class="slide-card" data-class="AF" data-chapter="Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html" class="card-main-link" aria-label="Abrir slides de Tomando Decisões de Investimento de Capital"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Tomando Decisões de Investimento de Capital</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Tomando Decisões de Investimento de Capital</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 19, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12a_SLIDES_algumas-lições-da-história-do-mercado-de-capitais.html" class="slide-card" data-class="AF" data-chapter="Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12a_SLIDES_algumas-lições-da-história-do-mercado-de-capitais.html" class="card-main-link" aria-label="Abrir slides de Algumas Lições da História do Mercado de Capitais"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12a_SLIDES_algumas-lições-da-história-do-mercado-de-capitais.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12a_SLIDES_algumas-lições-da-história-do-mercado-de-capitais.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Algumas Lições da História do Mercado de Capitais</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Algumas Lições da História do Mercado de Capitais</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap12a_SLIDES_algumas-lições-da-história-do-mercado-de-capitais.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12a_SLIDES_algumas-lições-da-história-do-mercado-de-capitais.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12b_SLIDES_eficiência-de-mercado.html" class="slide-card" data-class="AF" data-chapter="Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12b_SLIDES_eficiência-de-mercado.html" class="card-main-link" aria-label="Abrir slides de Eficiência de Mercado"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12b_SLIDES_eficiência-de-mercado.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12b_SLIDES_eficiência-de-mercado.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Eficiência de Mercado</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Eficiência de Mercado</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap12b_SLIDES_eficiência-de-mercado.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 30, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 12 - ALGUMAS LIÇÕES DA HISTÓRIA DO MERCADO DE CAPITAIS/AF_Cap12b_SLIDES_eficiência-de-mercado.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS/AF_Cap13a_SLIDES_retorno-risco-e-linha-do-mercado-de-títulos.html" class="slide-card" data-class="AF" data-chapter="Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS/AF_Cap13a_SLIDES_retorno-risco-e-linha-do-mercado-de-títulos.html" class="card-main-link" aria-label="Abrir slides de Retorno, Risco e Linha do Mercado de Títulos"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS/AF_Cap13a_SLIDES_retorno-risco-e-linha-do-mercado-de-títulos.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS/AF_Cap13a_SLIDES_retorno-risco-e-linha-do-mercado-de-títulos.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Retorno, Risco e Linha do Mercado de Títulos</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Retorno, Risco e Linha do Mercado de Títulos</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap13a_SLIDES_retorno-risco-e-linha-do-mercado-de-títulos.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 13 - RETORNO, RISCO E LINHA DO MERCADO DE TÍTULOS/AF_Cap13a_SLIDES_retorno-risco-e-linha-do-mercado-de-títulos.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 14 - CUSTO DE CAPITAL/AF_Cap14a_SLIDES_custo-de-capital.html" class="slide-card" data-class="AF" data-chapter="Cap 14 - CUSTO DE CAPITAL">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 14 - CUSTO DE CAPITAL">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 14 - CUSTO DE CAPITAL/AF_Cap14a_SLIDES_custo-de-capital.html" class="card-main-link" aria-label="Abrir slides de Custo de Capital"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 14 - CUSTO DE CAPITAL</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 14 - CUSTO DE CAPITAL</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 14 - CUSTO DE CAPITAL/AF_Cap14a_SLIDES_custo-de-capital.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 14 - CUSTO DE CAPITAL/AF_Cap14a_SLIDES_custo-de-capital.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Custo de Capital</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Custo de Capital</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap14a_SLIDES_custo-de-capital.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 30, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 14 - CUSTO DE CAPITAL/AF_Cap14a_SLIDES_custo-de-capital.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 15 - CAPTAÇÃO DE RECURSOS/AF_Cap15_SLIDES_captação-de-recursos.html" class="slide-card" data-class="AF" data-chapter="Cap 15 - CAPTAÇÃO DE RECURSOS">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 15 - CAPTAÇÃO DE RECURSOS">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 15 - CAPTAÇÃO DE RECURSOS/AF_Cap15_SLIDES_captação-de-recursos.html" class="card-main-link" aria-label="Abrir slides de Captação de Recursos"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 15 - CAPTAÇÃO DE RECURSOS</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 15 - CAPTAÇÃO DE RECURSOS</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 15 - CAPTAÇÃO DE RECURSOS/AF_Cap15_SLIDES_captação-de-recursos.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 15 - CAPTAÇÃO DE RECURSOS/AF_Cap15_SLIDES_captação-de-recursos.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Captação de Recursos</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Captação de Recursos</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap15_SLIDES_captação-de-recursos.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: April 13, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 15 - CAPTAÇÃO DE RECURSOS/AF_Cap15_SLIDES_captação-de-recursos.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16a_SLIDES_estrutura-de-capital_parte01.html" class="slide-card" data-class="AF" data-chapter="Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16a_SLIDES_estrutura-de-capital_parte01.html" class="card-main-link" aria-label="Abrir slides de Alavancagem Financeira e e Política de Estrutura de Capital (parte 01)"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16a_SLIDES_estrutura-de-capital_parte01.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16a_SLIDES_estrutura-de-capital_parte01.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Alavancagem Financeira e e Política de Estrutura de Capital (parte 01)</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Alavancagem Financeira e e Política de Estrutura de Capital (parte 01)</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap16a_SLIDES_estrutura-de-capital_parte01.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 09, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16a_SLIDES_estrutura-de-capital_parte01.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16b_SLIDES_estrutura-de-capital_parte02.html" class="slide-card" data-class="AF" data-chapter="Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16b_SLIDES_estrutura-de-capital_parte02.html" class="card-main-link" aria-label="Abrir slides de Alavancagem Financeira e e Política de Estrutura de Capital (parte 02)"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16b_SLIDES_estrutura-de-capital_parte02.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16b_SLIDES_estrutura-de-capital_parte02.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Alavancagem Financeira e e Política de Estrutura de Capital (parte 02)</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Alavancagem Financeira e e Política de Estrutura de Capital (parte 02)</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap16b_SLIDES_estrutura-de-capital_parte02.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 09, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 16 - ALAVANCAGEM FINANCEIRA E POLÍTICA DE ESTRUTURA DE CAPITAL/AF_Cap16b_SLIDES_estrutura-de-capital_parte02.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.html" class="slide-card" data-class="AF" data-chapter="Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.html" class="card-main-link" aria-label="Abrir slides de Política de Dividendos"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Política de Dividendos</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Política de Dividendos</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap17_SLIDES_política-de-dividendos.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 14, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html" class="slide-card" data-class="AF" data-chapter="Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html" class="card-main-link" aria-label="Abrir slides de Planejamento e Políticas Financeiras de Curto Prazo"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Planejamento e Políticas Financeiras de Curto Prazo</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Planejamento e Políticas Financeiras de Curto Prazo</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 19, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
-        <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.html" class="slide-card" data-class="AF" data-chapter="Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ">
+        <div class="slide-card card-clickable-container" data-class="AF" data-chapter="Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ">
+            <!-- Absolute Main Link Overlay -->
+            <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.html" class="card-main-link" aria-label="Abrir slides de Gestão do Caixa e da Liquidez"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">AF</span>
-                    
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ</span>
-                    
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">AF</span>
+                        
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ</span>
+                        
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.html" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.pdf" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-                <h3 class="slide-title">Gestão do Caixa e da Liquidez</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">Gestão do Caixa e da Liquidez</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>AF_Cap19_SLIDES_gestao-de-caixa.html</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: May 22, 2026</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.png" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     
     <div class="empty-state" id="empty-state">
         Nenhum slide encontrado correspondente aos critérios de busca.
@@ -1272,49 +1989,137 @@
     <div class="carousel-title">Slides Atualizados Recentemente</div>
     <div class="carousel-track">
         
-            <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.html" class="carousel-card" data-class="AF">
+            <div class="carousel-card card-clickable-container" data-class="AF">
+                <!-- Absolute Main Link Overlay -->
+                <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.html" class="card-main-link" aria-label="Abrir slides de Gestão do Caixa e da Liquidez"></a>
+                
                 <div class="carousel-card-badge" data-class="AF">AF</div>
-                <div class="carousel-card-title">Gestão do Caixa e da Liquidez</div>
-                <div class="carousel-card-date">
-                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    May 22, 2026
+                <div class="carousel-card-title" style="position: relative; z-index: 2;">Gestão do Caixa e da Liquidez</div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; width: 100%; gap: 6px; position: relative; z-index: 2;">
+                    <div class="carousel-card-date" style="margin-top: 0; display: flex; align-items: center; gap: 3px; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                        <svg style="width: 12px; height: 12px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span style="overflow: hidden; text-overflow: ellipsis;">May 22</span>
+                    </div>
+                    <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
+                        <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.html" target="_blank" class="html-link-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir Slides">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 19 - GESTÃO DO CAIXA E DA LIQUIDEZ/AF_Cap19_SLIDES_gestao-de-caixa.pdf" download class="pdf-download-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Baixar PDF">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-            </a>
+            </div>
         
-            <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html" class="carousel-card" data-class="AF">
+            <div class="carousel-card card-clickable-container" data-class="AF">
+                <!-- Absolute Main Link Overlay -->
+                <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html" class="card-main-link" aria-label="Abrir slides de Planejamento e Políticas Financeiras de Curto Prazo"></a>
+                
                 <div class="carousel-card-badge" data-class="AF">AF</div>
-                <div class="carousel-card-title">Planejamento e Políticas Financeiras de Curto Prazo</div>
-                <div class="carousel-card-date">
-                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    May 19, 2026
+                <div class="carousel-card-title" style="position: relative; z-index: 2;">Planejamento e Políticas Financeiras de Curto Prazo</div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; width: 100%; gap: 6px; position: relative; z-index: 2;">
+                    <div class="carousel-card-date" style="margin-top: 0; display: flex; align-items: center; gap: 3px; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                        <svg style="width: 12px; height: 12px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span style="overflow: hidden; text-overflow: ellipsis;">May 19</span>
+                    </div>
+                    <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
+                        <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.html" target="_blank" class="html-link-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir Slides">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 18 - PLANEJAMENTO E FINANÇAS DE CURTO PRAZO/AF_Cap18_SLIDES_planejamento-políticas-financeiras-de-curto-prazo.pdf" download class="pdf-download-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Baixar PDF">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-            </a>
+            </div>
         
-            <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html" class="carousel-card" data-class="AF">
+            <div class="carousel-card card-clickable-container" data-class="AF">
+                <!-- Absolute Main Link Overlay -->
+                <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html" class="card-main-link" aria-label="Abrir slides de Tomando Decisões de Investimento de Capital"></a>
+                
                 <div class="carousel-card-badge" data-class="AF">AF</div>
-                <div class="carousel-card-title">Tomando Decisões de Investimento de Capital</div>
-                <div class="carousel-card-date">
-                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    May 19, 2026
+                <div class="carousel-card-title" style="position: relative; z-index: 2;">Tomando Decisões de Investimento de Capital</div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; width: 100%; gap: 6px; position: relative; z-index: 2;">
+                    <div class="carousel-card-date" style="margin-top: 0; display: flex; align-items: center; gap: 3px; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                        <svg style="width: 12px; height: 12px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span style="overflow: hidden; text-overflow: ellipsis;">May 19</span>
+                    </div>
+                    <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
+                        <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.html" target="_blank" class="html-link-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir Slides">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 10-11 - TOMANDO DECISÕES DE INVESTIMENTO DE CAPITAL/AF_Cap10a_SLIDES_tomando-decisões-de-investimento-de-capital.pdf" download class="pdf-download-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Baixar PDF">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-            </a>
+            </div>
         
-            <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.html" class="carousel-card" data-class="AF">
+            <div class="carousel-card card-clickable-container" data-class="AF">
+                <!-- Absolute Main Link Overlay -->
+                <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.html" class="card-main-link" aria-label="Abrir slides de Política de Dividendos"></a>
+                
                 <div class="carousel-card-badge" data-class="AF">AF</div>
-                <div class="carousel-card-title">Política de Dividendos</div>
-                <div class="carousel-card-date">
-                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    May 14, 2026
+                <div class="carousel-card-title" style="position: relative; z-index: 2;">Política de Dividendos</div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; width: 100%; gap: 6px; position: relative; z-index: 2;">
+                    <div class="carousel-card-date" style="margin-top: 0; display: flex; align-items: center; gap: 3px; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                        <svg style="width: 12px; height: 12px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span style="overflow: hidden; text-overflow: ellipsis;">May 14</span>
+                    </div>
+                    <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
+                        <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.html" target="_blank" class="html-link-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir Slides">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        
+                        <a href="slides/AF/Cap 17 - DIVIDENDOS E A POLÍTICA DE DISTRIBUIÇÃO/AF_Cap17_SLIDES_política-de-dividendos.pdf" download class="pdf-download-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Baixar PDF">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>PDF</span>
+                        </a>
+                        
+                    </div>
                 </div>
-            </a>
+            </div>
         
     </div>
 </div>

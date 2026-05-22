@@ -340,24 +340,45 @@
 <!-- Grid List of Slides -->
 <div class="grid" id="slides-grid">
     {% for slide in slides %}
-        <a href="{{ slide.url }}" class="slide-card" data-class="{{ slide.class_name }}" data-chapter="{{ slide.chapter_name }}">
+        <div class="slide-card card-clickable-container" data-class="{{ slide.class_name }}" data-chapter="{{ slide.chapter_name }}">
+            <!-- Absolute Main Link Overlay -->
+            <a href="{{ slide.url }}" class="card-main-link" aria-label="Abrir slides de {{ slide.title }}"></a>
+            
             <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-                    <span class="class-badge" style="margin-bottom: 0;">{{ slide.class_name }}</span>
-                    {% if slide.chapter_name != 'General' %}
-                    <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">{{ slide.chapter_name }}</span>
-                    {% endif %}
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="class-badge" style="margin-bottom: 0;">{{ slide.class_name }}</span>
+                        {% if slide.chapter_name != 'General' %}
+                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">{{ slide.chapter_name }}</span>
+                        {% endif %}
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <a href="{{ slide.url }}" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        {% if slide.pdf_url %}
+                        <a href="{{ slide.pdf_url }}" download class="pdf-download-btn" aria-label="Baixar PDF">
+                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>PDF</span>
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
-                <h3 class="slide-title">{{ slide.title }}</h3>
-                <div class="slide-filename">
+                <h3 class="slide-title" style="position: relative; z-index: 2;">{{ slide.title }}</h3>
+                <div class="slide-filename" style="position: relative; z-index: 2;">
                     <span>{{ slide.filename }}</span>
                     <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: {{ slide.date }}</span>
                 </div>
             </div>
-            <div class="slide-thumbnail">
+            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
                 <img src="{{ slide.thumbnail_url }}" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
             </div>
-        </a>
+        </div>
     {% endfor %}
     <div class="empty-state" id="empty-state">
         Nenhum slide encontrado correspondente aos critérios de busca.
@@ -370,16 +391,38 @@
     <div class="carousel-title">Slides Atualizados Recentemente</div>
     <div class="carousel-track">
         {% for slide in recent_slides %}
-            <a href="{{ slide.url }}" class="carousel-card" data-class="{{ slide.class_name }}">
+            <div class="carousel-card card-clickable-container" data-class="{{ slide.class_name }}">
+                <!-- Absolute Main Link Overlay -->
+                <a href="{{ slide.url }}" class="card-main-link" aria-label="Abrir slides de {{ slide.title }}"></a>
+                
                 <div class="carousel-card-badge" data-class="{{ slide.class_name }}">{{ slide.class_name }}</div>
-                <div class="carousel-card-title">{{ slide.title }}</div>
-                <div class="carousel-card-date">
-                    <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {{ slide.date }}
+                <div class="carousel-card-title" style="position: relative; z-index: 2;">{{ slide.title }}</div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; width: 100%; gap: 6px; position: relative; z-index: 2;">
+                    <div class="carousel-card-date" style="margin-top: 0; display: flex; align-items: center; gap: 3px; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                        <svg style="width: 12px; height: 12px; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span style="overflow: hidden; text-overflow: ellipsis;">{{ slide.date.split(',')[0] }}</span>
+                    </div>
+                    <div style="display: flex; gap: 4px; align-items: center; flex-shrink: 0;">
+                        <a href="{{ slide.url }}" target="_blank" class="html-link-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Abrir Slides">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            <span>HTML</span>
+                        </a>
+                        {% if slide.pdf_url %}
+                        <a href="{{ slide.pdf_url }}" download class="pdf-download-btn" style="padding: 3px 6px; font-size: 0.65rem;" aria-label="Baixar PDF">
+                            <svg style="width: 11px; height: 11px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>PDF</span>
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
-            </a>
+            </div>
         {% endfor %}
     </div>
 </div>

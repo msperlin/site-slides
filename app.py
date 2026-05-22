@@ -72,6 +72,12 @@ def index():
             if not title:
                 title = prettify_title(path.name)
             
+            # Try to get PDF path
+            pdf_path = path.with_suffix(".pdf")
+            pdf_url = None
+            if pdf_path.exists():
+                pdf_url = f"slides/{'/'.join(pdf_path.relative_to(base_dir).parts)}"
+            
             # Get modification date
             mtime = os.path.getmtime(path)
             from datetime import datetime
@@ -83,6 +89,7 @@ def index():
                 "chapter_name": chapter_name,
                 "title": title,
                 "url": url,
+                "pdf_url": pdf_url,
                 "thumbnail_url": thumbnail_url,
                 "filename": path.name,
                 "date": formatted_date,
