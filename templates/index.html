@@ -138,14 +138,14 @@
     /* Metrics grid */
     .metrics-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 15px;
         margin-bottom: 45px;
     }
     
     @media (min-width: 768px) {
         .metrics-grid {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
     }
@@ -292,10 +292,6 @@
 
 <!-- Metrics Dashboard Grid -->
 <div class="metrics-grid">
-    <div class="metric-card">
-        <div class="metric-value">{% if slides %}{{ slides[0].class_name }}{% else %}-{% endif %}</div>
-        <div class="metric-label">Principal</div>
-    </div>
     <div class="metric-card">
         <div class="metric-value">{{ classes|length }}</div>
         <div class="metric-label">Disciplinas</div>
