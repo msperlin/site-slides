@@ -85,17 +85,21 @@ def index():
                 "url": url,
                 "thumbnail_url": thumbnail_url,
                 "filename": path.name,
-                "date": formatted_date
+                "date": formatted_date,
+                "mtime": mtime
             })
             
     # Sort classes and chapters alphabetically
     classes = sorted(list(classes_set))
     chapters = sorted(list(chapters_set))
     
+    # Extract the 4 most recently updated slides
+    recent_slides = sorted(slides_data, key=lambda x: x['mtime'], reverse=True)[:4]
+    
     # Sort slides by class, chapter, then by filename
     slides_data = sorted(slides_data, key=lambda x: (x['class_name'], x['chapter_name'], x['filename']))
 
-    return render_template('index.html', classes=classes, chapters=chapters, slides=slides_data)
+    return render_template('index.html', classes=classes, chapters=chapters, slides=slides_data, recent_slides=recent_slides)
 
 if __name__ == '__main__':
     app.run(debug=True)
