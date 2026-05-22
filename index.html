@@ -861,9 +861,9 @@
             <select id="class-filter" onchange="filterByClass()" class="filter-select">
                 <option value="all">Todas disciplinas</option>
                 
-                    <option value="ADFER">ADFER</option>
+                    <option value="ADFER" >ADFER</option>
                 
-                    <option value="AF">AF</option>
+                    <option value="AF" selected>AF</option>
                 
             </select>
         </div>
@@ -2173,6 +2173,11 @@
             emptyState.style.display = 'none';
         }
     }
+
+    // Trigger initial filter on page load to apply default selection
+    document.addEventListener('DOMContentLoaded', () => {
+        filterByClass();
+    });
 </script>
 
     </div>
