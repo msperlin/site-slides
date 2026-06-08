@@ -60,7 +60,7 @@ link_sheets <- "https://docs.google.com/spreadsheets/d/1bm96H1c11BYZChhmI9mfIpQI
 :::{.incremental}
 
 - Datas  de pagamentos e o quanto pagar é decidida pelo **conselho de administração**, porém temos leis específicas sobre o assunto:
-  - Caso do estatuto da empresa não ter cláusula relativa a este pagamento, o dividendo mínimo vai de 25% (empresa com ações preferenciais e ordinárias) a 50% (empresa com apenas ações ordinárias)
+  - Se o estatuto de uma Sociedade Anônima (S.A.) for omisso, o dividendo mínimo obrigatório é de 50% do lucro líquido ajustado
 - Tributação 
   - Dividendo é livre de imposto para investidor, mas não para a empresa
   - JSCP tem imposto (15%) para investidor, mas dá benefício fiscal para a empresa
