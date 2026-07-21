@@ -1,19 +1,20 @@
 ---
 title: "Investimentos e Independência"
+subtitle: ""
 author: "Marcelo S. Perlin"
 date: last-modified
 date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
-  revealjs: 
-    theme: "content/theme-msperlin.scss"
+  revealjs:
+    theme: "quarto-slides-extras/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
-  cache: false
-bibliography: "content/bibfile.bib"
-logo: "content/ufrgs3.jpg"
+  cache: true
+bibliography: "quarto-slides-extras/bibfile.bib"
+logo: "quarto-slides-extras/ufrgs3.jpg"
 toc: true
 toc-depth: 1
 toc-title: "Sumário"
@@ -21,34 +22,44 @@ toc-title: "Sumário"
 
 ```{r}
 #| echo: false
-classtools::setup_quarto_slides('content')
+classtools::setup_quarto_slides()
 ```
 
 # Introdução
 
 ## 
 
-<br>
+<br> 
 
 **Imagine uma vida onde:**
 
 ::: {.incremental}
 - você define a sua agenda e as suas atividades;
+
 - você trabalha com o que gosta, independente da renda;
+
 - liberdade para dizer não, quando quiser;
+
 - tem uma verba mensal para gastar com excentricidades e experiências;
+
 - sem preocupação com a sua aposentadoria;
+
 :::
+
 
 ## A independência
 
-> *I did not intend to get rich. I just wanted to get independent.* Charlie Munger (1924 - 2023)
+> _I did not intend to get rich. I just wanted to get independent._ Charlie Munger (1924 - 2023)
 
 ::: {.incremental}
 - A independência pessoal deveria ser um propósito de vida, e a única maneira de atingir é via renda passiva
+
 - A renda passiva acontece quando se tem negócios que geram fluxo de caixa, sem esforço adicional ou com mínimo esforço
+
 - Ser sócio de empresas é a forma mais fácil de ter renda aproximadamente passiva
+
 - Fácil na teoria, difícil na prática
+
 - Um problema mais comportamental do que técnico
 :::
 
@@ -57,37 +68,45 @@ classtools::setup_quarto_slides('content')
 
 ## Ronald James Read (1921 - 2014) {background-image="figs/Ronald_Read_philanthropist.jpg" background-opacity=1}
 
-## História {background-image="figs/Ronald_Read_philanthropist.jpg" background-opacity=0.2}
-
-Ronald James Read (1921-2014) foi um **frentista**, **zelador**, e **filantropo** americano.
+## História  {background-image="figs/Ronald_Read_philanthropist.jpg" background-opacity=0.25}
 
 ::: {.incremental}
-- Após voltar da Segunda Guerra Mundial, trabalhou como frentista e mecânico por cerca de 25 anos.
-- A vida de Read era marcada pela **frugalidade**: roupas gastas e carros de segunda mão.
-- Read investia consistentemente em empresas de primeira linha (blue-chips) que pagavam dividendos, como Procter & Gamble, JPMorgan Chase, General Electric e Johnson & Johnson.
-- Após sua morte, em 2014, aos 92 anos, de um total de 8M USD, ele doou 6M USD do seu patrimônio.
+- Ronald James Read (1921-2014) foi um **frentista**, **zelador**, e **filantropo** americano
+
+- Após voltar da Segunda Guerra Mundial, trabalhou como frentista e mecânico por cerca de 25 anos. 
+
+- A vida de Read era marcada pela **frugalidade**:  roupas gastas e carros de segunda mão. 
+
+- Read investia consistentemente em empresas de primeira linha (blue-chips) que pagavam dividendos, como Procter & Gamble, JPMorgan Chase, General Electric e Johnson & Johnson. 
+
+- Após sua morte, em 2014, aos 92 anos, de um total de 8M USD, ele doou 6M USD do seu patrimônio
 :::
 
-## Luiz Barsi Filho {background-image="figs/cropped-luiz-barsi.jpg" background-opacity=1}
+## Luiz Barsi Filho  {background-image="figs/cropped-luiz-barsi.jpg" background-opacity=1}
 
-## História {background-image="figs/cropped-luiz-barsi.jpg" background-opacity=0.2}
+## História {background-image="figs/cropped-luiz-barsi.jpg" background-opacity=0.25}
 
 ::: {.incremental}
-- Filho de imigrantes espanhóis, Barsi teve uma origem modesta no bairro do Brás, em São Paulo.
-- Após a morte prematura de seu pai, começou a trabalhar desde cedo como engraxate e vendedor de balas.
-- Trabalhou em uma corretora de valores e também atuou como jornalista econômico no “Diário Popular”.
-- Atualmente, Luiz Barsi possui um patrimonio estimado em 6 bi (BRL), e continua a ser um investidor ativo e um grande defensor da educação financeira no Brasil.
+- Filho de imigrantes espanhóis, Barsi teve uma origem modesta no bairro do Brás, em São Paulo. 
+
+- Após a morte prematura de seu pai, começou a trabalhar desde cedo como engraxate e vendedor de balas
+
+- Trabalhou em uma corretora de valores e também atuou como jornalista econômico no "Diário Popular.
+
+- Atualmente, Luiz Barsi possui um patrimonio estimado em 6 bi (BRL), e continua a ser um investidor ativo e um grande defensor da educação financeira no Brasil. 
 :::
 
 ## Por que não temos tantos outros Luis Barsi?
 
 ::: {.incremental}
-- Poucos conseguem investir por tanto tempo
-  - exige um esforço enorme em contenção de consumo, principalmente nos primeiros anos de acumulação
-- O paradoxo de investir no longo prazo é que deves almejar mais renda futura, mas sem almejar mais gastos
-- Geralmente, quem quer maior renda atual, almeja maior consumo...
-:::
 
+- poucos conseguem investir por tanto tempo
+  - exige um esforço enorme em contenção de consumo, principalmente nos primeiros anos de acumulação
+
+- o paradoxo de investir no longo prazo é que deves almejar mais renda futura, mas sem almejar mais gastos
+
+- geralmente, quem quer maior renda atual, almeja maior consumo..
+:::
 
 # A Matemática da independência
 
@@ -95,7 +114,7 @@ Ronald James Read (1921-2014) foi um **frentista**, **zelador**, e **filantropo*
 
 > Uma pessoa normal tem uma renda total composta por renda ativa e renda passiva, e gastos periódicos para viver
 
-Matematicamente, podemos representar o problema como:
+Matematicamento, podemos representar o problema como:
 
 $$
 RendaTotal _{t} = RendaAtiva _{t} + RendaPassiva _{t}
@@ -104,7 +123,6 @@ $$
 $$
 RendaPassiva = Juros _{t}*TotalInvestido_{t}
 $$
-
 <br> <br>
 
 $$
@@ -114,6 +132,7 @@ $$
 $$
 TotalInvestido_{t} = TotalInvestido_{t-1} + AporteMensal _{t}
 $$
+
 
 ## A independência
 
@@ -135,98 +154,278 @@ $$
 
 Isto é, uma pessoa com independência financeira **não precisa mais trabalhar** para suportar os seus gastos, e **continua investindo** o que resta da renda passiva após o pagamento de seus boletos.
 
+
 ## Como chegar lá?
+
+```{r}
+r <- 0.08 #seq(0, 0.25, by = 0.15)
+salario = 60000
+```
 
 Em uma simulação simples, vamos assumir que:
 
----
+<hr>
 
-Salário anual = R$ 60.000 (R$ 5.000 ao mês)
+Salário anual = `r classtools::format_cash(salario)` (`r classtools::format_cash(salario/12)` ao mês)
 
-<br>
+<br> 
 
-Taxa de juros real anual ($Juros$) = 8,00%
+Taxa de juros real anual ($Juros$) = `r classtools::format_percent(r)`
 
----
+<hr>
 
 Podemos verificar a renda passiva ao longo do tempo em relação aos custos totais.
 
 Lembre que a independência é atingida quando renda passiva é maior que os gastos.
 
-## 
-
-![](figs/independencia_financeira_section-1.png){fig-align="center"}
 
 ## 
 
-![](figs/independencia_financeira_section-2.png){fig-align="center"}
+```{r}
+library(ggplot2)
+
+b_vec <- seq(0, 0.80, by = 0.1)
+b_vec <- c(0, 0.1, 0.25, 0.5, 0.75)
+nT <- 50
+
+get_value_pi <- function (r,salario, b, nT) {
+
+  gastos <- salario*(1-b)
+  
+  v_port <- numeric(nT)
+  v_port[1] <- 0
+
+  renda_passiva <- numeric(nT)
+  renda_passiva[1] <- 0
+
+  for (i in 2:nT) {
+
+    aporte <- salario*b
+    renda_passiva[i] <- v_port[i-1]*r
+
+    v_port[i] <- v_port[i-1] + aporte + renda_passiva[i]
+
+  }
+
+  idx <- which(renda_passiva > gastos)
+
+  if (is.na(idx[1])) {
+    idx = NA
+  }
+
+  df_out <- tibble::tibble(
+    salario,
+    b,
+    r,
+    renda_passiva,
+    v_port,
+    gastos,
+    ano = 1:nT,
+    ano_if = idx[1]
+  )
+
+  return(df_out)
+
+}
+
+get_plot_df <- function(r, b_vec) {
+  df_grid <- tidyr::expand_grid(
+    r = r,
+    b = b_vec
+    )
+
+  l_args = as.list(df_grid)
+
+  l_out <- purrr::pmap(l_args, get_value_pi, salario = salario, nT = nT)
+
+  df_plot <- l_out |>
+    purrr::list_rbind() |>
+    dplyr::mutate(
+      b_str = glue::glue(
+        "Taxa Poupança = {classtools::format_percent(b)}"
+      ))
+
+  return(df_plot)
+
+}
+
+df_plot <- get_plot_df(r, b_vec)
+
+p <- ggplot(df_plot, 
+  aes(x = ano, y = renda_passiva)) + 
+  geom_line(linewidth = 1, color = "blue") + 
+  facet_wrap(~ b_str, nrow = 1) + 
+  geom_hline(
+    aes(yintercept = gastos), 
+    color = "red", 
+    linetype = "dashed",
+    linewidth = 1) + 
+  labs(
+    title = "Taxa de Poupança, Renda Passiva e Custo Anual",
+    subtitle = "Linha vermelha é o Custo Anual",
+    x = "Ano",
+    y = "Renda Passiva Anual"
+ ) + 
+  scale_y_continuous(labels = classtools::format_cash) + 
+  ylim(c(0, salario*1.5)) +
+  theme_light()
+
+print(p)
+
+```
 
 ## 
 
-![](figs/independencia_financeira_section-3.png){fig-align="center"}
+```{r}
+b_vec <- seq(0, 0.90, by = 0.1)
+nT <- 60
+
+df_plot <- get_plot_df(r, b_vec)
+
+agg <- df_plot |>
+  dplyr::group_by(b, ano_if) |>
+  dplyr::slice_head(n = 1)
+
+p <- ggplot(agg, 
+  aes(x = b, y = ano_if)) + 
+  geom_line() +
+  geom_point(size = 4) + 
+  geom_text(
+    aes(
+      label = paste0(ano_if, " anos"), 
+      x = b + 0.05, 
+      y = ano_if)) + 
+  labs(
+    title = "Taxa de Poupança e Tempo para Independência",
+    subtitle = paste0("Assume taxa de juros de ", classtools::format_percent(r), " ao ano"),
+    x = "Taxa de Poupança",
+    y = "Tempo necessário para independência"
+  ) + 
+  theme_light() + 
+  scale_x_continuous(
+    labels = classtools::format_percent, 
+    breaks = b_vec)
+
+
+print(p)
+
+```
+
+## 
+
+```{r}
+
+min_tp <- 0.1
+max_tp <- 0.4
+max_time <- 32
+
+p_sweet_spot <- p + 
+  geom_rect(
+    xmin = min_tp, xmax = max_tp,
+    ymin = 0, ymax = max_time,
+    fill = "gray",
+    color = "gray", alpha = 0.05) + 
+  geom_text(
+    label = "O ponto ótimo!",
+    x = 0.4,
+    y = 30,
+    size = 8,
+    color = "blue"
+  )
+
+p_sweet_spot
+
+```
+
 
 ## O que aprendemos
 
 ::: {.incremental}
-- Quanto maior a taxa de poupança, menos gastos e menor a renda passiva necessária para a independência
-- Uma vida mais simples, com menos gastos, tem mais chances de se tornar independente
-- É possível se aposentar em 5 anos com uma taxa de poupança de 80%, mas cuidado com os excessos!!
-- Mesmo poupando por 32 anos a uma taxa de poupança de 10%, ainda é melhor que os sistemas de aposentadoria publico e privado
+- quanto maior a taxa de poupança, menos gastos e menor a renda passiva necessária para a independência
+
+- uma vida mais simples, com menos gastos, tem mais chances de se tornar independente
+
+- é possível se aposentar em 5 anos com  uma taxa de poupança de 80%, mas cuidado com os excessos!!
+
+- mesmo poupando por 32 anos a uma taxa de poupança de 10%, ainda é melhor que os sistemas de aposentadoria publico e privado
 :::
 
-## A psicologia do dinheiro
 
-Algumas lições de *Morgan Housel*:
+## A psicologia do dinheiro 
+
+Algumas lições de @housel2025arte e @housel2021psicologia:
 
 ::: {.incremental}
-- Em finanças pessoais, **comportamento** é mais importante do que inteligência
-- Na escolha entre consumo e poupança, **minimize o seu arrependimento futuro**
-- Sua avaliação **intrínsica** de valor é mais importante do que a avaliação extrínsica
-- Uma vida **simples** é uma vida virtuosa e mais feliz. É fundamental saber o que é “suficiente” para você.
-- A verdadeira riqueza é o que você **não vê** na vida das pessoas
-- Paciência e o poder dos juros compostos
+
+1. Em finanças pessoais, **comportamento** é mais importante do que inteligência
+
+1. Na escolha entre consumo e poupança, **minimize o seu arrependimento futuro**
+
+1. Sua avaliação **intrínsica** de valor é mais importante do que a avaliação extrínsica
+
+1. Uma vida **simples** é uma vida virtuosa e mais feliz. É fundamental saber o que é "suficiente" para você. 
+
+1. A verdadeira riqueza é o que você **não vê** não vida das pessoas
+
+1. Paciência e o poder dos juros compostos
+
 :::
 
-## Livros do Morgan Housel
+## Livros do Morgan Rousel
 
-::: {layout-nw="[1,1]"}
-![](figs/capa-mh-01.jpg){width="45%" fig-align="center"}
-![](figs/capa-mh-02.jpg){width="45%" fig-align="center"}
+::: {.columns}
+
+::: {.column}
+
+![](figs/capa-mh-01.jpg)
+
+:::
+
+::: {.column}
+![](figs/capa-mh-02.jpg)
+:::
+
+
 :::
 
 
 # Por que renda variável?
 
-A renda variável é onde estão os maiores ganhos financeiros, geralmente acima da inflação. Porém, tem mais risco que renda fixa..
+> A renda variável é onde estão os maiores ganhos financeiros, geralmente acima da inflação. Porém, tem mais risco que renda fixa..
+
+![](figs/investing_for_the_long_run.jpg)
 
 ## How often bonds beats stocks?
 
-![](figs/how-often-bonds-beat-stocks.png){fig-align="center"}
-
-[Link para o artigo](https://awealthofcommonsense.com/2020/06/how-often-do-long-term-bonds-beat-stocks/)
-
+![https://awealthofcommonsense.com/2020/06/how-often-do-long-term-bonds-beat-stocks/](figs/how-often-bonds-beat-stocks.png)
 
 # Dicas para iniciantes
 
 ## Como começar?
 
 ::: {.incremental}
-- **Obrigatoriamente**, uma parcela do seu salário tem que sobrar..
-- Defina pesos para cada classe de ativo. Sugestão, comece com 75% RF 25% RV e faça uma lista de investimentos que gostaria de fazer
-- Abra conta em corretora, de preferência uma grande e conhecida
-- Mande dinheiro para a corretora via TED (ou pix se tiver conta digital vinculada a corretora)
-- Junte o dinheiro do passo anterior com a renda passiva e compre ações/fundos na bolsa ou títulos renda fixa via home broker
-- Repita passos anteriores até se tornar independente..
+1. **obrigatoriamente**, uma parcela do seu salário tem que sobrar..
+
+1. defina pesos para cada classe de ativo. Sugestão, comece com 75% RF 25% RV e faça uma lista de investimentos que gostaria de fazer
+
+1. abra conta em em corretora, de preferência uma grande e conhecida
+
+1. mande dinheiro para a corretora via TED (ou pix se tiver conta digital vinculada a corretora)
+
+1. junte o dinheiro do passo anterior com a renda passiva e compre ações/fundos na bolsa ou títulos renda fixa via home broker 
+
+1. repita passos anteriores até se tornar independente..
 :::
+
 
 ## Como selecionar investimentos?
 
 ::: {.incremental}
-- Comece pelo simples, renda fixa em Tesouro Direto
-- Aos poucos, aporte em renda variável:
-  - Critério principal é qualidade do negócio (e não somente renda/dividendos)
-  - Priorize ativos que gerem renda via dividendos ou rendimentos
-  - Não tenha investimento individual maior do que 5% a 10% da carteira (mínimo de ativos será 20/10)
+- comece pelo simples, renda fixa em Tesouro Direto
+- aos poucos, aporte em renda variável:
+  - critério principal é qualidade do negócio (e não somente renda/dividendos)
+  - priorize ativos que gerem renda via dividendos ou rendimentos
+- não tenha investimento individual maior do que 5% a 10% da carteira (mínimo de ativos será 20/10)
 :::
 
 ## Outras sugestões
@@ -234,16 +433,12 @@ A renda variável é onde estão os maiores ganhos financeiros, geralmente acima
 ::: {.incremental}
 - Na RV (renda variável), comece com fundos imobiliários (menos volátil e mais simples de entender)
 - Foque em **qualidade**, e não preço/yield!
-- Tenha paciência. **O processo é lento** e demora uns 5-8 anos para ver o resultado em renda passiva
-- Faça **aportes frequentes** para diluir o preço de compra (estratégia DCA - *dollar cost average*)
+- tenha paciência. **O processo é lento** e demora uns 5-8 anos para ver o resultado em renda passiva
+- Faça **aportes frequentes** para diluir o preço de compra (estratégia DCA - _dollar cost average_)
 - Aceite que o mais importante é se **manter no jogo**, não ganhar mais que o ibovespa ou IFIX
 - Não tente prever o futuro (ninguém consegue)
-- Aproveite, a renda passiva é sua, para ser **feliz**..
+- aproveite, a renda passiva é sua, para ser **feliz**..
 - **Esteja disposto a errar, estudar e aprender**
 :::
 
 ## Referências
-
-*A Psicologia Financeira: Lições Atemporais Sobre Fortuna, Ganância e Felicidade*
-
-*A Arte de Gastar Dinheiro: Escolhas Simples Para Uma Vida Equilibrada*
