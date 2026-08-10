@@ -118,13 +118,21 @@ latest_sal <- df_sal$value[which.max(df_sal$ref.date)]
 - Consequências: Ações da Americanas caíram mais de 90% em janeiro de 2023, resultando em bilhões de reais em perdas para investidores e credores.
 :::
 
+## Impacto nos preços
+
+```{r}
+#| fig-cap: "Preço das ações da Americanas"
+#| fig-alt: "Preço das ações da Americanas"
+knitr::include_graphics("figs/preco-americanas.png")
+```
+
 ## Mecânica da fraude
 
 ::: {.incremental}
 - A fraude girava em torno de uma operação comum no varejo chamada risco sacado (ou forfaiting).
   - A Americanas compra produtos de um fornecedor (ex: Samsung) e, em vez de pagar a Samsung em 90 dias, um banco antecipa o dinheiro para a Samsung e a Americanas passa a dever ao banco, pagando juros por esse prazo estendido.
 
-- Tecnicamente, quando o banco entra na jogada, a dívida deixa de ser com o "fornecedor" e passa a ser uma dívida bancária. Como tal, ela deveria gerar despesas de juros e aparecer no passivo financeiro, aumentando o endividamento da empresa.
+- Se existe um banco financiando a operação, a dívida deixa de ser com o "fornecedor" e passa a ser uma dívida bancária. Como tal, ela deveria gerar despesas de juros e aparecer no passivo financeiro, aumentando o endividamento da empresa.
 :::
 
 ## A Fraude Contábil
