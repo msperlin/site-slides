@@ -104,11 +104,11 @@ latest_sal <- df_sal$value[which.max(df_sal$ref.date)]
   - Políticos com interesses divergentes do bem estar da população
 :::
 
-# Caso Americanas (2023) {background-image="figs/Lojas-Americanas.png"}
+#  {background-image="figs/Lojas-Americanas.png"}
 
 ## Introdução
 
-> O caso das Americanas é a maior fraude do mercado brasileiro, envolvendo valores perto de R$ 43 bilhões.
+> O caso das Americanas (2023) é a maior fraude do mercado brasileiro, envolvendo valores perto de R$ 43 bilhões.
 
 ::: {.incremental}
 - ocultação de dívidas através de uma operação chamada "risco sacado" (fornecedores)
@@ -117,14 +117,6 @@ latest_sal <- df_sal$value[which.max(df_sal$ref.date)]
 
 - Consequências: Ações da Americanas caíram mais de 90% em janeiro de 2023, resultando em bilhões de reais em perdas para investidores e credores.
 :::
-
-## Impacto nos preços
-
-```{r}
-#| fig-cap: "Preço das ações da Americanas"
-#| fig-alt: "Preço das ações da Americanas"
-knitr::include_graphics("figs/preco-americanas.png")
-```
 
 ## Mecânica da fraude
 
@@ -144,7 +136,7 @@ knitr::include_graphics("figs/preco-americanas.png")
 
 - O resultado prático: O balanço mostrava uma empresa lucrativa e com dívida controlada, enquanto, na realidade, ela estava queimando caixa e acumulando um passivo bilionário oculto.
 
-## O preço das ações
+## O preço das ações (valor societário)
 
 ![Preço das ações da Americanas](figs/preco-americanas.png)
 
