@@ -43,11 +43,11 @@ classtools::setup_quarto_slides("resources")
 
 ## As Origens Antigas
 
-As primeiras formas de crédito e dívida surgiram na **Mesopotâmia** por volta de 3.000 a.C.
+As primeiras formas de crédito e dívida surgiram na **Mesopotâmia** (perto do atual Oriente Médiio) por volta de 3.000 a.C.
 
 :::{.incremental}
 -   Contratos de empréstimos de grãos e prata eram registrados em [tábuas de argila](https://www.bbc.com/portuguese/geral-40245708).
--   O **Código de Hamurabi** (c. 1754 a.C.) já estabelecia leis para regular taxas de juros e pagamentos.
+-   O **Código de Hamurabi** (c. 1754 a.C.), primeiro conjunto de leis que se tem registro, já estabelecia leis para regular taxas de juros e pagamentos.
 -   Na Grécia e em Roma, os primeiros "banqueiros" (cambistas) realizavam empréstimos e trocas de moedas.
 :::
 
