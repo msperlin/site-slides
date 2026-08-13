@@ -32,7 +32,7 @@ Disponível em:
 
 - [Amazon (en-us)](https://www.amazon.com.br/gp/product/B084LSNXMN)
 
-- [Versão online (pt-br)](https://www.msperlin.com/adfeR/) | [Versão online (en-us)](https://www.msperlin.com/afedR/)
+- [Versão online (pt-br)](https://www.msperlin.com/books/adfeR/) | [Versão online (en-us)](https://www.msperlin.com/books/afedr/)
 
 - [Vídeos no Youtube](https://www.youtube.com/watch?v=CFd8O4f5bm4&list=PLO0YoYcxF6WFR1i45IRTnJ7-Xosrsx-Hl)
 
@@ -62,7 +62,6 @@ grade_df |>
   gt::tab_header('Avaliação da Disciplina')
 ```
 
-
 ## Plano de Aula
 
 [Link Gsheets](`r gdrive_schedule`)
@@ -71,6 +70,28 @@ grade_df |>
 
 - A cada 2-3 aulas teremos atividades a distância, as quais contarão para nota final;
 - A resolução deve ser entregue individualmente, mas trabalho em grupo é incentivado, desde que auxilie na produção de conhecimento;
+
+
+## Trabalho final da Disciplina
+
+- Ciclo completo de pesquisa aplicada sobre dados de interesse do aluno, com nível aceitável de **análise de dados e programação em R**;
+
+- Fases:
+  - Descrição do problema, análise exploratória dos dados (entrega 1)
+  - Pesquisa estatística e modelagem (entrega 2)
+  - Conclusão e apresentação (entrega 3)
+
+
+## Uso de AI (chat gpt/Gemini/Claude) {background-image="figs/funny_title_robot.png" background-opacity=0.15}
+
+> O atalho técnico somente se justifica com entendimento do conteúdo. 
+
+> O uso de AI **não substitui** a necessidade de **entendimento do conteúdo** e **capacidade de programação**;
+
+- Honestidade acima de tudo;
+  - O uso de AI é **permitido**, desde que seja **declarado** e **justificado**;
+- O AI não vai lhe ajudar a absorver o conteúdo, mas pode ajudar a **automatizar tarefas repetitivas** e **gerar ideias**;
+
 
 ## Formato de aula
 

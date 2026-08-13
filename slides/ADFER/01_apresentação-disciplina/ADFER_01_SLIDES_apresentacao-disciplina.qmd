@@ -24,7 +24,7 @@ toc-title: "Sumário"
 classtools::setup_quarto_slides("content")
 
 # parameters
-l_info <- classtools::get_class_info("ADFER", 202502)
+l_info <- classtools::get_class_info("ADFER", 202602)
 
 link_plano <- l_info$info$gdrive_schedule
 ```
@@ -129,7 +129,7 @@ No mundo:
     -   LLMs (ChatGPT & Gemini) !?
     -   Word (MSFT)/Writer (Libreoffice)/Google Docs (Mathtype + Zotero)
     -   **Latex** (Miktex/Texlive + texstudio, [Overleaf](https://www.overleaf.com/project))
-    -   **LLMs (ChatGPT & Gemini) !?**    
+    
 -   Tabelas
     -   Excel/Calc/Google Sheets
     -   Latex, com exportação via código
