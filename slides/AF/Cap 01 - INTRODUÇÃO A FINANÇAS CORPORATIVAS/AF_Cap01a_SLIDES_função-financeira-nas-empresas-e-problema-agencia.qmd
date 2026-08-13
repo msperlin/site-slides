@@ -68,6 +68,7 @@ latest_sal <- df_sal$value[which.max(df_sal$ref.date)]
 - Sociedade de apenas uma pessoa (não precisa de outros sócios)
 - **Bens do proprietário são separados dos bens da empresa**
 - Não precisa de capital mínimo
+- Sem limite de faturamento
 - Permite a abertura de mais de uma empresa neste formato pelo mesmo empreendedor
 
 
