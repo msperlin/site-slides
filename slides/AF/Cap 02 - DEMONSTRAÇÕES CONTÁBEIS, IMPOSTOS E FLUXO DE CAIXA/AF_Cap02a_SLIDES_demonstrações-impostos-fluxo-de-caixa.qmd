@@ -25,6 +25,21 @@ classtools::setup_quarto_slides("resources")
 
 # Introdução a Demontrações Financeiras
 
+## O que são demonstrações financeiras?
+
+> São relatórios estruturados que resumem o desempenho econômico e a saúde financeira de uma organização.
+
+::: {.incremental}
+- Principais tipos: 
+  - Balanço Patrimonial (BP)
+  - Demonstração do Resultado do Exercício (DRE)
+  - Demonstração dos Fluxos de Caixa (DFC)
+
+- **Objetivo:** Fornecer dados quantitativos para apoiar a tomada de decisão de investidores, credores, gestores e órgãos reguladores.
+
+- Padronização: Seguem normas contábeis rigorosas (como IFRS e pronunciamentos do CPC) para garantir transparência, auditoria e comparabilidade no mercado.
+:::
+
 ## Por que avaliar DFs?
 
 ::: {.incremental}
@@ -146,6 +161,10 @@ $$
 :::
 :::
 
+::: {.callout-important}
+As propriedades do BP são coerentes com o discurso da administração?
+:::
+
 ## O caso OGX
 
 > Do IPO recorde à maior Recuperação Judicial da América Latina (2013).
@@ -158,7 +177,14 @@ $$
 
 - Market Cap: A OGX chegou a valer mais de R$ 75 bilhões em 2010.
 
-- [BP da OGX em 2008](https://www.rad.cvm.gov.br/ENET/frmGerenciaPaginaFRE.aspx?NumeroSequencialDocumento=79329&CodigoTipoInstituicao=1)
+## BP da OGX em 2008
+
+![[BP da OGX em 2008](https://www.rad.cvm.gov.br/ENET/frmGerenciaPaginaFRE.aspx?NumeroSequencialDocumento=79329&CodigoTipoInstituicao=1)](figs/BP-ogx-2008.png)
+
+
+## DRE do GGRC11
+
+![Origem: [site da empresa](https://www.ggrc11.com.br/documentos)](figs/BP-GGRC11-2025.png)
 
 
 # A demonstração de resultados (DRE)
@@ -193,6 +219,14 @@ Exemplo:
 
 ![Extraído de @ross, página 30](figs/dre.png)
 
+## DRE da OGX em 2008
+
+![[DRE da OGX em 2008](https://www.rad.cvm.gov.br/ENET/frmGerenciaPaginaFRE.aspx?NumeroSequencialDocumento=79329&CodigoTipoInstituicao=1)](figs/DRE-ogx-2008.png)
+
+## DRE do GGRC11
+
+![Origem: [site da empresa](https://www.ggrc11.com.br/documentos)](figs/DRE-GGRC11-2025.png)
+
 
 # Demonstração de Fluxos de Caixa (DFC)
 
@@ -211,6 +245,10 @@ Variações apresentadas em três grandes categorias:
 
 ![Retirado de @ross página 56](figs/dfc.png)
 
+
+## DFC do GGRC11
+
+![Origem: [site da empresa](https://www.ggrc11.com.br/documentos)](figs/DFC-GGRC11-2025.png)
 
 ## Um exercício sobre fluxo de caixa
 
