@@ -60,10 +60,11 @@ def generate_all_pdfs():
                 try:
                     subprocess.run([
                         "google-chrome-stable",
-                        "--headless=old",
+                        "--headless=new",
                         "--disable-gpu",
                         "--no-sandbox",
-                        "--virtual-time-budget=10000",
+                        "--virtual-time-budget=20000",
+                        "--run-all-compositor-stages-before-draw",
                         "--no-pdf-header-footer",
                         f"--print-to-pdf={pdf_path}",
                         url
