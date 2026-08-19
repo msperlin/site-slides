@@ -1112,7 +1112,9 @@ Marcelo S. Perlin
 </section>
 <section id="seu-primeiro-script" class="slide level2">
 <h2>Seu primeiro <em>Script</em></h2>
-<p>Digite e execute os seguinte comandos em um novo <em>script</em> do R:</p>
+<p>Digite e execute os seguintes comandos em um novo <em>script</em> do R:</p>
+<div class="columns">
+<div class="column" style="width:55%;">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="co"># Isso é um comentário (não roda nada)</span></span>
 <span id="cb1-2"><a href></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
@@ -1122,29 +1124,44 @@ Marcelo S. Perlin
 <span id="cb1-6"><a href></a><span class="fu">print</span>(x)</span>
 <span id="cb1-7"><a href></a></span>
 <span id="cb1-8"><a href></a><span class="co"># apresente um gráfico</span></span>
-<span id="cb1-9"><a href></a><span class="fu">x11</span>(); <span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-9"><a href></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Para rodar códigos:</p>
+</div><div class="column" style="width:45%;">
+<div title="Atalhos para rodar código">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Atalhos para rodar código</strong></p>
+</div>
+<div class="callout-content">
 <dl>
-<dt>control+shift+s</dt>
+<dt><strong>control + shift + s</strong></dt>
 <dd>
-executa o arquivo atual do RStudio, sem mostrar comandos no <em>prompt</em> (sem eco);
+executa o arquivo atual sem eco no console;
 </dd>
-<dt>control+shift+enter</dt>
+<dt><strong>control + shift + enter</strong></dt>
 <dd>
-executa o arquivo atual, mostrando comandos na tela (com eco);
+executa o arquivo atual com eco;
 </dd>
-<dt>control+enter</dt>
+<dt><strong>control + enter</strong></dt>
 <dd>
-executa a linha selecionada, mostrando comandos na tela;
+executa a linha selecionada;
 </dd>
 </dl>
+</div>
+</div>
+</div>
+</div>
+</div></div>
 </section>
 <section id="seu-segundo-script" class="slide level2">
 <h2>Seu segundo <em>script</em></h2>
-<p>Digite os seguinte comandos em um novo <em>script</em> do R:</p>
+<p>Digite os seguintes comandos em um novo <em>script</em> do R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="co"># carreegue pacotes</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="co"># carregue pacotes</span></span>
 <span id="cb2-2"><a href></a><span class="fu">library</span>(datasets)</span>
 <span id="cb2-3"><a href></a></span>
 <span id="cb2-4"><a href></a><span class="co"># busque tabela</span></span>
@@ -1156,8 +1173,8 @@ executa a linha selecionada, mostrando comandos na tela;
 <span id="cb2-10"><a href></a><span class="co"># adicione nova coluna</span></span>
 <span id="cb2-11"><a href></a>df<span class="sc">$</span>nova_coluna <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Linha &quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df))</span>
 <span id="cb2-12"><a href></a></span>
-<span id="cb2-13"><a href></a><span class="co"># salve em arquivo na pasta &quot;Documentos&quot;</span></span>
-<span id="cb2-14"><a href></a><span class="fu">write.csv</span>(df, <span class="st">&quot;~/NEW-chickens.csv&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-13"><a href></a><span class="co"># salve em arquivo temporário (ou na pasta do projeto)</span></span>
+<span id="cb2-14"><a href></a><span class="fu">write.csv</span>(df, fs<span class="sc">::</span><span class="fu">file_temp</span>(<span class="at">ext =</span> <span class="st">&quot;.csv&quot;</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section>
 <section>
@@ -1211,14 +1228,14 @@ executa a linha selecionada, mostrando comandos na tela;
 <section id="introdução-a-pacotes" class="slide level2">
 <h2>Introdução a pacotes</h2>
 <blockquote>
-<p>Pacote são módulos <strong>gratuitos</strong>, desenvolvidos por outros usuários, e podem ser instalados e usados livremente em seu computador.</p>
+<p>Pacotes são módulos <strong>gratuitos</strong>, desenvolvidos por outros usuários, e podem ser instalados e usados livremente em seu computador.</p>
 </blockquote>
 <ul>
-<li class="fragment"><p>O R possui hoje em torno de 24706 pacotes a disposição do usuários</p></li>
-<li class="fragment"><p>O reposítório oficial de pacotes é o <a href="https://cran.r-project.org/">CRAN (The Comprehensive R Archive Network)</a>, mas alguns pacotes estão disponíveis no <a href="https://github.com/">Github</a></p></li>
+<li class="fragment"><p>O R possui hoje em torno de 24706 pacotes à disposição dos usuários</p></li>
+<li class="fragment"><p>O repositório oficial de pacotes é o <a href="https://cran.r-project.org/">CRAN (The Comprehensive R Archive Network)</a>, mas alguns pacotes estão disponíveis no <a href="https://github.com/">Github</a></p></li>
 <li class="fragment"><p>Cada pacote é nada mais que um conjunto de arquivos, copiado para sua pasta local e compilado localmente conforme necessidade. No meu caso (comando <code>.libPaths()</code>), a pasta é: /home/msperlin/R/x86_64-pc-linux-gnu-library/4.6</p></li>
 <li class="fragment"><p>O <a href="https://cran.r-project.org/">task views</a> é uma ótima fonte para estudar potenciais pacotes em uma determinada área de conhecimento</p></li>
-<li class="fragment"><p><strong>DICA: é extremamente provável que o método que pretendes usar em seu artigo/dissertação/tese esteja disponível em um pacote</strong></p></li>
+<li class="fragment"><p><strong>DICA: é extremamente provável que o método que pretende usar em seu artigo/dissertação/tese esteja disponível em um pacote</strong></p></li>
 </ul>
 </section>
 <section id="instalando-pacotes" class="slide level2">
@@ -1231,11 +1248,13 @@ executa a linha selecionada, mostrando comandos na tela;
 <span id="cb4-2"><a href></a><span class="fu">install.packages</span>(<span class="st">&#39;readr&#39;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Pacotes do Github são instalados com <code>remotes::install_github()</code>:</li>
+<li>Pacotes do Github são instalados com <code>remotes::install_github()</code> ou <code>pak::pkg_install()</code>:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a><span class="co"># install ggplot2 from github</span></span>
-<span id="cb5-2"><a href></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hadley/ggplot2&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a><span class="co"># install ggplot2 from github using remotes or pak</span></span>
+<span id="cb5-2"><a href></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;hadley/ggplot2&quot;</span>)</span>
+<span id="cb5-3"><a href></a><span class="co"># ou com pak:</span></span>
+<span id="cb5-4"><a href></a><span class="co"># pak::pkg_install(&quot;hadley/ggplot2&quot;)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="pacote-pak" class="slide level2">
@@ -1246,7 +1265,7 @@ executa a linha selecionada, mostrando comandos na tela;
 <ul>
 <li><p>Baixa e compila múltiplos pacotes simultaneamente</p></li>
 <li><p>Resolução inteligente de dependências</p></li>
-<li><p>Sintaxe unificada para múltiplas fontes: Instala de diversas origens usando o mesmo comando (pak::pkg_install()): CRAN/Github/Bioconductor</p></li>
+<li><p>Sintaxe unificada para múltiplas fontes: Instala de diversas origens usando o mesmo comando (<code>pak::pkg_install()</code>): CRAN/Github/Bioconductor</p></li>
 <li><p>Executa o processo de build em uma sessão de R separada, evitando conflitos com pacotes já carregados na sua sessão atual.</p></li>
 <li><p>Dependências de sistema automáticas: No Linux, identifica e instala (ou instrui como instalar) as bibliotecas C/C++ necessárias no sistema operacional.</p></li>
 <li><p>Feedback visual claro: Interface mais limpa, indicando o progresso, tempo restante e o plano de resolução antes de aplicar as mudanças.</p></li>
@@ -1255,12 +1274,12 @@ executa a linha selecionada, mostrando comandos na tela;
 <section id="ambientes-isolados-no-r" class="slide level2">
 <h2>Ambientes isolados no R</h2>
 <blockquote>
-<p>no R, é possível criar ambientes isolados, com pacotes e versões específicas, para cada projeto. Isso evita conflitos de versões de pacotes entre projetos diferentes.</p>
+<p>No R, é possível criar ambientes isolados, com pacotes e versões específicas, para cada projeto. Isso evita conflitos de versões de pacotes entre projetos diferentes.</p>
 </blockquote>
 <ul>
 <li><p>Pacote <code>renv</code> permite criar ambientes isolados para cada projeto, com pacotes e versões específicas.</p></li>
-<li><p>Vantages: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.</p></li>
-<li><p>Desvantagens: necessita a reinstalação dos pacotes a cada projeto.</p></li>
+<li><p>Vantagens: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.</p></li>
+<li><p>Desvantagens: necessita da reinstalação dos pacotes a cada projeto.</p></li>
 </ul>
 </section>
 <section id="exercício-1" class="slide level2 scrollable">
@@ -1294,24 +1313,24 @@ executa a linha selecionada, mostrando comandos na tela;
 <h1>Interagindo com o Sistema Operacional</h1>
 
 </section>
-<section id="operações-mais-comums-e-importantes" class="slide level2">
-<h2>Operações mais comums e importantes</h2>
+<section id="operações-mais-comuns-e-importantes" class="slide level2">
+<h2>Operações mais comuns e importantes</h2>
 <ul>
 <li class="fragment">Mudança de diretório de trabalho
 <ul>
 <li class="fragment">comandos <code>setwd()</code>/<code>getwd()</code></li>
-<li class="fragment">DICA: uso de PROJETOS do rstudio automatiza essa tarefa no dia-a-dia</li>
+<li class="fragment">DICA: uso de PROJETOS do RStudio automatiza essa tarefa no dia-a-dia</li>
 </ul></li>
 <li class="fragment">Limpeza de memória:
 <ul>
 <li class="fragment">comando <code>rm()</code> limpa a memória</li>
 <li class="fragment">reinicialização da sessão com <em>control + shift + f10</em>.</li>
-<li class="fragment">Caso necessário, forçe a limpeza da memória RAM (<em>garbagge collection</em>) com <code>gc()</code></li>
+<li class="fragment">Caso necessário, force a limpeza da memória RAM (<em>garbage collection</em>) com <code>gc()</code></li>
 </ul></li>
 <li class="fragment">Listar arquivos e diretórios
 <ul>
 <li class="fragment">comando <code>fs::dir_ls(PATH)</code></li>
-<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para describir a sua, use função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpoSsW3k”</li>
+<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpnvIyl9”</li>
 </ul></li>
 <li class="fragment">Apagar e remover diretórios
 <ul>
@@ -1356,20 +1375,20 @@ executa a linha selecionada, mostrando comandos na tela;
 <span id="cb9-5"><a href></a>df_taxas_auto <span class="sc">|&gt;</span></span>
 <span id="cb9-6"><a href></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="cbwcpvuwvv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cbwcpvuwvv table {
+<div id="wlyrahozzq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wlyrahozzq table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#cbwcpvuwvv thead, #cbwcpvuwvv tbody, #cbwcpvuwvv tfoot, #cbwcpvuwvv tr, #cbwcpvuwvv td, #cbwcpvuwvv th {
+#wlyrahozzq thead, #wlyrahozzq tbody, #wlyrahozzq tfoot, #wlyrahozzq tr, #wlyrahozzq td, #wlyrahozzq th {
 border-style: none;
 }
-#cbwcpvuwvv p {
+#wlyrahozzq p {
 margin: 0;
 padding: 0;
 }
-#cbwcpvuwvv .gt_table {
+#wlyrahozzq .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1394,11 +1413,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_caption {
+#wlyrahozzq .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#cbwcpvuwvv .gt_title {
+#wlyrahozzq .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1409,7 +1428,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#cbwcpvuwvv .gt_subtitle {
+#wlyrahozzq .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1420,7 +1439,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#cbwcpvuwvv .gt_heading {
+#wlyrahozzq .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1431,12 +1450,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_bottom_border {
+#wlyrahozzq .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_col_headings {
+#wlyrahozzq .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1450,7 +1469,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_col_heading {
+#wlyrahozzq .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1469,7 +1488,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#cbwcpvuwvv .gt_column_spanner_outer {
+#wlyrahozzq .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1480,13 +1499,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#cbwcpvuwvv .gt_column_spanner_outer:first-child {
+#wlyrahozzq .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#cbwcpvuwvv .gt_column_spanner_outer:last-child {
+#wlyrahozzq .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#cbwcpvuwvv .gt_column_spanner {
+#wlyrahozzq .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1497,10 +1516,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#cbwcpvuwvv .gt_spanner_row {
+#wlyrahozzq .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#cbwcpvuwvv .gt_group_heading {
+#wlyrahozzq .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1525,7 +1544,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#cbwcpvuwvv .gt_empty_group_heading {
+#wlyrahozzq .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1539,13 +1558,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#cbwcpvuwvv .gt_from_md > :first-child {
+#wlyrahozzq .gt_from_md > :first-child {
 margin-top: 0;
 }
-#cbwcpvuwvv .gt_from_md > :last-child {
+#wlyrahozzq .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#cbwcpvuwvv .gt_row {
+#wlyrahozzq .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1563,7 +1582,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#cbwcpvuwvv .gt_stub {
+#wlyrahozzq .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1575,7 +1594,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#cbwcpvuwvv .gt_stub_row_group {
+#wlyrahozzq .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1588,13 +1607,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#cbwcpvuwvv .gt_row_group_first td {
+#wlyrahozzq .gt_row_group_first td {
 border-top-width: 2px;
 }
-#cbwcpvuwvv .gt_row_group_first th {
+#wlyrahozzq .gt_row_group_first th {
 border-top-width: 2px;
 }
-#cbwcpvuwvv .gt_summary_row {
+#wlyrahozzq .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1603,14 +1622,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#cbwcpvuwvv .gt_first_summary_row {
+#wlyrahozzq .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_first_summary_row.thick {
+#wlyrahozzq .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#cbwcpvuwvv .gt_last_summary_row {
+#wlyrahozzq .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1619,7 +1638,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_grand_summary_row {
+#wlyrahozzq .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1628,7 +1647,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#cbwcpvuwvv .gt_first_grand_summary_row {
+#wlyrahozzq .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1637,7 +1656,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_last_grand_summary_row_top {
+#wlyrahozzq .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1646,10 +1665,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_striped {
+#wlyrahozzq .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#cbwcpvuwvv .gt_table_body {
+#wlyrahozzq .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1657,7 +1676,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_footnotes {
+#wlyrahozzq .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1670,7 +1689,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_footnote {
+#wlyrahozzq .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -1678,7 +1697,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#cbwcpvuwvv .gt_sourcenotes {
+#wlyrahozzq .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1691,64 +1710,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#cbwcpvuwvv .gt_sourcenote {
+#wlyrahozzq .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#cbwcpvuwvv .gt_left {
+#wlyrahozzq .gt_left {
 text-align: left;
 }
-#cbwcpvuwvv .gt_center {
+#wlyrahozzq .gt_center {
 text-align: center;
 }
-#cbwcpvuwvv .gt_right {
+#wlyrahozzq .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#cbwcpvuwvv .gt_font_normal {
+#wlyrahozzq .gt_font_normal {
 font-weight: normal;
 }
-#cbwcpvuwvv .gt_font_bold {
+#wlyrahozzq .gt_font_bold {
 font-weight: bold;
 }
-#cbwcpvuwvv .gt_font_italic {
+#wlyrahozzq .gt_font_italic {
 font-style: italic;
 }
-#cbwcpvuwvv .gt_super {
+#wlyrahozzq .gt_super {
 font-size: 65%;
 }
-#cbwcpvuwvv .gt_footnote_marks {
+#wlyrahozzq .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#cbwcpvuwvv .gt_asterisk {
+#wlyrahozzq .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#cbwcpvuwvv .gt_indent_1 {
+#wlyrahozzq .gt_indent_1 {
 text-indent: 5px;
 }
-#cbwcpvuwvv .gt_indent_2 {
+#wlyrahozzq .gt_indent_2 {
 text-indent: 10px;
 }
-#cbwcpvuwvv .gt_indent_3 {
+#wlyrahozzq .gt_indent_3 {
 text-indent: 15px;
 }
-#cbwcpvuwvv .gt_indent_4 {
+#wlyrahozzq .gt_indent_4 {
 text-indent: 20px;
 }
-#cbwcpvuwvv .gt_indent_5 {
+#wlyrahozzq .gt_indent_5 {
 text-indent: 25px;
 }
-#cbwcpvuwvv .katex-display {
+#wlyrahozzq .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#cbwcpvuwvv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wlyrahozzq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2208,15 +2227,20 @@ height: 0px !important;
 </div>
 </div>
 </section>
-<section id="exercícios-2" class="slide level2 scrollable">
-<h2>Exercícios 2</h2>
+<section id="exercícios-2-12" class="slide level2 scrollable">
+<h2>Exercícios 2 (1/2)</h2>
 <ol type="1">
 <li><p>Utilize o R para baixar o arquivo compactado com o material do livro, disponível neste <a href="https://www.msperlin.com/files/afedr-files/afedR-code-and-data.zip">link</a>. Salve o mesmo como um arquivo na pasta temporária da sessão (veja função <code>fs::file_temp(ext = &quot;.zip&quot;)</code>).</p></li>
-<li><p>Utilize a função <code>unzip</code> para descompactar o arquivo baixado na questão anterior e, após a operação, utilize função <code>fs::file_delete()</code> para remover o arquivo zipado do computador, após a sua descompactação. Quantos arquivos estão disponíveis no arquivo zipado?</p></li>
-<li><p>Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando comando <code>Sys.getenv(&#39;R_LIBS_USER&#39;)</code> e <code>fs::dir_ls()</code>, liste todos os diretórios desta pasta. Quantos pacotes estão disponíveis nesta pasta?</p></li>
+<li><p>Utilize a função <code>unzip</code> para descompactar o arquivo baixado na questão anterior e, após a operação, utilize a função <code>fs::file_delete()</code> para remover o arquivo zipado do computador, após a sua descompactação. Quantos arquivos estão disponíveis no arquivo zipado?</p></li>
+<li><p>Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando os comandos <code>Sys.getenv(&#39;R_LIBS_USER&#39;)</code> e <code>fs::dir_ls()</code>, liste todos os diretórios desta pasta. Quantos pacotes estão disponíveis nesta pasta?</p></li>
 <li><p>No mesmo assunto do exercício anterior, liste todos os arquivos em todas as subpastas do diretório contendo os arquivos dos diferentes pacotes. Em média, quantos arquivos são necessários para cada pacote?</p></li>
-<li><p>Instale pacote <code>GetTDData</code> no seu computador. Leia o manual do pacote e utilize a função <code>GetTDData::get.yield.curve()</code> para baixar a curva de juros atual no sistema financeiro Brasileiro. Verifique o exemplo de uso da função para entender como utilizá-la.</p></li>
-<li><p>Utilizando pacote <code>remotes</code>, instale a versão de desenvolvimento do pacote <code>ggplot2</code> no repositório de <a href="https://github.com/hadley">Hadley Hickman</a>. Carregue o pacote usando <code>library</code> e crie uma figura simples com o código <code>qplot(y = rnorm(10), x = 1:10)</code>.</p></li>
+</ol>
+</section>
+<section id="exercícios-2-22" class="slide level2 scrollable">
+<h2>Exercícios 2 (2/2)</h2>
+<ol start="5" type="1">
+<li><p>Instale o pacote <code>GetTDData</code> no seu computador. Leia o manual do pacote e utilize a função <code>GetTDData::get.yield.curve()</code> para baixar a curva de juros atual no sistema financeiro Brasileiro. Verifique o exemplo de uso da função para entender como utilizá-la.</p></li>
+<li><p>Utilizando o pacote <code>remotes</code> (ou <code>pak</code>), instale a versão de desenvolvimento do pacote <code>ggplot2</code> no repositório de <a href="https://github.com/hadley">Hadley Wickham</a>. Carregue o pacote usando <code>library</code> e crie uma figura simples com o código <code>qplot(y = rnorm(10), x = 1:10)</code>.</p></li>
 <li><p><strong>DESAFIO</strong> - Utilizando sua capacidade de programação, verifique no seu computador qual pasta, a partir do diretório de raiz, possui o maior número de arquivos. Apresente na tela do R as cinco pastas com maior número de arquivos.</p></li>
 </ol>
 
