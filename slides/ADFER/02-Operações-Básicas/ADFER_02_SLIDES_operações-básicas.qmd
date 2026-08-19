@@ -58,8 +58,11 @@ knitr::include_graphics('figs/RStudio2.png')
 
 ## Seu primeiro _Script_
 
-Digite e execute os seguinte comandos em um novo _script_ do R:
+Digite e execute os seguintes comandos em um novo _script_ do R:
 
+::: {.columns}
+
+::: {.column width="55%"}
 ```{r, eval=FALSE}
 #| echo: true
 # Isso é um comentário (não roda nada)
@@ -70,29 +73,34 @@ y <- "meu lindo texto em português"
 print(x)
 
 # apresente um gráfico
-x11(); plot(1:10)
+plot(1:10)
 ```
+:::
 
-Para rodar códigos:
+::: {.column width="45%"}
+::: {.callout-tip title="Atalhos para rodar código"}
+**control + shift + s**
+: executa o arquivo atual sem eco no console;
 
-control+shift+s
-: executa o arquivo atual do RStudio, sem mostrar comandos no _prompt_ (sem eco);
+**control + shift + enter**
+: executa o arquivo atual com eco;
 
-control+shift+enter
-: executa o arquivo atual, mostrando comandos na tela (com eco);
+**control + enter**
+: executa a linha selecionada;
+:::
+:::
 
-control+enter
-: executa a linha selecionada, mostrando comandos na tela;
+:::
 
 ## Seu segundo _script_
 
-Digite os seguinte comandos em um novo _script_ do R:
+Digite os seguintes comandos em um novo _script_ do R:
 
 ```{r}
 #| echo: true
 #| eval: false
 
-# carreegue pacotes
+# carregue pacotes
 library(datasets)
 
 # busque tabela
@@ -104,8 +112,8 @@ print(df)
 # adicione nova coluna
 df$nova_coluna <- paste0("Linha ", 1:nrow(df))
 
-# salve em arquivo na pasta "Documentos"
-write.csv(df, "~/NEW-chickens.csv")
+# salve em arquivo temporário (ou na pasta do projeto)
+write.csv(df, fs::file_temp(ext = ".csv"))
 ```
 
 # Objetos no R
@@ -156,18 +164,18 @@ df <- data.frame(x = 1:10,
 
 ## Introdução a pacotes
 
-> Pacote são módulos **gratuitos**, desenvolvidos por outros usuários, e  podem ser instalados e usados livremente em seu computador. 
+> Pacotes são módulos **gratuitos**, desenvolvidos por outros usuários, e podem ser instalados e usados livremente em seu computador. 
 
 ::: {.incremental}
-- O R possui hoje em torno de `r nrow(available.packages(repos="https://cran.rstudio.com/"))` pacotes a disposição do usuários
+- O R possui hoje em torno de `r tryCatch(nrow(available.packages(repos="https://cran.rstudio.com/")), error = function(e) "20.000+")` pacotes à disposição dos usuários
 
-- O reposítório oficial de pacotes é o [CRAN (The Comprehensive R Archive Network)](https://cran.r-project.org/), mas alguns pacotes estão disponíveis no [Github](https://github.com/)
+- O repositório oficial de pacotes é o [CRAN (The Comprehensive R Archive Network)](https://cran.r-project.org/), mas alguns pacotes estão disponíveis no [Github](https://github.com/)
 
 - Cada pacote é nada mais que um conjunto de arquivos, copiado para sua pasta local e compilado localmente conforme necessidade. No meu caso (comando `.libPaths()`), a pasta é: `r .libPaths()[1]`
 
-- O [task views](https://cran.r-project.org/) é uma ótima fonte para estudar potenciais  pacotes em uma determinada área de conhecimento
+- O [task views](https://cran.r-project.org/) é uma ótima fonte para estudar potenciais pacotes em uma determinada área de conhecimento
 
-- **DICA: é extremamente provável que o método que pretendes usar em seu artigo/dissertação/tese esteja disponível em um pacote**
+- **DICA: é extremamente provável que o método que pretende usar em seu artigo/dissertação/tese esteja disponível em um pacote**
 :::
 
 
@@ -182,13 +190,15 @@ df <- data.frame(x = 1:10,
 install.packages('readr')
 ```
 
-- Pacotes do Github são instalados com `remotes::install_github()`:
+- Pacotes do Github são instalados com `remotes::install_github()` ou `pak::pkg_install()`:
 
 ```{r}
 #| eval: false
 #| echo: true
-# install ggplot2 from github
+# install ggplot2 from github using remotes or pak
 remotes::install_github("hadley/ggplot2")
+# ou com pak:
+# pak::pkg_install("hadley/ggplot2")
 ```
 
 ```{r}
@@ -197,13 +207,13 @@ i_exerc <- 1
 
 ## Pacote `pak`
 
-> Pacote `pak` é uma versão **moderna** de `utils::install.packages()` para a  instalação de pacotes do R, que otimiza a instalação de pacotes e suas dependências.
+> Pacote `pak` é uma versão **moderna** de `utils::install.packages()` para a instalação de pacotes do R, que otimiza a instalação de pacotes e suas dependências.
 
 - Baixa e compila múltiplos pacotes simultaneamente
 
 - Resolução inteligente de dependências
 
-- Sintaxe unificada para múltiplas fontes: Instala de diversas origens usando o mesmo comando (pak::pkg_install()): CRAN/Github/Bioconductor
+- Sintaxe unificada para múltiplas fontes: Instala de diversas origens usando o mesmo comando (`pak::pkg_install()`): CRAN/Github/Bioconductor
 
 - Executa o processo de build em uma sessão de R separada, evitando conflitos com pacotes já carregados na sua sessão atual.
 
@@ -213,13 +223,13 @@ i_exerc <- 1
 
 ## Ambientes isolados no R
 
-> no R, é possível criar ambientes isolados, com pacotes e versões específicas, para cada projeto. Isso evita conflitos de versões de pacotes entre projetos diferentes.
+> No R, é possível criar ambientes isolados, com pacotes e versões específicas, para cada projeto. Isso evita conflitos de versões de pacotes entre projetos diferentes.
 
 - Pacote `renv` permite criar ambientes isolados para cada projeto, com pacotes e versões específicas.
 
-- Vantages: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.
+- Vantagens: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.
 
-- Desvantagens: necessita a reinstalação dos pacotes a cada projeto.
+- Desvantagens: necessita da reinstalação dos pacotes a cada projeto.
 
 
 ## Exercício `r i_exerc`
@@ -256,19 +266,19 @@ print(df)
 
 # Interagindo com o Sistema Operacional
 
-## Operações mais comums e importantes
+## Operações mais comuns e importantes
 
 ::: {.incremental}
 - Mudança de diretório de trabalho
   - comandos `setwd()`/`getwd()`
-  - DICA: uso de PROJETOS do rstudio automatiza essa tarefa no dia-a-dia
+  - DICA: uso de PROJETOS do RStudio automatiza essa tarefa no dia-a-dia
 - Limpeza de memória: 
   - comando `rm()` limpa a memória
   - reinicialização da sessão com _control + shift + f10_. 
-  - Caso necessário, forçe a limpeza da memória RAM (_garbagge collection_) com `gc()`
+  - Caso necessário, force a limpeza da memória RAM (_garbage collection_) com `gc()`
 - Listar arquivos e diretórios
   - comando `fs::dir_ls(PATH)`
-  - o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para describir a sua, use função `fs::path_temp()`. A minha é "`r fs::path_temp()`"
+  - o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função `fs::path_temp()`. A minha é "`r fs::path_temp()`"
 - Apagar e remover diretórios
   - diversos comandos com pacote `fs`.
 :::
@@ -341,19 +351,22 @@ knitr::include_graphics('figs/autocomplete_arquivos.png')
 i_exerc <- i_exerc +1
 ```
 
-## Exercícios `r i_exerc`
+## Exercícios `r i_exerc` (1/2)
 
 1. Utilize o R para baixar o arquivo compactado com o material do livro, disponível neste [link](`r afedR3::links_get()$book_blog_zip`). Salve o mesmo como um arquivo na pasta temporária da sessão (veja função `fs::file_temp(ext = ".zip")`).
 
-2. Utilize a função `unzip` para descompactar o arquivo baixado na questão anterior e, após a operação, utilize função `fs::file_delete()` para remover o arquivo zipado do computador, após a sua descompactação. Quantos arquivos estão disponíveis no arquivo zipado?
+2. Utilize a função `unzip` para descompactar o arquivo baixado na questão anterior e, após a operação, utilize a função `fs::file_delete()` para remover o arquivo zipado do computador, após a sua descompactação. Quantos arquivos estão disponíveis no arquivo zipado?
 
-3. Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando comando `Sys.getenv('R_LIBS_USER')` e `fs::dir_ls()`, liste todos os diretórios desta pasta. Quantos pacotes estão disponíveis nesta pasta?
+3. Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando os comandos `Sys.getenv('R_LIBS_USER')` e `fs::dir_ls()`, liste todos os diretórios desta pasta. Quantos pacotes estão disponíveis nesta pasta?
 
 4. No mesmo assunto do exercício anterior, liste todos os arquivos em todas as subpastas do diretório contendo os arquivos dos diferentes pacotes. Em média, quantos arquivos são necessários para cada pacote?
 
-5. Instale pacote `GetTDData` no seu computador. Leia o manual do pacote e utilize  a função `GetTDData::get.yield.curve()` para baixar a curva de juros atual no sistema financeiro Brasileiro. Verifique o exemplo de uso da função para entender como utilizá-la.
 
-6. Utilizando pacote `remotes`, instale a versão de desenvolvimento do pacote `ggplot2` no repositório de [Hadley Hickman](https://github.com/hadley). Carregue o pacote usando `library` e crie uma figura simples com o código `qplot(y = rnorm(10), x = 1:10)`.
+## Exercícios `r i_exerc` (2/2)
+
+5. Instale o pacote `GetTDData` no seu computador. Leia o manual do pacote e utilize a função `GetTDData::get.yield.curve()` para baixar a curva de juros atual no sistema financeiro Brasileiro. Verifique o exemplo de uso da função para entender como utilizá-la.
+
+6. Utilizando o pacote `remotes` (ou `pak`), instale a versão de desenvolvimento do pacote `ggplot2` no repositório de [Hadley Wickham](https://github.com/hadley). Carregue o pacote usando `library` e crie uma figura simples com o código `qplot(y = rnorm(10), x = 1:10)`.
 
 7. **DESAFIO** - Utilizando sua capacidade de programação, verifique no seu computador qual pasta, a partir do diretório de raiz, possui o maior número de arquivos. Apresente na tela do R as cinco pastas com maior número de arquivos.
 

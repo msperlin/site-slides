@@ -47,8 +47,8 @@ remotes::install_github("hadley/ggplot2")
 
 library(ggplot2)
 
-x11(); qplot(y = rnorm(10), 
-             x = rnorm(10))
+qplot(y = rnorm(10), 
+      x = rnorm(10))
 
 # 07
 get_n_files <- function(path_in) {
