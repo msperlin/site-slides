@@ -209,6 +209,7 @@ i_exerc <- 1
 
 > Pacote `pak` é uma versão **moderna** de `utils::install.packages()` para a instalação de pacotes do R, que otimiza a instalação de pacotes e suas dependências.
 
+::: {.incremental}
 - Baixa e compila múltiplos pacotes simultaneamente
 
 - Resolução inteligente de dependências
@@ -220,9 +221,12 @@ i_exerc <- 1
 - Dependências de sistema automáticas: No Linux, identifica e instala (ou instrui como instalar) as bibliotecas C/C++ necessárias no sistema operacional.
 
 - Feedback visual claro: Interface mais limpa, indicando o progresso, tempo restante e o plano de resolução antes de aplicar as mudanças.
+:::
+
 
 ## Ambientes isolados no R
 
+::: {.incremental}
 > No R, é possível criar ambientes isolados, com pacotes e versões específicas, para cada projeto. Isso evita conflitos de versões de pacotes entre projetos diferentes.
 
 - Pacote `renv` permite criar ambientes isolados para cada projeto, com pacotes e versões específicas.
@@ -230,7 +234,7 @@ i_exerc <- 1
 - Vantagens: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.
 
 - Desvantagens: necessita da reinstalação dos pacotes a cada projeto.
-
+:::
 
 ## Exercício `r i_exerc`
 

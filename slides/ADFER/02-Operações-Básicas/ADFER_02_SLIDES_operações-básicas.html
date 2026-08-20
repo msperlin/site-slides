@@ -1068,7 +1068,7 @@ Marcelo S. Perlin
     </div>
 </div>
 
-  <p class="date">19/08/2026</p>
+  <p class="date">20/08/2026</p>
 </section><section id="TOC">
 <nav role="doc-toc"> 
 <h2 id="toc-title">Sumário</h2>
@@ -1231,7 +1231,7 @@ executa a linha selecionada;
 <p>Pacotes são módulos <strong>gratuitos</strong>, desenvolvidos por outros usuários, e podem ser instalados e usados livremente em seu computador.</p>
 </blockquote>
 <ul>
-<li class="fragment"><p>O R possui hoje em torno de 24706 pacotes à disposição dos usuários</p></li>
+<li class="fragment"><p>O R possui hoje em torno de 24708 pacotes à disposição dos usuários</p></li>
 <li class="fragment"><p>O repositório oficial de pacotes é o <a href="https://cran.r-project.org/">CRAN (The Comprehensive R Archive Network)</a>, mas alguns pacotes estão disponíveis no <a href="https://github.com/">Github</a></p></li>
 <li class="fragment"><p>Cada pacote é nada mais que um conjunto de arquivos, copiado para sua pasta local e compilado localmente conforme necessidade. No meu caso (comando <code>.libPaths()</code>), a pasta é: /home/msperlin/R/x86_64-pc-linux-gnu-library/4.6</p></li>
 <li class="fragment"><p>O <a href="https://cran.r-project.org/">task views</a> é uma ótima fonte para estudar potenciais pacotes em uma determinada área de conhecimento</p></li>
@@ -1263,12 +1263,12 @@ executa a linha selecionada;
 <p>Pacote <code>pak</code> é uma versão <strong>moderna</strong> de <code>utils::install.packages()</code> para a instalação de pacotes do R, que otimiza a instalação de pacotes e suas dependências.</p>
 </blockquote>
 <ul>
-<li><p>Baixa e compila múltiplos pacotes simultaneamente</p></li>
-<li><p>Resolução inteligente de dependências</p></li>
-<li><p>Sintaxe unificada para múltiplas fontes: Instala de diversas origens usando o mesmo comando (<code>pak::pkg_install()</code>): CRAN/Github/Bioconductor</p></li>
-<li><p>Executa o processo de build em uma sessão de R separada, evitando conflitos com pacotes já carregados na sua sessão atual.</p></li>
-<li><p>Dependências de sistema automáticas: No Linux, identifica e instala (ou instrui como instalar) as bibliotecas C/C++ necessárias no sistema operacional.</p></li>
-<li><p>Feedback visual claro: Interface mais limpa, indicando o progresso, tempo restante e o plano de resolução antes de aplicar as mudanças.</p></li>
+<li class="fragment"><p>Baixa e compila múltiplos pacotes simultaneamente</p></li>
+<li class="fragment"><p>Resolução inteligente de dependências</p></li>
+<li class="fragment"><p>Sintaxe unificada para múltiplas fontes: Instala de diversas origens usando o mesmo comando (<code>pak::pkg_install()</code>): CRAN/Github/Bioconductor</p></li>
+<li class="fragment"><p>Executa o processo de build em uma sessão de R separada, evitando conflitos com pacotes já carregados na sua sessão atual.</p></li>
+<li class="fragment"><p>Dependências de sistema automáticas: No Linux, identifica e instala (ou instrui como instalar) as bibliotecas C/C++ necessárias no sistema operacional.</p></li>
+<li class="fragment"><p>Feedback visual claro: Interface mais limpa, indicando o progresso, tempo restante e o plano de resolução antes de aplicar as mudanças.</p></li>
 </ul>
 </section>
 <section id="ambientes-isolados-no-r" class="slide level2">
@@ -1277,9 +1277,9 @@ executa a linha selecionada;
 <p>No R, é possível criar ambientes isolados, com pacotes e versões específicas, para cada projeto. Isso evita conflitos de versões de pacotes entre projetos diferentes.</p>
 </blockquote>
 <ul>
-<li><p>Pacote <code>renv</code> permite criar ambientes isolados para cada projeto, com pacotes e versões específicas.</p></li>
-<li><p>Vantagens: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.</p></li>
-<li><p>Desvantagens: necessita da reinstalação dos pacotes a cada projeto.</p></li>
+<li class="fragment"><p>Pacote <code>renv</code> permite criar ambientes isolados para cada projeto, com pacotes e versões específicas.</p></li>
+<li class="fragment"><p>Vantagens: conflitos de pacotes entre projetos diferentes são evitados, e é possível compartilhar o ambiente com outros usuários.</p></li>
+<li class="fragment"><p>Desvantagens: necessita da reinstalação dos pacotes a cada projeto.</p></li>
 </ul>
 </section>
 <section id="exercício-1" class="slide level2 scrollable">
@@ -1330,7 +1330,7 @@ executa a linha selecionada;
 <li class="fragment">Listar arquivos e diretórios
 <ul>
 <li class="fragment">comando <code>fs::dir_ls(PATH)</code></li>
-<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpnvIyl9”</li>
+<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpJofe8K”</li>
 </ul></li>
 <li class="fragment">Apagar e remover diretórios
 <ul>
@@ -1375,20 +1375,20 @@ executa a linha selecionada;
 <span id="cb9-5"><a href></a>df_taxas_auto <span class="sc">|&gt;</span></span>
 <span id="cb9-6"><a href></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="wlyrahozzq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wlyrahozzq table {
+<div id="hhrdszpaup" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hhrdszpaup table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#wlyrahozzq thead, #wlyrahozzq tbody, #wlyrahozzq tfoot, #wlyrahozzq tr, #wlyrahozzq td, #wlyrahozzq th {
+#hhrdszpaup thead, #hhrdszpaup tbody, #hhrdszpaup tfoot, #hhrdszpaup tr, #hhrdszpaup td, #hhrdszpaup th {
 border-style: none;
 }
-#wlyrahozzq p {
+#hhrdszpaup p {
 margin: 0;
 padding: 0;
 }
-#wlyrahozzq .gt_table {
+#hhrdszpaup .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1413,11 +1413,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#wlyrahozzq .gt_caption {
+#hhrdszpaup .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#wlyrahozzq .gt_title {
+#hhrdszpaup .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1428,7 +1428,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#wlyrahozzq .gt_subtitle {
+#hhrdszpaup .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1439,7 +1439,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#wlyrahozzq .gt_heading {
+#hhrdszpaup .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1450,12 +1450,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#wlyrahozzq .gt_bottom_border {
+#hhrdszpaup .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wlyrahozzq .gt_col_headings {
+#hhrdszpaup .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1469,7 +1469,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#wlyrahozzq .gt_col_heading {
+#hhrdszpaup .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1488,7 +1488,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#wlyrahozzq .gt_column_spanner_outer {
+#hhrdszpaup .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1499,13 +1499,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#wlyrahozzq .gt_column_spanner_outer:first-child {
+#hhrdszpaup .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#wlyrahozzq .gt_column_spanner_outer:last-child {
+#hhrdszpaup .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#wlyrahozzq .gt_column_spanner {
+#hhrdszpaup .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1516,10 +1516,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#wlyrahozzq .gt_spanner_row {
+#hhrdszpaup .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#wlyrahozzq .gt_group_heading {
+#hhrdszpaup .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1544,7 +1544,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#wlyrahozzq .gt_empty_group_heading {
+#hhrdszpaup .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1558,13 +1558,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#wlyrahozzq .gt_from_md > :first-child {
+#hhrdszpaup .gt_from_md > :first-child {
 margin-top: 0;
 }
-#wlyrahozzq .gt_from_md > :last-child {
+#hhrdszpaup .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#wlyrahozzq .gt_row {
+#hhrdszpaup .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1582,7 +1582,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#wlyrahozzq .gt_stub {
+#hhrdszpaup .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1594,7 +1594,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wlyrahozzq .gt_stub_row_group {
+#hhrdszpaup .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1607,13 +1607,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#wlyrahozzq .gt_row_group_first td {
+#hhrdszpaup .gt_row_group_first td {
 border-top-width: 2px;
 }
-#wlyrahozzq .gt_row_group_first th {
+#hhrdszpaup .gt_row_group_first th {
 border-top-width: 2px;
 }
-#wlyrahozzq .gt_summary_row {
+#hhrdszpaup .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1622,14 +1622,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wlyrahozzq .gt_first_summary_row {
+#hhrdszpaup .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#wlyrahozzq .gt_first_summary_row.thick {
+#hhrdszpaup .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#wlyrahozzq .gt_last_summary_row {
+#hhrdszpaup .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1638,7 +1638,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wlyrahozzq .gt_grand_summary_row {
+#hhrdszpaup .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1647,7 +1647,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wlyrahozzq .gt_first_grand_summary_row {
+#hhrdszpaup .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1656,7 +1656,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#wlyrahozzq .gt_last_grand_summary_row_top {
+#hhrdszpaup .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1665,10 +1665,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#wlyrahozzq .gt_striped {
+#hhrdszpaup .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#wlyrahozzq .gt_table_body {
+#hhrdszpaup .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1676,7 +1676,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wlyrahozzq .gt_footnotes {
+#hhrdszpaup .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1689,7 +1689,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#wlyrahozzq .gt_footnote {
+#hhrdszpaup .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -1697,7 +1697,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wlyrahozzq .gt_sourcenotes {
+#hhrdszpaup .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1710,64 +1710,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#wlyrahozzq .gt_sourcenote {
+#hhrdszpaup .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wlyrahozzq .gt_left {
+#hhrdszpaup .gt_left {
 text-align: left;
 }
-#wlyrahozzq .gt_center {
+#hhrdszpaup .gt_center {
 text-align: center;
 }
-#wlyrahozzq .gt_right {
+#hhrdszpaup .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#wlyrahozzq .gt_font_normal {
+#hhrdszpaup .gt_font_normal {
 font-weight: normal;
 }
-#wlyrahozzq .gt_font_bold {
+#hhrdszpaup .gt_font_bold {
 font-weight: bold;
 }
-#wlyrahozzq .gt_font_italic {
+#hhrdszpaup .gt_font_italic {
 font-style: italic;
 }
-#wlyrahozzq .gt_super {
+#hhrdszpaup .gt_super {
 font-size: 65%;
 }
-#wlyrahozzq .gt_footnote_marks {
+#hhrdszpaup .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#wlyrahozzq .gt_asterisk {
+#hhrdszpaup .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#wlyrahozzq .gt_indent_1 {
+#hhrdszpaup .gt_indent_1 {
 text-indent: 5px;
 }
-#wlyrahozzq .gt_indent_2 {
+#hhrdszpaup .gt_indent_2 {
 text-indent: 10px;
 }
-#wlyrahozzq .gt_indent_3 {
+#hhrdszpaup .gt_indent_3 {
 text-indent: 15px;
 }
-#wlyrahozzq .gt_indent_4 {
+#hhrdszpaup .gt_indent_4 {
 text-indent: 20px;
 }
-#wlyrahozzq .gt_indent_5 {
+#hhrdszpaup .gt_indent_5 {
 text-indent: 25px;
 }
-#wlyrahozzq .katex-display {
+#hhrdszpaup .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#wlyrahozzq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hhrdszpaup div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
