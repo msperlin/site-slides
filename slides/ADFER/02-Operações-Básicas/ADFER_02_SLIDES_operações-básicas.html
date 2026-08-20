@@ -1150,6 +1150,22 @@ executa o arquivo atual com eco;
 <dd>
 executa a linha selecionada;
 </dd>
+<dt><strong>alt + -</strong></dt>
+<dd>
+insere <code>&lt;-</code> (com espaços);
+</dd>
+<dt><strong>control + shift + m</strong></dt>
+<dd>
+insere o operador pipe <code>|&gt;</code>;
+</dd>
+<dt><strong>control + shift + c</strong></dt>
+<dd>
+comenta ou descomenta as linhas selecionadas;
+</dd>
+<dt><strong>control + .</strong></dt>
+<dd>
+busca rápida de funções e arquivos no projeto;
+</dd>
 </dl>
 </div>
 </div>
@@ -1181,6 +1197,16 @@ executa a linha selecionada;
 <section id="objetos-no-r" class="title-slide slide level1 center">
 <h1>Objetos no R</h1>
 
+</section>
+<section id="como-obter-ajuda" class="slide level2">
+<h2>Como obter ajuda</h2>
+<ul>
+<li class="fragment"><code>?função</code> ou <code>help(função)</code> abre a documentação oficial de uma função (ex.: <code>?readr::read_csv</code>)</li>
+<li class="fragment"><code>??termo</code> busca um termo em todos os pacotes instalados</li>
+<li class="fragment"><code>args(função)</code> mostra os argumentos esperados e <code>str(objeto)</code> mostra a estrutura de um objeto</li>
+<li class="fragment"><code>View(objeto)</code> abre um objeto em uma aba interativa do RStudio</li>
+<li class="fragment">Ao receber um erro, leia a mensagem completa, procure o trecho da mensagem no Google/IA e teste as funções isoladamente</li>
+</ul>
 </section>
 <section id="tipos-de-objetos" class="slide level2">
 <h2>Tipos de objetos</h2>
@@ -1333,7 +1359,7 @@ executa a linha selecionada;
 <li class="fragment">Listar arquivos e diretórios
 <ul>
 <li class="fragment">comando <code>fs::dir_ls(PATH)</code></li>
-<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpNmJlIN”</li>
+<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpUyxQhQ”</li>
 </ul></li>
 <li class="fragment">Apagar e remover diretórios
 <ul>
@@ -1369,6 +1395,7 @@ executa a linha selecionada;
 <ul>
 <li>acesse APIs da internet com <code>jsonlite::fromJSON()</code></li>
 <li>exemplo: acesso o api do Banco Central do Brasil para importar taxas atuais de financiamento de veículos</li>
+<li>o operador pipe <code>|&gt;</code> encadeia operações: a saída da esquerda é passada como primeiro argumento da função à direita</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.bcb.gov.br/api/servico/sitebcb/historicotaxajurosdiario/TodosCampos?filtro=codigoSegmento%20eq%20%271%27%20and%20codigoModalidade%20eq%20%27401101%27%20and%20InicioPeriodo%20eq%20%272023-05-09%27&quot;</span></span>
@@ -1378,20 +1405,20 @@ executa a linha selecionada;
 <span id="cb9-5"><a href></a>df_taxas_auto <span class="sc">|&gt;</span></span>
 <span id="cb9-6"><a href></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="tnvxrywkhx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tnvxrywkhx table {
+<div id="cdnkmlrpwn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cdnkmlrpwn table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#tnvxrywkhx thead, #tnvxrywkhx tbody, #tnvxrywkhx tfoot, #tnvxrywkhx tr, #tnvxrywkhx td, #tnvxrywkhx th {
+#cdnkmlrpwn thead, #cdnkmlrpwn tbody, #cdnkmlrpwn tfoot, #cdnkmlrpwn tr, #cdnkmlrpwn td, #cdnkmlrpwn th {
 border-style: none;
 }
-#tnvxrywkhx p {
+#cdnkmlrpwn p {
 margin: 0;
 padding: 0;
 }
-#tnvxrywkhx .gt_table {
+#cdnkmlrpwn .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1416,11 +1443,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_caption {
+#cdnkmlrpwn .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#tnvxrywkhx .gt_title {
+#cdnkmlrpwn .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1431,7 +1458,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#tnvxrywkhx .gt_subtitle {
+#cdnkmlrpwn .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1442,7 +1469,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#tnvxrywkhx .gt_heading {
+#cdnkmlrpwn .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1453,12 +1480,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_bottom_border {
+#cdnkmlrpwn .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_col_headings {
+#cdnkmlrpwn .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1472,7 +1499,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_col_heading {
+#cdnkmlrpwn .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1491,7 +1518,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#tnvxrywkhx .gt_column_spanner_outer {
+#cdnkmlrpwn .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1502,13 +1529,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#tnvxrywkhx .gt_column_spanner_outer:first-child {
+#cdnkmlrpwn .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#tnvxrywkhx .gt_column_spanner_outer:last-child {
+#cdnkmlrpwn .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#tnvxrywkhx .gt_column_spanner {
+#cdnkmlrpwn .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1519,10 +1546,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#tnvxrywkhx .gt_spanner_row {
+#cdnkmlrpwn .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#tnvxrywkhx .gt_group_heading {
+#cdnkmlrpwn .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1547,7 +1574,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#tnvxrywkhx .gt_empty_group_heading {
+#cdnkmlrpwn .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1561,13 +1588,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#tnvxrywkhx .gt_from_md > :first-child {
+#cdnkmlrpwn .gt_from_md > :first-child {
 margin-top: 0;
 }
-#tnvxrywkhx .gt_from_md > :last-child {
+#cdnkmlrpwn .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#tnvxrywkhx .gt_row {
+#cdnkmlrpwn .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1585,7 +1612,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#tnvxrywkhx .gt_stub {
+#cdnkmlrpwn .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1597,7 +1624,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tnvxrywkhx .gt_stub_row_group {
+#cdnkmlrpwn .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1610,13 +1637,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#tnvxrywkhx .gt_row_group_first td {
+#cdnkmlrpwn .gt_row_group_first td {
 border-top-width: 2px;
 }
-#tnvxrywkhx .gt_row_group_first th {
+#cdnkmlrpwn .gt_row_group_first th {
 border-top-width: 2px;
 }
-#tnvxrywkhx .gt_summary_row {
+#cdnkmlrpwn .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1625,14 +1652,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tnvxrywkhx .gt_first_summary_row {
+#cdnkmlrpwn .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_first_summary_row.thick {
+#cdnkmlrpwn .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#tnvxrywkhx .gt_last_summary_row {
+#cdnkmlrpwn .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1641,7 +1668,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_grand_summary_row {
+#cdnkmlrpwn .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1650,7 +1677,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tnvxrywkhx .gt_first_grand_summary_row {
+#cdnkmlrpwn .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1659,7 +1686,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_last_grand_summary_row_top {
+#cdnkmlrpwn .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1668,10 +1695,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_striped {
+#cdnkmlrpwn .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#tnvxrywkhx .gt_table_body {
+#cdnkmlrpwn .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1679,7 +1706,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_footnotes {
+#cdnkmlrpwn .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1692,7 +1719,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_footnote {
+#cdnkmlrpwn .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -1700,7 +1727,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tnvxrywkhx .gt_sourcenotes {
+#cdnkmlrpwn .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1713,64 +1740,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#tnvxrywkhx .gt_sourcenote {
+#cdnkmlrpwn .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tnvxrywkhx .gt_left {
+#cdnkmlrpwn .gt_left {
 text-align: left;
 }
-#tnvxrywkhx .gt_center {
+#cdnkmlrpwn .gt_center {
 text-align: center;
 }
-#tnvxrywkhx .gt_right {
+#cdnkmlrpwn .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#tnvxrywkhx .gt_font_normal {
+#cdnkmlrpwn .gt_font_normal {
 font-weight: normal;
 }
-#tnvxrywkhx .gt_font_bold {
+#cdnkmlrpwn .gt_font_bold {
 font-weight: bold;
 }
-#tnvxrywkhx .gt_font_italic {
+#cdnkmlrpwn .gt_font_italic {
 font-style: italic;
 }
-#tnvxrywkhx .gt_super {
+#cdnkmlrpwn .gt_super {
 font-size: 65%;
 }
-#tnvxrywkhx .gt_footnote_marks {
+#cdnkmlrpwn .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#tnvxrywkhx .gt_asterisk {
+#cdnkmlrpwn .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#tnvxrywkhx .gt_indent_1 {
+#cdnkmlrpwn .gt_indent_1 {
 text-indent: 5px;
 }
-#tnvxrywkhx .gt_indent_2 {
+#cdnkmlrpwn .gt_indent_2 {
 text-indent: 10px;
 }
-#tnvxrywkhx .gt_indent_3 {
+#cdnkmlrpwn .gt_indent_3 {
 text-indent: 15px;
 }
-#tnvxrywkhx .gt_indent_4 {
+#cdnkmlrpwn .gt_indent_4 {
 text-indent: 20px;
 }
-#tnvxrywkhx .gt_indent_5 {
+#cdnkmlrpwn .gt_indent_5 {
 text-indent: 25px;
 }
-#tnvxrywkhx .katex-display {
+#cdnkmlrpwn .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#tnvxrywkhx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cdnkmlrpwn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2242,7 +2269,7 @@ height: 0px !important;
 <section id="exercícios-2-22" class="slide level2 scrollable">
 <h2>Exercícios 2 (2/2)</h2>
 <ol start="5" type="1">
-<li><p>Instale o pacote <code>GetTDData</code> no seu computador. Leia o manual do pacote e utilize a função <code>GetTDData::get.yield.curve()</code> para baixar a curva de juros atual no sistema financeiro Brasileiro.</p></li>
+<li><p>Instale o pacote <code>GetTDData</code> no seu computador. Leia o manual do pacote (use <code>?GetTDData::get_yield_curve</code>) e utilize a função <code>GetTDData::get_yield_curve()</code> para baixar a curva de juros atual no sistema financeiro Brasileiro.</p></li>
 <li><p>Utilizando o pacote <code>pak</code> (ou <code>remotes</code>), instale a versão de desenvolvimento do pacote <code>ggplot2</code> do repositório oficial do Github (<code>tidyverse/ggplot2</code>). Carregue o pacote usando <code>library(ggplot2)</code> e crie um gráfico de dispersão com dados aleatórios (<code>x = 1:10</code>, <code>y = rnorm(10)</code>).</p></li>
 <li><p><strong>DESAFIO</strong> - Utilizando sua capacidade de programação, verifique na sua pasta de usuário (<code>fs::path_home()</code>) qual subdiretório de primeiro nível possui o maior número total de arquivos (recursivamente). Apresente na tela as cinco pastas com maior número de arquivos.</p></li>
 </ol>
