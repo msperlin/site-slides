@@ -44,7 +44,9 @@ classtools::setup_quarto_slides("resources")
     - Empréstimos de curto prazo, dívidas de longo prazo, Patrimônio Líquido
   
 
-## Demonstrações financeiras uniformes
+# Demonstrações financeiras uniformes
+
+## Introdução
 
 > A uniformização de demonstrativos financeiros permite a comparação entre resultados obtidos em períodos diferentes, ou entre empresas diferentes. 
 
@@ -59,7 +61,8 @@ classtools::setup_quarto_slides("resources")
   - Também são úteis para comparar empresas com tamanhos diferentes, especialmente dentro do mesmo ramo.
 :::
 
-## Padronização de Demonstrações Financeiras
+
+## Análise Horizontal e Vertical
 
 ::: {.incremental}
 
@@ -316,7 +319,7 @@ n_circulacao <- 200
 
 Preço de mercado: `r classtools::format_cash(preco)` por ação
 
-Ações em circulação: `r humanize::count_as_word(n_circulacao)`
+Ações em circulação: `r n_circulacao`
 
 . . .
 
