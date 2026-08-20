@@ -1297,7 +1297,7 @@ executa a linha selecionada;
 <p><code>yvec</code> e <code>zvec</code> são iguais? Por que?</p>
 <ol start="2" type="1">
 <li><p>Pacote <code>fortunes</code> permite que o usuário <strong>conte piadas</strong> com o R. Instale o mesmo e execute a sua principal função <code>fortune()</code>. Qual é a piada contada?</p></li>
-<li><p>Pacote <code>afedR3</code> foi construído baseado na versão em inglês do livro da disciplina. Instale o mesmo com o comando <code>remotes::install_github(&quot;msperlin/afedR3&quot;)</code>. Após isso, execute o código abaixo e descreva qual a finalidade do mesmo.</p></li>
+<li><p>Pacote <code>afedR3</code> foi construído baseado na versão em inglês do livro da disciplina. Instale o mesmo com o comando <code>remotes::install_github(&quot;msperlin/afedR3&quot;)</code> (ou <code>pak::pkg_install(&quot;msperlin/afedR3&quot;)</code>). Após isso, execute o código abaixo e descreva qual a finalidade do mesmo.</p></li>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="co"># importe dados</span></span>
@@ -1307,6 +1307,9 @@ executa a linha selecionada;
 <span id="cb7-5"><a href></a><span class="co"># apresente a tabela</span></span>
 <span id="cb7-6"><a href></a><span class="fu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<ol start="4" type="1">
+<li>Crie o vetor <code>v &lt;- c(10, 20, &quot;30&quot;)</code>. Verifique a sua classe com <code>class(v)</code>. O que acontece ao tentar executar <code>v + 5</code>? Como converter o vetor para numérico e realizar a operação?</li>
+</ol>
 </section></section>
 <section>
 <section id="interagindo-com-o-sistema-operacional" class="title-slide slide level1 center">
@@ -1330,7 +1333,7 @@ executa a linha selecionada;
 <li class="fragment">Listar arquivos e diretórios
 <ul>
 <li class="fragment">comando <code>fs::dir_ls(PATH)</code></li>
-<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpJofe8K”</li>
+<li class="fragment">o R possui uma pasta temporária, a qual pode ser usada nas mais diferentes operações. Para descobrir a sua, use a função <code>fs::path_temp()</code>. A minha é “/tmp/RtmpNmJlIN”</li>
 </ul></li>
 <li class="fragment">Apagar e remover diretórios
 <ul>
@@ -1375,20 +1378,20 @@ executa a linha selecionada;
 <span id="cb9-5"><a href></a>df_taxas_auto <span class="sc">|&gt;</span></span>
 <span id="cb9-6"><a href></a>  gt<span class="sc">::</span><span class="fu">gt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="hhrdszpaup" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hhrdszpaup table {
+<div id="tnvxrywkhx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tnvxrywkhx table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#hhrdszpaup thead, #hhrdszpaup tbody, #hhrdszpaup tfoot, #hhrdszpaup tr, #hhrdszpaup td, #hhrdszpaup th {
+#tnvxrywkhx thead, #tnvxrywkhx tbody, #tnvxrywkhx tfoot, #tnvxrywkhx tr, #tnvxrywkhx td, #tnvxrywkhx th {
 border-style: none;
 }
-#hhrdszpaup p {
+#tnvxrywkhx p {
 margin: 0;
 padding: 0;
 }
-#hhrdszpaup .gt_table {
+#tnvxrywkhx .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1413,11 +1416,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#hhrdszpaup .gt_caption {
+#tnvxrywkhx .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#hhrdszpaup .gt_title {
+#tnvxrywkhx .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1428,7 +1431,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#hhrdszpaup .gt_subtitle {
+#tnvxrywkhx .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1439,7 +1442,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#hhrdszpaup .gt_heading {
+#tnvxrywkhx .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1450,12 +1453,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#hhrdszpaup .gt_bottom_border {
+#tnvxrywkhx .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#hhrdszpaup .gt_col_headings {
+#tnvxrywkhx .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1469,7 +1472,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#hhrdszpaup .gt_col_heading {
+#tnvxrywkhx .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1488,7 +1491,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#hhrdszpaup .gt_column_spanner_outer {
+#tnvxrywkhx .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1499,13 +1502,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#hhrdszpaup .gt_column_spanner_outer:first-child {
+#tnvxrywkhx .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#hhrdszpaup .gt_column_spanner_outer:last-child {
+#tnvxrywkhx .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#hhrdszpaup .gt_column_spanner {
+#tnvxrywkhx .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1516,10 +1519,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#hhrdszpaup .gt_spanner_row {
+#tnvxrywkhx .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#hhrdszpaup .gt_group_heading {
+#tnvxrywkhx .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1544,7 +1547,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#hhrdszpaup .gt_empty_group_heading {
+#tnvxrywkhx .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1558,13 +1561,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#hhrdszpaup .gt_from_md > :first-child {
+#tnvxrywkhx .gt_from_md > :first-child {
 margin-top: 0;
 }
-#hhrdszpaup .gt_from_md > :last-child {
+#tnvxrywkhx .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#hhrdszpaup .gt_row {
+#tnvxrywkhx .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1582,7 +1585,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#hhrdszpaup .gt_stub {
+#tnvxrywkhx .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1594,7 +1597,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hhrdszpaup .gt_stub_row_group {
+#tnvxrywkhx .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1607,13 +1610,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#hhrdszpaup .gt_row_group_first td {
+#tnvxrywkhx .gt_row_group_first td {
 border-top-width: 2px;
 }
-#hhrdszpaup .gt_row_group_first th {
+#tnvxrywkhx .gt_row_group_first th {
 border-top-width: 2px;
 }
-#hhrdszpaup .gt_summary_row {
+#tnvxrywkhx .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1622,14 +1625,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hhrdszpaup .gt_first_summary_row {
+#tnvxrywkhx .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#hhrdszpaup .gt_first_summary_row.thick {
+#tnvxrywkhx .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#hhrdszpaup .gt_last_summary_row {
+#tnvxrywkhx .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1638,7 +1641,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#hhrdszpaup .gt_grand_summary_row {
+#tnvxrywkhx .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1647,7 +1650,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hhrdszpaup .gt_first_grand_summary_row {
+#tnvxrywkhx .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1656,7 +1659,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#hhrdszpaup .gt_last_grand_summary_row_top {
+#tnvxrywkhx .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1665,10 +1668,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#hhrdszpaup .gt_striped {
+#tnvxrywkhx .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#hhrdszpaup .gt_table_body {
+#tnvxrywkhx .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1676,7 +1679,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#hhrdszpaup .gt_footnotes {
+#tnvxrywkhx .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1689,7 +1692,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#hhrdszpaup .gt_footnote {
+#tnvxrywkhx .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -1697,7 +1700,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hhrdszpaup .gt_sourcenotes {
+#tnvxrywkhx .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1710,64 +1713,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#hhrdszpaup .gt_sourcenote {
+#tnvxrywkhx .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#hhrdszpaup .gt_left {
+#tnvxrywkhx .gt_left {
 text-align: left;
 }
-#hhrdszpaup .gt_center {
+#tnvxrywkhx .gt_center {
 text-align: center;
 }
-#hhrdszpaup .gt_right {
+#tnvxrywkhx .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#hhrdszpaup .gt_font_normal {
+#tnvxrywkhx .gt_font_normal {
 font-weight: normal;
 }
-#hhrdszpaup .gt_font_bold {
+#tnvxrywkhx .gt_font_bold {
 font-weight: bold;
 }
-#hhrdszpaup .gt_font_italic {
+#tnvxrywkhx .gt_font_italic {
 font-style: italic;
 }
-#hhrdszpaup .gt_super {
+#tnvxrywkhx .gt_super {
 font-size: 65%;
 }
-#hhrdszpaup .gt_footnote_marks {
+#tnvxrywkhx .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#hhrdszpaup .gt_asterisk {
+#tnvxrywkhx .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#hhrdszpaup .gt_indent_1 {
+#tnvxrywkhx .gt_indent_1 {
 text-indent: 5px;
 }
-#hhrdszpaup .gt_indent_2 {
+#tnvxrywkhx .gt_indent_2 {
 text-indent: 10px;
 }
-#hhrdszpaup .gt_indent_3 {
+#tnvxrywkhx .gt_indent_3 {
 text-indent: 15px;
 }
-#hhrdszpaup .gt_indent_4 {
+#tnvxrywkhx .gt_indent_4 {
 text-indent: 20px;
 }
-#hhrdszpaup .gt_indent_5 {
+#tnvxrywkhx .gt_indent_5 {
 text-indent: 25px;
 }
-#hhrdszpaup .katex-display {
+#tnvxrywkhx .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#hhrdszpaup div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#tnvxrywkhx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2231,17 +2234,17 @@ height: 0px !important;
 <h2>Exercícios 2 (1/2)</h2>
 <ol type="1">
 <li><p>Utilize o R para baixar o arquivo compactado com o material do livro, disponível neste <a href="https://www.msperlin.com/files/afedr-files/afedR-code-and-data.zip">link</a>. Salve o mesmo como um arquivo na pasta temporária da sessão (veja função <code>fs::file_temp(ext = &quot;.zip&quot;)</code>).</p></li>
-<li><p>Utilize a função <code>unzip</code> para descompactar o arquivo baixado na questão anterior e, após a operação, utilize a função <code>fs::file_delete()</code> para remover o arquivo zipado do computador, após a sua descompactação. Quantos arquivos estão disponíveis no arquivo zipado?</p></li>
-<li><p>Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando os comandos <code>Sys.getenv(&#39;R_LIBS_USER&#39;)</code> e <code>fs::dir_ls()</code>, liste todos os diretórios desta pasta. Quantos pacotes estão disponíveis nesta pasta?</p></li>
-<li><p>No mesmo assunto do exercício anterior, liste todos os arquivos em todas as subpastas do diretório contendo os arquivos dos diferentes pacotes. Em média, quantos arquivos são necessários para cada pacote?</p></li>
+<li><p>Utilize a função <code>unzip</code> para descompactar o arquivo baixado na questão anterior em uma pasta temporária (<code>fs::path_temp()</code>) e, após a operação, utilize a função <code>fs::file_delete()</code> para remover o arquivo zipado do computador. Quantos arquivos estão disponíveis no arquivo descompactado?</p></li>
+<li><p>Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando os comandos <code>.libPaths()[1]</code> e <code>fs::dir_ls()</code>, liste todos os diretórios desta pasta. Quantos pacotes estão instalados nesta biblioteca?</p></li>
+<li><p>No mesmo assunto do exercício anterior, liste todos os arquivos em todas as subpastas do diretório contendo os arquivos dos pacotes. Em média, quantos arquivos são necessários para cada pacote?</p></li>
 </ol>
 </section>
 <section id="exercícios-2-22" class="slide level2 scrollable">
 <h2>Exercícios 2 (2/2)</h2>
 <ol start="5" type="1">
-<li><p>Instale o pacote <code>GetTDData</code> no seu computador. Leia o manual do pacote e utilize a função <code>GetTDData::get.yield.curve()</code> para baixar a curva de juros atual no sistema financeiro Brasileiro. Verifique o exemplo de uso da função para entender como utilizá-la.</p></li>
-<li><p>Utilizando o pacote <code>remotes</code> (ou <code>pak</code>), instale a versão de desenvolvimento do pacote <code>ggplot2</code> no repositório de <a href="https://github.com/hadley">Hadley Wickham</a>. Carregue o pacote usando <code>library</code> e crie uma figura simples com o código <code>qplot(y = rnorm(10), x = 1:10)</code>.</p></li>
-<li><p><strong>DESAFIO</strong> - Utilizando sua capacidade de programação, verifique no seu computador qual pasta, a partir do diretório de raiz, possui o maior número de arquivos. Apresente na tela do R as cinco pastas com maior número de arquivos.</p></li>
+<li><p>Instale o pacote <code>GetTDData</code> no seu computador. Leia o manual do pacote e utilize a função <code>GetTDData::get.yield.curve()</code> para baixar a curva de juros atual no sistema financeiro Brasileiro.</p></li>
+<li><p>Utilizando o pacote <code>pak</code> (ou <code>remotes</code>), instale a versão de desenvolvimento do pacote <code>ggplot2</code> do repositório oficial do Github (<code>tidyverse/ggplot2</code>). Carregue o pacote usando <code>library(ggplot2)</code> e crie um gráfico de dispersão com dados aleatórios (<code>x = 1:10</code>, <code>y = rnorm(10)</code>).</p></li>
+<li><p><strong>DESAFIO</strong> - Utilizando sua capacidade de programação, verifique na sua pasta de usuário (<code>fs::path_home()</code>) qual subdiretório de primeiro nível possui o maior número total de arquivos (recursivamente). Apresente na tela as cinco pastas com maior número de arquivos.</p></li>
 </ol>
 
 </section></section>

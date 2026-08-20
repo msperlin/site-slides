@@ -254,7 +254,7 @@ print(zvec)
 
 2. Pacote `fortunes` permite que o usuário **conte piadas** com o R. Instale o mesmo e execute a sua principal função `fortune()`. Qual é a piada contada?
 
-3. Pacote `afedR3` foi construído baseado na versão em inglês do livro da disciplina. Instale o mesmo com o comando `remotes::install_github("msperlin/afedR3")`. Após isso, execute o código abaixo e descreva qual a finalidade do mesmo.
+3. Pacote `afedR3` foi construído baseado na versão em inglês do livro da disciplina. Instale o mesmo com o comando `remotes::install_github("msperlin/afedR3")` (ou `pak::pkg_install("msperlin/afedR3")`). Após isso, execute o código abaixo e descreva qual a finalidade do mesmo.
 
 ```{r}
 #| echo: true
@@ -267,6 +267,8 @@ df <- readr::read_csv(f_df)
 # apresente a tabela
 print(df)
 ```
+
+4. Crie o vetor `v <- c(10, 20, "30")`. Verifique a sua classe com `class(v)`. O que acontece ao tentar executar `v + 5`? Como converter o vetor para numérico e realizar a operação?
 
 # Interagindo com o Sistema Operacional
 
@@ -359,18 +361,18 @@ i_exerc <- i_exerc +1
 
 1. Utilize o R para baixar o arquivo compactado com o material do livro, disponível neste [link](`r afedR3::links_get()$book_blog_zip`). Salve o mesmo como um arquivo na pasta temporária da sessão (veja função `fs::file_temp(ext = ".zip")`).
 
-2. Utilize a função `unzip` para descompactar o arquivo baixado na questão anterior e, após a operação, utilize a função `fs::file_delete()` para remover o arquivo zipado do computador, após a sua descompactação. Quantos arquivos estão disponíveis no arquivo zipado?
+2. Utilize a função `unzip` para descompactar o arquivo baixado na questão anterior em uma pasta temporária (`fs::path_temp()`) e, após a operação, utilize a função `fs::file_delete()` para remover o arquivo zipado do computador. Quantos arquivos estão disponíveis no arquivo descompactado?
 
-3. Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando os comandos `Sys.getenv('R_LIBS_USER')` e `fs::dir_ls()`, liste todos os diretórios desta pasta. Quantos pacotes estão disponíveis nesta pasta?
+3. Toda vez que o usuário instala um pacote do R, os arquivos desse são armazenados localmente em uma pasta específica do computador. Utilizando os comandos `.libPaths()[1]` e `fs::dir_ls()`, liste todos os diretórios desta pasta. Quantos pacotes estão instalados nesta biblioteca?
 
-4. No mesmo assunto do exercício anterior, liste todos os arquivos em todas as subpastas do diretório contendo os arquivos dos diferentes pacotes. Em média, quantos arquivos são necessários para cada pacote?
+4. No mesmo assunto do exercício anterior, liste todos os arquivos em todas as subpastas do diretório contendo os arquivos dos pacotes. Em média, quantos arquivos são necessários para cada pacote?
 
 
 ## Exercícios `r i_exerc` (2/2)
 
-5. Instale o pacote `GetTDData` no seu computador. Leia o manual do pacote e utilize a função `GetTDData::get.yield.curve()` para baixar a curva de juros atual no sistema financeiro Brasileiro. Verifique o exemplo de uso da função para entender como utilizá-la.
+5. Instale o pacote `GetTDData` no seu computador. Leia o manual do pacote e utilize a função `GetTDData::get.yield.curve()` para baixar a curva de juros atual no sistema financeiro Brasileiro.
 
-6. Utilizando o pacote `remotes` (ou `pak`), instale a versão de desenvolvimento do pacote `ggplot2` no repositório de [Hadley Wickham](https://github.com/hadley). Carregue o pacote usando `library` e crie uma figura simples com o código `qplot(y = rnorm(10), x = 1:10)`.
+6. Utilizando o pacote `pak` (ou `remotes`), instale a versão de desenvolvimento do pacote `ggplot2` do repositório oficial do Github (`tidyverse/ggplot2`). Carregue o pacote usando `library(ggplot2)` e crie um gráfico de dispersão com dados aleatórios (`x = 1:10`, `y = rnorm(10)`).
 
-7. **DESAFIO** - Utilizando sua capacidade de programação, verifique no seu computador qual pasta, a partir do diretório de raiz, possui o maior número de arquivos. Apresente na tela do R as cinco pastas com maior número de arquivos.
+7. **DESAFIO** - Utilizando sua capacidade de programação, verifique na sua pasta de usuário (`fs::path_home()`) qual subdiretório de primeiro nível possui o maior número total de arquivos (recursivamente). Apresente na tela as cinco pastas com maior número de arquivos.
 
