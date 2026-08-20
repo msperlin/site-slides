@@ -292,6 +292,9 @@ print(df)
 
 4. Crie o vetor `v <- c(10, 20, "30")`. Verifique a sua classe com `class(v)`. O que acontece ao tentar executar `v + 5`? Como converter o vetor para numérico e realizar a operação?
 
+5. Crie um projeto com ambiente de R isolado e refaça o exercício 3. O que mudou?
+
+
 # Interagindo com o Sistema Operacional
 
 ## Operações mais comuns e importantes
