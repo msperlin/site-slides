@@ -84,7 +84,7 @@ message("Média de arquivos por pacote: ", round(n_files_pkg / n_pkgs, 2))
 
 # --- Exercício 2.5 ---
 # install.packages("GetTDData")
-df_yc <- GetTDData::get.yield.curve()
+df_yc <- GetTDData::get_yield_curve()
 print(head(df_yc))
 
 

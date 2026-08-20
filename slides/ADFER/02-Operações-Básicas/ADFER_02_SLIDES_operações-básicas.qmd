@@ -87,6 +87,18 @@ plot(1:10)
 
 **control + enter**
 : executa a linha selecionada;
+
+**alt + -**
+: insere `<- ` (com espaços);
+
+**control + shift + m**
+: insere o operador pipe `|>`;
+
+**control + shift + c**
+: comenta ou descomenta as linhas selecionadas;
+
+**control + .**
+: busca rápida de funções e arquivos no projeto;
 :::
 :::
 
@@ -117,6 +129,16 @@ write.csv(df, fs::file_temp(ext = ".csv"))
 ```
 
 # Objetos no R
+
+## Como obter ajuda
+
+::: {.incremental}
+- `?função` ou `help(função)` abre a documentação oficial de uma função (ex.: `?readr::read_csv`)
+- `??termo` busca um termo em todos os pacotes instalados
+- `args(função)` mostra os argumentos esperados e `str(objeto)` mostra a estrutura de um objeto
+- `View(objeto)` abre um objeto em uma aba interativa do RStudio
+- Ao receber um erro, leia a mensagem completa, procure o trecho da mensagem no Google/IA e teste as funções isoladamente
+:::
 
 ## Tipos de objetos
 
@@ -315,6 +337,7 @@ print(df)
 
 - acesse APIs da internet com `jsonlite::fromJSON()`
 - exemplo: acesso o api do Banco Central do Brasil para importar taxas atuais de financiamento de veículos
+- o operador pipe `|>` encadeia operações: a saída da esquerda é passada como primeiro argumento da função à direita
 
 ```{r}
 #| echo: true
@@ -370,7 +393,7 @@ i_exerc <- i_exerc +1
 
 ## Exercícios `r i_exerc` (2/2)
 
-5. Instale o pacote `GetTDData` no seu computador. Leia o manual do pacote e utilize a função `GetTDData::get.yield.curve()` para baixar a curva de juros atual no sistema financeiro Brasileiro.
+5. Instale o pacote `GetTDData` no seu computador. Leia o manual do pacote (use `?GetTDData::get_yield_curve`) e utilize a função `GetTDData::get_yield_curve()` para baixar a curva de juros atual no sistema financeiro Brasileiro.
 
 6. Utilizando o pacote `pak` (ou `remotes`), instale a versão de desenvolvimento do pacote `ggplot2` do repositório oficial do Github (`tidyverse/ggplot2`). Carregue o pacote usando `library(ggplot2)` e crie um gráfico de dispersão com dados aleatórios (`x = 1:10`, `y = rnorm(10)`).
 
