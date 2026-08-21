@@ -35,7 +35,7 @@ a) Índice de liquidez geral
 b) Índice de liquidez seca
 c) Giro do ativo
 d) ROA – Retorno sobre ativos
-e) ROE – Retorno sobre capital próprio
+e) **ROE – Retorno sobre capital próprio**
 
 . . .
 
@@ -64,6 +64,30 @@ O **ROE (Return on Equity)** é a principal medida do retorno gerado para os aci
 - Facilita a comparação direta entre empresas do mesmo setor.
 
 
+## Árvore de Decomposição DuPont
+
+```{mermaid}
+graph TD
+    ROE["ROE: Return on Equity"] --> ML["Margem Líquida (ML)"]
+    ROE --> GAT["Giro do Ativo (GAT)"]
+    ROE --> MPL["Multiplicador do PL (MPL)"]
+    
+    ML --> LL["Lucro Líquido"]
+    ML --> Vendas1["Vendas"]
+    
+    GAT --> Vendas2["Vendas"]
+    GAT --> AT1["Ativo Total"]
+    
+    MPL --> AT2["Ativo Total"]
+    MPL --> PL["Patrimônio Líquido"]
+
+    style ROE fill:#003366,color:#fff,stroke:#001f3f
+    style ML fill:#1667c4,color:#fff
+    style GAT fill:#27A5A2,color:#fff
+    style MPL fill:#E80724,color:#fff
+```
+
+
 ## Impacto de Dívidas sobre a Rentabilidade
 
 > A alavancagem (uso de capital de terceiros) pode alavancar o ROE da empresa.
@@ -77,6 +101,24 @@ Portanto:
 $$\text{ROE} = \text{ROA} \times \frac{\text{Ativo Total}}{\text{PL}}$$
 
 $$\text{ROE} = \text{ROA} \times \left(1 + \frac{\text{Dívida}}{\text{PL}}\right)$$
+
+
+## O Efeito Alavancagem: ROIC vs. Custo da Dívida
+
+> O uso de capital de terceiros só beneficia o acionista se a empresa gerar retorno operacional superior ao custo da dívida.
+
+$$\text{ROE} = \text{ROIC} + \left( \text{ROIC} - K_d \right) \times \frac{\text{Dívida}}{\text{PL}}$$
+
+onde $\text{ROIC}$ é o Retorno sobre o Capital Investido e $K_d$ é o Custo da Dívida pós-impostos.
+
+. . .
+
+::: {.callout-warning}
+### A Armadilha da Alavancagem Financeira
+- **Spread Positivo ($\text{ROIC} > K_d$)**: Alavancagem **cria valor** e expande o ROE.
+- **Spread Negativo ($\text{ROIC} < K_d$)**: A dívida **destrói valor** e espreme o ROE.
+- Em períodos de **juros elevados (ex: Selic alta)**, o custo da dívida pode superar o ROIC operacional!
+:::
 
 
 ## Derivando a Identidade DuPont (1/2)
@@ -105,6 +147,20 @@ onde:
 - **ML**: Margem Líquida (Lucratividade)
 - **GAT**: Giro do Ativo Total (Eficiência)
 - **MPL**: Multiplicador do PL (Alavancagem)
+
+
+## Análise DuPont em 5 Etapas (Expandida)
+
+Ao abrir a Margem Líquida nos componentes operacionais, financeiros e tributários, temos a decomposição de **5 fatores**:
+
+$$\text{ROE} = \underbrace{\frac{\text{EBIT}}{\text{Vendas}}}_{\text{Margem Operacional}} \times \underbrace{\frac{\text{Vendas}}{\text{Ativo Total}}}_{\text{Giro do Ativo}} \times \underbrace{\frac{\text{EBT}}{\text{EBIT}}}_{\text{Carga de Juros}} \times \underbrace{\frac{\text{Lucro Líquido}}{\text{EBT}}}_{\text{Carga Tributária}} \times \underbrace{\frac{\text{Ativo Total}}{\text{PL}}}_{\text{Alavancagem}}$$
+
+. . .
+
+### Diagnóstico por Componente:
+- **Margem Operacional (EBIT / Vendas)**: Eficiência puramente operacional da atividade principal.
+- **Carga de Juros (EBT / EBIT)**: Impacto do custo da dívida (quanto menor, mais juros consomem o EBIT).
+- **Carga Tributária (LL / EBT)**: Eficiência no manejo de tributos sobre o lucro (IR/CSLL).
 
 
 ## Usando a Identidade DuPont
@@ -143,12 +199,14 @@ get_acc <- function(target, CD_CONTA, VL_CONTA) {
   return(VL_CONTA[idx[1]])
 }
 
-do_dupont <- function(id, first_year = 2010) {
+do_dupont <- function(id, first_year = 2015) {
   require(ggplot2)
   
-  l_dfp <- GetDFPData2::get_dfp_data(id, first_year = first_year,
-                                     type_docs = c("DRE", "BPA", "BPP"),
-                                     type_format = 'ind')
+  l_dfp <- GetDFPData2::get_dfp_data(
+    id, first_year = first_year,
+    type_docs = c("DRE", "BPA", "BPP"),
+    type_format = 'ind',
+    cache_folder = "~/.cache/GetDFPData2")
   
   bpa <- l_dfp$`DF Individual - Balanço Patrimonial Ativo`
   bpp <- l_dfp$`DF Individual - Balanço Patrimonial Passivo`
@@ -229,11 +287,11 @@ do_dupont <- function(id, first_year = 2010) {
 ```{r}
 #| cache: true
 id <- 9512
-first_year <- 2010
+first_year <- 2015
 
 l_p <- do_dupont(id, first_year)
 
-latest_year <- max(l_p$my_tab$year)
+latest_year <- max(l_p$my_tab$year)-1
 ```
 
 - Dados financeiros de `r first_year` até `r latest_year`
@@ -284,7 +342,7 @@ l_p$p_all
 ticker <- "MGLU3.SA"
 
 first_date <- as.Date(paste0(2015, '-01-01'))
-last_date <- as.Date(paste0(2023, '-12-31'))
+last_date <- as.Date(paste0(latest_year, '-12-31'))
 
 p <- classtools::plot_price(ticker, first_date, last_date)
 p
@@ -345,13 +403,49 @@ l_p$p_all
 :::
 
 
+## Ambev (ABEV3)
+
+::: {.panel-tabset}
+
+### Preços Ajustados
+
+```{r}
+ticker <- "ABEV3.SA"
+
+first_date <- as.Date(paste0(first_year, '-01-01'))
+last_date <- as.Date(paste0(latest_year, '-12-31'))
+
+p <- classtools::plot_price(ticker, first_date, last_date)
+p
+```
+
+### ROE
+
+```{r}
+#| cache: false
+id <- 23264
+
+l_p <- do_dupont(id)
+l_p$p_ROE
+```
+
+### Decomposição DuPont (ML, GAT, MPL)
+
+```{r}
+l_p$p_all
+```
+
+:::
+
+
 ## Comparação Prática: Modelos de Negócio
 
 | Empresa | Perfil DuPont Predominante | Característica Principal |
 |:---|:---|:---|
-| **Petrobras** | Alavancagem & Ciclos de Commodities | Alta variação em margens e impacto de endividamento |
+| **Petrobras** | Alavancagem & Commodities | Alta variação em margens e impacto do custo da dívida |
 | **Magalu** | Giro do Ativo ($GAT$) & Varejo | Dependente de volume/giro e sensível à taxa de juros |
-| **M. Dias Branco** | Margem Líquida ($ML$) & Baixa Alavancagem | Setor alimentício estável, alta rentabilidade e estrutura conservadora |
+| **M. Dias Branco** | Margem Líquida ($ML$) & Baixa Alavancagem | Setor alimentício estável, foco em lucratividade |
+| **Ambev** | Altíssima Margem ($ML$) & Baixa Alavancagem | Poder de precificação de marca e estrutura de capital conservadora |
 
 . . .
 
@@ -361,31 +455,30 @@ Empresas no mesmo mercado podem apresentar ROEs idênticos por caminhos operacio
 :::
 
 
-# Aplicação e Importância Prática
+# Exercício Prático e Aplicação
 
-## Por que Avaliar Demonstrações Contábeis?
+## Desafio em Sala: Qual Empresa Escolher?
 
-- **Usos Internos**:
-  - **Avaliação de desempenho**: Remuneração de executivos e comparação entre divisões operacionais.
-  - **Planejamento futuro**: Guia para estimativa e projeção de fluxos de caixa futuros.
+Considere duas empresas rivais no mesmo setor com o mesmo ROE final de **18%**:
 
-- **Usos Externos**:
-  - **Credores e Bancos**: Avaliação de risco de crédito e capacidade de pagamento.
-  - **Investidores e Acionistas**: Análise de retorno sobre o capital investido.
-  - **Fornecedores e Clientes**: Avaliação de saúde financeira e continuidade operacional.
+| Indicador | Empresa Alfa | Empresa Beta |
+|:---|:---:|:---:|
+| **Margem Líquida ($ML$)** | $12\%$ | $3\%$ |
+| **Giro do Ativo ($GAT$)** | $0{,}5\text{x}$ | $2{,}0\text{x}$ |
+| **Multiplicador do PL ($MPL$)** | $3{,}0\text{x}$ | $3{,}0\text{x}$ |
+| **ROE Final** | **$18\%$** | **$18\%$** |
 
+**Perguntas para Discussão**:
+1. Qual empresa possui maior eficiência operacional no controle de custos?
+2. Qual modelo de negócios tolera melhor uma retração súbita no consumo?
 
-## Comparações e Benchmarking
+. . .
 
-> Indicadores financeiros isolados têm pouco valor; precisam ser comparados contextualmente.
-
-- **Análise de Tendência Temporal**:
-  - Acompanhamento do desempenho da própria empresa ao longo dos anos (série história).
-
-- **Análise de Comparação com Pares (Cross-Sectional)**:
-  - Comparação direta com empresas concorrentes do mesmo setor.
-  - Utilização de classificações setoriais: **CNAE/IBGE** no Brasil e **SIC/NAICS** nos EUA.
+::: {.callout-note}
+### Análise Didática
+- **Empresa Alfa**: Modelo focado em **diferenciação e margem** (alta proteção em quedas de vendas).
+- **Empresa Beta**: Modelo focado em **giro e volume** (vulnerável a retrações do mercado).
+:::
 
 
 ## Referências {-}
-
