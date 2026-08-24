@@ -35,13 +35,13 @@ a) Índice de liquidez geral
 b) Índice de liquidez seca
 c) Giro do ativo
 d) ROA – Retorno sobre ativos
-e) **ROE – Retorno sobre capital próprio**
+e) ROE – Retorno sobre capital próprio
 
 . . .
 
 ::: {.callout-note}
 ### Resposta: e) ROE
-O **ROE (Return on Equity)** é a principal medida do retorno gerado para os acionistas. A **Análise DuPont** nos permite "desmontar" o ROE para entender *de onde* vem esse desempenho (lucratividade, eficiência ou alavancagem).
+O **ROE (Return on Equity)** é a principal e mais completa medida do retorno gerado para os acionistas. A **Análise DuPont** nos permite "desmontar" o ROE para entender *de onde* vem esse desempenho (lucratividade, eficiência ou alavancagem).
 :::
 
 
@@ -49,43 +49,23 @@ O **ROE (Return on Equity)** é a principal medida do retorno gerado para os aci
 
 > A análise DuPont é uma ferramenta essencial para decompor e analisar a rentabilidade de uma empresa.
 
-- Criada em 1912 por **Donaldson Brown**, engenheiro elétrico na empresa DuPont.
+::: {.incremental}
+- Criada em 1912 por **Donaldson Brown**, engenheiro elétrico na empresa **DuPont**.
 - **Ideia básica**: Decompor o ROE em três pilares fundamentais:
   - **Margem Líquida** (Lucratividade)
   - **Giro dos Ativos** (Eficiência)
   - **Alavancagem Financeira** (Multiplicador do PL)
-
+:::
 . . .
 
 ### Importância
 
+::: {.incremental}
+
 - Permite entender os fatores determinantes da rentabilidade.
 - Auxilia na identificação de pontos fortes e fracos operacionais/financeiros.
 - Facilita a comparação direta entre empresas do mesmo setor.
-
-
-## Árvore de Decomposição DuPont
-
-```{mermaid}
-graph TD
-    ROE["ROE: Return on Equity"] --> ML["Margem Líquida (ML)"]
-    ROE --> GAT["Giro do Ativo (GAT)"]
-    ROE --> MPL["Multiplicador do PL (MPL)"]
-    
-    ML --> LL["Lucro Líquido"]
-    ML --> Vendas1["Vendas"]
-    
-    GAT --> Vendas2["Vendas"]
-    GAT --> AT1["Ativo Total"]
-    
-    MPL --> AT2["Ativo Total"]
-    MPL --> PL["Patrimônio Líquido"]
-
-    style ROE fill:#003366,color:#fff,stroke:#001f3f
-    style ML fill:#1667c4,color:#fff
-    style GAT fill:#27A5A2,color:#fff
-    style MPL fill:#E80724,color:#fff
-```
+:::
 
 
 ## Impacto de Dívidas sobre a Rentabilidade
@@ -138,8 +118,13 @@ Multiplique por $\frac{\text{Vendas}}{\text{Vendas}}$ e reorganize novamente:
 
 $$\text{ROE} = \frac{\text{Lucro Líquido}}{\text{Ativo Total}} \times \frac{\text{Ativo Total}}{\text{PL}} \times \frac{\text{Vendas}}{\text{Vendas}}$$
 
-$$\text{ROE} = \frac{\text{Lucro Líquido}}{\text{Vendas}} \times \frac{\text{Vendas}}{\text{Ativo Total}} \times \frac{\text{Ativo Total}}{\text{PL}}$$
+<hr>
 
+$$\text{ROE} = \underbrace{\frac{\text{Lucro Líquido}}{\text{Vendas}}}_{\text{Margem Operacional}} \times \underbrace{\frac{\text{Vendas}}{\text{Ativo Total}}}_{\text{Giro do Ativo}} \times \underbrace{\frac{\text{Ativo Total}}{\text{PL}}}_{\text{Multiplicador do PL}}$$
+
+
+::: {.callout-important}
+### A fórmula final Dupont
 $$\text{ROE} = \text{ML} \times \text{GAT} \times \text{MPL}$$
 
 onde:
@@ -147,6 +132,31 @@ onde:
 - **ML**: Margem Líquida (Lucratividade)
 - **GAT**: Giro do Ativo Total (Eficiência)
 - **MPL**: Multiplicador do PL (Alavancagem)
+:::
+
+
+## Árvore de Decomposição DuPont
+
+```{mermaid}
+graph TD
+    ROE["ROE<br/>Return on Equity"] --> ML["Margem Líquida<br/>(ML)"]
+    ROE --> GAT["Giro do Ativo<br/>(GAT)"]
+    ROE --> MPL["Multiplicador do PL<br/>(MPL)"]
+    
+    ML --> LL["Lucro Líquido"]
+    ML --> Vendas1["Vendas"]
+    
+    GAT --> Vendas2["Vendas"]
+    GAT --> AT1["Ativo Total"]
+    
+    MPL --> AT2["Ativo Total"]
+    MPL --> PL["Patrimônio Líquido"]
+
+    style ROE fill:#003366,color:#fff,stroke:#001f3f
+    style ML fill:#1667c4,color:#fff
+    style GAT fill:#27A5A2,color:#fff
+    style MPL fill:#E80724,color:#fff
+```
 
 
 ## Análise DuPont em 5 Etapas (Expandida)
@@ -461,7 +471,7 @@ Empresas no mesmo mercado podem apresentar ROEs idênticos por caminhos operacio
 
 Considere duas empresas rivais no mesmo setor com o mesmo ROE final de **18%**:
 
-| Indicador | Empresa Alfa | Empresa Beta |
+| Indicador | Empresa A | Empresa B |
 |:---|:---:|:---:|
 | **Margem Líquida ($ML$)** | $12\%$ | $3\%$ |
 | **Giro do Ativo ($GAT$)** | $0{,}5\text{x}$ | $2{,}0\text{x}$ |
@@ -469,16 +479,10 @@ Considere duas empresas rivais no mesmo setor com o mesmo ROE final de **18%**:
 | **ROE Final** | **$18\%$** | **$18\%$** |
 
 **Perguntas para Discussão**:
+
 1. Qual empresa possui maior eficiência operacional no controle de custos?
+
 2. Qual modelo de negócios tolera melhor uma retração súbita no consumo?
-
-. . .
-
-::: {.callout-note}
-### Análise Didática
-- **Empresa Alfa**: Modelo focado em **diferenciação e margem** (alta proteção em quedas de vendas).
-- **Empresa Beta**: Modelo focado em **giro e volume** (vulnerável a retrações do mercado).
-:::
 
 
 ## Referências {-}
