@@ -33,16 +33,17 @@ classtools::setup_quarto_slides("templates")
 
 > Dados são serializados ou salvos em texto em diferentes tipos de arquivos. 
 
-Em ordem de populariedade:
+Em ordem de popularidade:
 
 ::: {.incremental}
 - Dados delimitados em texto (_csv_, _tsv_);
 - Planilhas do Microsoft Excel (_xls_, _xlsx_);
 - Arquivos de dados nativos do R (_RData_ e _rds_)
-- SQLite (_SQLITE_)
+- SQLite (_SQLITE_) e outros bancos de dados
 - Texto não estruturado (_txt_)
+- Formato [parquet](https://arrow.apache.org/docs/2.0/r/articles/dataset.html)
 - Formato `fst` (_fst_)
-- Outros notáveis: [Feather](https://posit.co/blog/feather/) e [parquet](https://arrow.apache.org/docs/2.0/r/articles/dataset.html)
+- Outros notáveis: [Feather](https://posit.co/blog/feather/) 
 :::
 
 ## Pontos importantes
@@ -68,18 +69,17 @@ my_file <- 'Data/MyData.csv'
 
 Passos:
 
-1. Instale o pacote `remotes` (caso ainda não o tenha feito)
-1. Instale `afedR3` com comando `remotes::install_github("msperlin/afedR3")`
-2. Após instalação, verifique os dados disponíveis com o comando abaixo:
+1. Instale o pacote `remotes` (caso ainda não o tenha feito) e depois instale `afedR3` com comando `remotes::install_github("msperlin/afedR3")`
+3. Após instalação, verifique os dados disponíveis com o comando abaixo:
 
 ```{r}
-#| message: true
+#| message: false
 afedR3::data_list()
 ```
 
 - Para ter o caminho completo de cada arquivo, basta usar função `afedR3::data_path` tendo o nome do arquivo como entrada:
 
-```{r, eval = FALSE}
+```{r}
 # get location of file
 my_f <- afedR3::data_path('CH11_grunfeld.csv')
 
@@ -103,6 +103,7 @@ print(my_f)
 ## Argumentos da função `readr::read_csv`
 
 ```{r}
+#| eval: false
 help("read_csv", package = 'readr')
 ```
 
@@ -129,7 +130,7 @@ print(df)
 ::: {.incremental}
 1. Verifique a existência de texto antes dos dados e a necessidade de ignorar algumas linhas iniciais. 
 
-1. Verifique a existência ou não dos nomes das colunas na primeira linha com os dados.;
+1. Verifique a existência ou não dos nomes das colunas na primeira linha com os dados.
 
 1. Verifique qual o símbolo de separador de colunas. Comumente, seguindo notação internacional, será a vírgula, porém nunca se tem certeza sem checar; 
 1. Para dados numéricos, verifique o símbolo de decimal, o qual deve ser o ponto (`.`) tal como em `2.5`. Caso necessário, podes ajustar o símbolo na própria função de leitura;
@@ -200,12 +201,10 @@ readr::write_csv(x = my_df, file = f_out)
 - muito difícil de trabalhar com dados volumosos
 - funciona apenas para objetos  `dataframes`
 - EVITEM usar o excel no R!
-- boa alternativa: Google Sheets
+- ótima alternativa: Google Sheets
 :::
 
 ## Lendo arquivos _Excel_
-
-Imagine agora a existência de um arquivo chamado `Ibov_xls.xlsx` que contenha os mesmos dados do Ibovespa que importamos na seção anterior. A importação das informações contidas nesse arquivo para o R será realizada através da função `read_excel`: \index{readxl!read\_excel}
 
 ```{r}
 # set file
@@ -315,64 +314,6 @@ write_fst(x = my_df, path = my_file)
 ```
 
 
-## Testando o Tempo de Execução do Formato _fst_
-
-
-```{r}
-library(fst)
-library(readr)
-
-# set number of rows
-N <- 5000000
-
-# create random dfs
-my_df <- data.frame(y = seq(1,N),
-                    z = rep('a',N))
-
-# set files
-my_file_1 <- fs::file_temp(ext = ".rds")
-my_file_2 <- fs::file_temp(ext = ".fst")
-
-# test write
-time_write_rds <- system.time(write_rds(my_df, my_file_1 ))
-time_write_fst <- system.time(write_fst(my_df, my_file_2 ))
-
-# test read
-time_read_rds <- system.time(readRDS(my_file_1))
-time_read_fst <- system.time(read_fst(my_file_2))
-
-# test file size (MB)
-file_size_rds <- file.size(my_file_1)/1000000
-file_size_fst <- file.size(my_file_2)/1000000
-```
-
-Após a execução, vamos verificar o resultado:
-
-```{r}
-#| message: true
-# results
-my_formats <- c('.rds', '.fst')
-results_read <- c(time_read_rds[3], time_read_fst[3])
-results_write<- c(time_write_rds[3], time_write_fst[3])
-results_file_size <- c(file_size_rds , file_size_fst)
-
-# print text
-my_text <- paste0('\nTime to WRITE dataframe with ',
-                  my_formats, ': ',
-                  results_write, ' seconds', collapse = '')
-message(my_text)
-
-my_text <- paste0('\nTime to READ dataframe with ',
-                  my_formats, ': ',
-                  results_read, ' seconds', collapse = '')
-message(my_text)
-
-my_text <- paste0('\nResulting FILE SIZE for ',
-                  my_formats, ': ',
-                  results_file_size, ' MBs', collapse = '')
-message(my_text)
-```
-
 # Arquivos _SQLite_
 
 ## Introdução
@@ -387,7 +328,7 @@ message(my_text)
 
 ## Importação de Dados
 
-Assumindo a existência de um arquivo com formato SQLite, podemos importar suas tabelas com o pacote `RSQLite`: \index{RSQLite!dbReadTable} \index{RSQLite!dbConnect}
+Assumindo a existência de um arquivo com formato SQLite, podemos importar suas tabelas com o pacote `RSQLite`:
 
 ```{r}
 # set name of SQLITE file
@@ -406,6 +347,9 @@ my_df <- RSQLite::dbReadTable(conn = my_con,
 
 # print with str
 dplyr::glimpse(my_df)
+
+# disconnect
+RSQLite::dbDisconnect(my_con)
 ```
 
 
@@ -472,7 +416,7 @@ dbDisconnect(my_con)
 
 ::: {.incremental}
 - dados podem ser armazenados de forma não-estruturada, tal como um texto qualquer. 
-- tornar uma base de dados não-estrutura em estruturada pode ser um trabalho significativo
+- tornar uma base de dados não-estruturada em estruturada pode ser um trabalho significativo
 - o caso clássico de base de dados não-estruturada remete a importação de texto bruto
 :::
 
@@ -492,7 +436,7 @@ print(stringr::str_sub(string = my_txt[1:15],
 ```
 
 
-## Exportando de Dados Não-Estruturados
+## Exportação de Dados Não-Estruturados
 
 ```{r}
 # set file
@@ -524,34 +468,180 @@ O usuário deve levar em conta três pontos na decisão de formato de arquivos d
 
 Na grande maioria das situações, o uso de arquivos _csv_ satisfaz esses quesitos!
 
-Caso abrir mão de portabilidade não faça diferença ao projeto, o formato _rds_ é ótimo e prático. Se este não foi suficiente, então a melhor alternativa é partir para o _fst_, o qual usa maior parte do _hardware_ do computador para importar os dados. Como sugestão, caso puder, apenas **evite o formato do Excel**, o qual é o menos eficiente de todos.  
+Caso abrir mão de portabilidade não faça diferença ao projeto, o formato _rds_ é ótimo e prático. Se este não foi suficiente para dados maiores, as melhores alternativas são **_fst_** e **_parquet_** (via pacote `arrow`), os quais usam o máximo do _hardware_ do computador e oferecem compressão e velocidade excepcionais. Como sugestão, caso puder, apenas **evite o formato do Excel**, o qual é o menos eficiente de todos.  
+
+
+# Comparando o Desempenho dos Formatos (gravação, leitura e tamanho do arquivo)
+
+## Código
+
+```{r}
+#| message: false
+#| warning: false
+library(fst)
+library(readr)
+library(arrow)
+library(RSQLite)
+library(wakefield)
+library(dplyr)
+library(purrr)
+
+options(scipen = 999)
+
+# create simulated dataset
+set.seed(123)
+n_row <- 500000
+
+my_df <- as.data.frame(wakefield::r_data_frame(
+  n = n_row,
+  id,
+  age,
+  sex,
+  income,
+  date_stamp,
+  valid
+))
+
+# benchmark helper function
+benchmark_format <- function(name, write_fn, read_fn, ext, df) {
+  f_temp <- fs::file_temp(ext = ext)
+  on.exit(unlink(f_temp), add = TRUE)
+  
+  t_write <- system.time(write_fn(df, f_temp))[3]
+  t_read  <- system.time(read_fn(f_temp))[3]
+  size_mb <- file.size(f_temp) / 1e6
+  
+  tibble(
+    Formato = name,
+    `Tempo de Escrita (s)` = t_write,
+    `Tempo de Leitura (s)` = t_read,
+    `Tamanho em Disco (MB)` = size_mb
+  )
+}
+
+# list of format specifications
+benchmarks <- list(
+  list(name = "csv", ext = ".csv",
+       write_fn = \(df, f) write_csv(df, f),
+       read_fn  = \(f) read_csv(f, show_col_types = FALSE)),
+  list(name = "rds", ext = ".rds",
+       write_fn = \(df, f) write_rds(df, f),
+       read_fn  = \(f) read_rds(f)),
+  list(name = "fst", ext = ".fst",
+       write_fn = \(df, f) write_fst(df, f),
+       read_fn  = \(f) read_fst(f)),
+  list(name = "parquet", ext = ".parquet",
+       write_fn = \(df, f) write_parquet(df, f),
+       read_fn  = \(f) read_parquet(f)),
+  list(name = "sqlite", ext = ".sqlite",
+       write_fn = \(df, f) {
+         con <- dbConnect(SQLite(), f); on.exit(dbDisconnect(con))
+         dbWriteTable(con, "my_table", df)
+       },
+       read_fn = \(f) {
+         con <- dbConnect(SQLite(), f); on.exit(dbDisconnect(con))
+         dbReadTable(con, "my_table")
+       })
+)
+
+# run all benchmarks
+df_res <- purrr::map_dfr(benchmarks, \(b) {
+  benchmark_format(b$name, b$write_fn, b$read_fn, b$ext, my_df)
+})
+```
+
+
+## Resultado
+
+```{r}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5
+#| fig-align: "center"
+library(ggplot2)
+library(tidyr)
+
+df_long <- df_res |>
+  mutate(Formato = factor(Formato, levels = Formato)) |>
+  pivot_longer(cols = -Formato, names_to = 'Métrica', values_to = 'Valor') |>
+  mutate(Métrica = factor(Métrica, levels = c(
+    'Tempo de Escrita (s)', 'Tempo de Leitura (s)', 'Tamanho em Disco (MB)'
+  )))
+
+ggplot(df_long, aes(x = Formato, y = Valor, fill = Formato)) +
+  geom_col(show.legend = FALSE, width = 0.6) +
+  geom_text(aes(label = round(Valor, 2)), vjust = -0.3, size = 3.5, fontface = 'bold') +
+  facet_wrap(~Métrica, scales = 'free_y') +
+  scale_fill_brewer(palette = 'Set2') +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.18))) +
+  theme_minimal(base_size = 13) +
+  theme(
+    strip.text = element_text(face = 'bold', size = 12),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = 'bold', hjust = 0.5)
+  ) +
+  labs(
+    title = paste0('Comparação de Desempenho (N = ', format(n_row, big.mark = ','), ' linhas)'),
+    x = NULL, y = NULL
+  )
+```
+
+
+
+# Big Data no R
+
+> O R carrega todos os dados **diretamente na memória RAM** (*in-memory*).
+
+::: {.incremental}
+- Quando o tamanho dos dados excede a RAM disponível, o computador trava (ou desliga sozinho).
+- Na prática, raramente precisamos de todos os dados brutos de uma vez: apenas colunas, filtros ou agregações específicas, o que permite processamento mais eficiente.
+
+- **Pacotes Recomendados:**
+  - `arrow` ([Apache Arrow](https://arrow.apache.org/docs/r/)): manipulação de arquivos colunares (`.parquet`) e datasets particionados em disco, com suporte nativo à sintaxe do `dplyr` sem carregar tudo na RAM.
+  - `duckdb`: motor SQL analítico (*OLAP*) embutido e de altíssimo desempenho, consultando arquivos locais e integrando perfeitamente com `dplyr` / `dbplyr`.
+  - `data.table`: leitura ultrarrápida de arquivos texto com `fread()` e manipulação altamente otimizada com uso eficiente de memória.
+  - `fst`: leitura e gravação paralela veloz para data frames locais.
+  - `sparklyr` / `dbplyr`: delegação de processamento pesado para bancos de dados SQL remotos ou clusters Apache Spark.
+:::
 
 
 ## Exercícios
 
-1. Crie um dataframe com o código a seguir:
+1. Crie um dataframe artificial utilizando o pacote `wakefield`, permitindo definir a quantidade de linhas, o número de colunas e diferentes tipos de variáveis (ex.: texto, numérico, fator, data, booleano):
 
 ```{r, eval=FALSE}
-library(dplyr)
+library(wakefield)
 
 n_row <- 10000
-df <- tibble(x = 1:n_row,
-             y = runif(n_row))
+df <- r_data_frame(
+  n = n_row,
+  id,
+  age,
+  sex,
+  income,
+  date_stamp,
+  valid
+)
 ```
 
-Exporte o dataframe resultante para cada um dos cinco formatos destacados a seguir:
+Exporte o dataframe resultante para cada um dos formatos destacados a seguir:
 
 - csv
 - rds
 - xlsx
 - fst
+- parquet
 
-Qual dos formatos ocupou maior espaço na memória do computador? Podes verificar o tamanho dos arquivos no Windows Explorer, por exemplo. No R, função `file.size` realiza o mesmo serviço.
+Qual dos formatos ocupou maior espaço em disco? Podes verificar o tamanho dos arquivos no Windows Explorer ou com a função `file.size()` no R.
 
-2. Defina o valor de `n_row` no código anterior para `1000000`. Esta mudança modifica as respostas das duas últimas perguntas?
+2. Experimente modificar o código anterior alterando:
+   - O número de linhas (ex.: `n = 1000000`);
+   - A quantidade e tipos de colunas (adicione variáveis de texto como `name` e `sentence`, ou mais variáveis numéricas/datas com `wakefield`).
+   
+   Como o tamanho do arquivo e o tempo de gravação/leitura de cada formato respondem a diferentes tipos e volumes de dados?
 
-3. No material do livro (pacote `afedR3`) existe um arquivo de dados chamado  `CH08_some-stocks-SP500.csv`. Usando função, `afedR3::data_path`. utilize função `readr::read_csv` para carregar o seu conteúdo. Utilize função `glimpse` para verificar o conteúdo dos dados importados. Quantas colunas e qual o nome de cada coluna da tabela?
+3. No material do livro (pacote `afedR3`) existe um arquivo de dados chamado `CH08_some-stocks-SP500.csv`. Usando a função `afedR3::data_path`, utilize a função `readr::read_csv` para carregar o seu conteúdo. Utilize a função `glimpse` para verificar o conteúdo dos dados importados. Quantas colunas e qual o nome de cada coluna da tabela?
 
-4. Na página da CVM é possível obter informações de todas as empresas atualmente listadas na bolsa em um arquivo disponível no link <https://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv>. Utilizando o R, baixe o arquivo em seu computador, importe os dados diretamente usando `readr::read_csv` (a função importa diretamente de arquivo compactados, sem necessidade de descompactação explícita). Quantas empresas fazem parte da bolsa atualmente (verifique o número de linhas do dataframe com função `nrow`).
+4. Na página da CVM é possível obter informações de todas as empresas atualmente listadas na bolsa em um arquivo disponível no link <https://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/cad_cia_aberta.csv>. Utilizando o R, baixe o arquivo em seu computador, importe os dados diretamente usando `readr::read_csv` (a função importa diretamente de arquivos compactados, sem necessidade de descompactação explícita). Quantas empresas fazem parte da bolsa atualmente (verifique o número de linhas do dataframe com a função `nrow`)?
 
 # Referências {.unlisted}
