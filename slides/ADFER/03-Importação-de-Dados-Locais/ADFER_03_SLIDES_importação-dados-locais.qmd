@@ -588,6 +588,8 @@ ggplot(df_long, aes(x = Formato, y = Valor, fill = Formato)) +
 
 # Big Data no R
 
+## Introdução
+
 > O R carrega todos os dados **diretamente na memória RAM** (*in-memory*).
 
 ::: {.incremental}
@@ -613,10 +615,7 @@ df <- r_data_frame(
   n = n_row,
   id,
   age,
-  sex,
-  income,
-  date_stamp,
-  valid
+  sex
 )
 ```
 
@@ -624,17 +623,13 @@ Exporte o dataframe resultante para cada um dos formatos destacados a seguir:
 
 - csv
 - rds
-- xlsx
-- fst
-- parquet
 
 Qual dos formatos ocupou maior espaço em disco? Podes verificar o tamanho dos arquivos no Windows Explorer ou com a função `file.size()` no R.
 
 2. Experimente modificar o código anterior alterando:
    - O número de linhas (ex.: `n = 1000000`);
-   - A quantidade e tipos de colunas (adicione variáveis de texto como `name` e `sentence`, ou mais variáveis numéricas/datas com `wakefield`).
    
-   Como o tamanho do arquivo e o tempo de gravação/leitura de cada formato respondem a diferentes tipos e volumes de dados?
+   Como o tamanho do arquivo de cada formato respondem a diferentes tipos e volumes de dados?
 
 3. No material do livro (pacote `afedR3`) existe um arquivo de dados chamado `CH08_some-stocks-SP500.csv`. Usando a função `afedR3::data_path`, utilize a função `readr::read_csv` para carregar o seu conteúdo. Utilize a função `glimpse` para verificar o conteúdo dos dados importados. Quantas colunas e qual o nome de cada coluna da tabela?
 
