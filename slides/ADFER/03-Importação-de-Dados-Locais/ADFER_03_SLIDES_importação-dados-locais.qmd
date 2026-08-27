@@ -597,10 +597,8 @@ ggplot(df_long, aes(x = Formato, y = Valor, fill = Formato)) +
 - Na prática, raramente precisamos de todos os dados brutos de uma vez: apenas colunas, filtros ou agregações específicas, o que permite processamento mais eficiente.
 
 - **Pacotes Recomendados:**
-  - `arrow` ([Apache Arrow](https://arrow.apache.org/docs/r/)): manipulação de arquivos colunares (`.parquet`) e datasets particionados em disco, com suporte nativo à sintaxe do `dplyr` sem carregar tudo na RAM.
-  - `duckdb`: motor SQL analítico (*OLAP*) embutido e de altíssimo desempenho, consultando arquivos locais e integrando perfeitamente com `dplyr` / `dbplyr`.
-  - `data.table`: leitura ultrarrápida de arquivos texto com `fread()` e manipulação altamente otimizada com uso eficiente de memória.
-  - `fst`: leitura e gravação paralela veloz para data frames locais.
+  - `arrow` ([Apache Arrow](https://arrow.apache.org/docs/r/)): manipulação de arquivos colunares (`.parquet`) e datasets particionados em disco
+  - `duckdb`: motor SQL analítico e de altíssimo desempenho
   - `sparklyr` / `dbplyr`: delegação de processamento pesado para bancos de dados SQL remotos ou clusters Apache Spark.
 :::
 
