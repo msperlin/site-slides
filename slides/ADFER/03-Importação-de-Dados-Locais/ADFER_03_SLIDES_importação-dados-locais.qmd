@@ -586,8 +586,6 @@ ggplot(df_long, aes(x = Formato, y = Valor, fill = Formato)) +
   )
 ```
 
-
-
 # Big Data no R
 
 > O R carrega todos os dados **diretamente na memória RAM** (*in-memory*).
