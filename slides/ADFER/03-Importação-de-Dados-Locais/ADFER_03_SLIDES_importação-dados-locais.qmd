@@ -1,6 +1,6 @@
 ---
-title: "Análise de Dados Financeiros e Econômicos com o R"
-subtitle: "Aula 03 - Importação de Dados Locais [@adfer]"
+title: "Importação de Dados Locais"
+subtitle: "Análise de Dados Financeiros e Econômicos com o R"
 author: "Marcelo S. Perlin"
 date: last-modified
 date-format: DD/MM/YYYY
