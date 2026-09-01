@@ -16,7 +16,7 @@ self-contained: true
 execute: 
   echo: false
 bibliography: "content/bibfile.bib"
-logo: "content/logos/ufrgs3.jpg"
+logo: "content/ufrgs3.jpg"
 toc: true
 toc-depth: 1
 toc-title: "Sumário"
@@ -54,7 +54,7 @@ link_gsheets <- "https://docs.google.com/spreadsheets/d/1Vw3FWYJEtoRpdDSjaFIkTpJ
 - **Examinar interações** - ajudar o gestor a perceber interações entre as decisões
 - **Explorar opções** - fornecer um quadro sistemático para a gestão explorar oportunidades
 - **Evitar surpresas** - ajudar a gestão a identificar possíveis resultados e a se planejar para eles
-- **Assegurar a exeqüibilidade e a consistência interna** - ajudar os gestores a avaliar se os objetivos podem ser realizados e se os vários objetivos (declarados ou não) da organização são consistentes uns com os outros.
+- **Assegurar a exequibilidade e a consistência interna** - ajudar os gestores a avaliar se os objetivos podem ser realizados e se os vários objetivos (declarados ou não) da organização são consistentes uns com os outros.
 :::
 
 ## O processo de planejamento financeiro
@@ -124,7 +124,7 @@ Como pode o lucro líquido ser igual a 240 e o aumento do patrimônio líquido d
   - não há pagamento de dividendos
   - Lucro é colocado em "lucros acumulados"
     - PL = 250 + 240 = 490
-  - Ativo total tem que manterse- em 600. Assim, o novo valor de dívidas deve ser:
+  - Ativo total tem que manter-se em 600. Assim, o novo valor de dívidas deve ser:
     - Dívida = 600- 490 = 110
 
 
@@ -214,10 +214,10 @@ $$TCI=\frac{ROA *b}{1 - ROA*b}$$
 
 $b$ - taxa de retenção de lucros
 
-- Usando as informações da MAR DE ROSAS S/A e com $b = `r b`$ e $ROA=`r ROA`$:
-$$TCI=`r TCI`$$
+- Usando as informações da `r name_company` e com $b = `r b`$ e $ROA = `r format_percent(ROA)`$:
+$$TCI = `r format_percent(TCI)`$$
 
-O valor de TCI nos diz que a empresa `r name_company`  pode crescer  `r format_percent(TCI)` ao ano, apenas usando os lucros retidos como fonte de financiamento.
+O valor de TCI nos diz que a empresa `r name_company` pode crescer `r format_percent(TCI)` ao ano, apenas usando os lucros retidos como fonte de financiamento.
 
 
 ## Ilustração Taxa de crescimento interna
@@ -235,11 +235,11 @@ knitr::include_graphics("figs/crescimento-e-NAF.png")
 $$TCS=\frac{ROE *b}{1 - ROE*b}$$
 $b$ - taxa de retenção de lucros
 
-- Usando as informações da Empório dos Brinquedos S/A e com $b = `r b`$ e $ROE = `r ROE`$:
+- Usando as informações da `r name_company` e com $b = `r b`$ e $ROE = `r format_percent(ROE)`$:
 
-$$TCS= `r TCS`$$
+$$TCS = `r format_percent(TCS)`$$
 
-O valor de TCS nos diz que a empresa `r name_company` pode crescer  `r format_percent(TCS)` ao ano, sempre usando o financiamento de reservas de lucros e novas dívidas, e mantendo  constante a relação entre dívida e capital próprio.
+O valor de TCS nos diz que a empresa `r name_company` pode crescer `r format_percent(TCS)` ao ano, sempre usando o financiamento de reservas de lucros e novas dívidas, e mantendo constante a relação entre dívida e capital próprio.
 
 
 ## Determinantes do crescimento (ROE e Dupont)
@@ -248,10 +248,57 @@ $$TCS=\frac{ROE*b}{1-ROE*b}$$
 
 $$ROE=ML*GAT*MPL$$
 
-- Margem de lucros (ML) - eficiência da operação
-- Giro do ativo total (GAT) - eficiência no uso dos ativos
-- Alavancagem financeira (MPL) - escolha do índice ótimo de endividamento
-- Política de dividendos - Escolha do quanto pagar aos acionistas versus quanto reinvestir na empresa
+- **Margem de lucros (ML)** - eficiência da operação
+- **Giro do ativo total (GAT)** - eficiência no uso dos ativos
+- **Alavancagem financeira (MPL)** - escolha do índice ótimo de endividamento
+- **Política de dividendos ($b$)** - Escolha do quanto pagar aos acionistas versus quanto reinvestir na empresa
+
+
+## Comparativo: TCI vs. TCS
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Taxa Interna (TCI)
+- **Fonte de Financiamento**: Apenas lucros retidos (sem novas dívidas).
+- **Estrutura de Capital**: Índice de endividamento diminui com o tempo.
+- **Fórmula**: $$TCI = \frac{ROA \cdot b}{1 - ROA \cdot b}$$
+:::
+
+::: {.column width="50%"}
+### Taxa Sustentável (TCS)
+- **Fonte de Financiamento**: Lucros retidos + novas dívidas proporcionais.
+- **Estrutura de Capital**: Mantém a relação Dívida/PL constante.
+- **Fórmula**: $$TCS = \frac{ROE \cdot b}{1 - ROE \cdot b}$$
+:::
+
+::::
+
+
+## E se a empresa quiser crescer acima da TCS?
+
+Para sustentar uma taxa de crescimento superior à TCS sem comprometer a saúde financeira, a gestão deve atuar em pelo menos um dos 4 pilares:
+
+::: {.incremental}
+1. **Emitir novas ações** (chamada de capital dos acionistas)
+2. **Reduzir dividendos** (aumentar a taxa de retenção $b$)
+3. **Aumentar eficiência operacional** (melhorar a Margem Líquida ou o Giro do Ativo)
+4. **Aumentar alavancagem** (assumir maior nível de endividamento D/PL)
+:::
+
+
+## Teste de Aprendizado: Decisões Financeiras
+
+::: {.callout-note}
+## Cenário Prático
+Uma empresa deseja crescer suas vendas em **15% ao ano**, mas sua TCS calculada é de **10% ao ano**. O diretor financeiro afirma que a empresa não pretende emitir novas ações nem tomar mais dívidas.
+
+O que acontecerá se a empresa mantiver esse ritmo de crescimento sem alterar sua eficiência ou política de dividendos?
+:::
+
+. . .
+
+- **Resposta**: A empresa enfrentará um **déficit de caixa/capital**, pois os lucros retidos não serão suficientes para financiar o aumento de ativos necessário para suportar os 15% de crescimento.
 
 
 ## Referências {-}
