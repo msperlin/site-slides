@@ -8,6 +8,7 @@ institute: EA-UFRGS
 format:
   revealjs: 
     theme: "content/theme-msperlin.scss"
+    include-after-body: "content/clock.txt"
     slide-number: true
     number-sections: true
     number-depth: 2

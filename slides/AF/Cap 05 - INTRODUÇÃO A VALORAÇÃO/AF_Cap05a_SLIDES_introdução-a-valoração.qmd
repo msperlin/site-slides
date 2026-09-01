@@ -7,6 +7,7 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
+    include-after-body: "themes/clock.txt"
     theme: "themes/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
