@@ -253,14 +253,22 @@ r_aa_td <- get_r_aa(total_ret, first_date, last_date)
 O montante seria de `r classtools::format_cash(vf)`, com uma capitalização de `r classtools::format_percent(r_aa_td)` ao ano.
 
 
-## O caso Barsi (o efeito dos juros compostos) {.hidden}
+## O caso Barsi (o efeito dos juros compostos)
 
 ```{r}
-anos <- 56
+#| echo: false
+
+
+dob_barsi <- as.Date("1939-03-10")
+age_barsi <- lubridate::year(Sys.Date()) - lubridate::year(dob_barsi) 
+
+idade_inicial <- 30
+patr_estimado <- 6000000000
+anos <- age_barsi - idade_inicial
 meses <- anos*12
-aporte <- 2500
+aporte <- 3000
 inicial <- 100000
-r <- 0.15
+r <- 0.1875
 r_am <- (1+r)^(1/12) - 1
 
 P <- numeric(meses)
@@ -270,14 +278,16 @@ for (t in 2:meses) {
   P[t] <- P[t-1]*(1+r_am) + aporte
 }
 
-classtools::format_cash(P[length(P)])
+#classtools::format_cash(P[length(P)])
 ```
 
-> Luiz Barsi é um dos maiores investidores individuais da bolsa de valores brasileira, conhecido como o "Rei dos Dividendos".
+> Luiz Barsi, o **Rei dos Dividendos**, é um dos maiores investidores individuais da bolsa de valores brasileira.
 
-- Começou a investir com 30 anos e hoje tem 86. Ficou 56 anos investindo.
+- Última estimativa de patrimônio em torno de `r classtools::format_cash(patr_estimado)`
 
-- Se ele investisse 1000 reais a uma taxa de juros real e constante de 10% ao ano, o final dos anos teria `r classtools::format_cash(P[length(P)])`
+- Começou a investir com `r idade_inicial` anos e hoje tem `r age_barsi` (são `r anos` anos investindo).
+
+- Pela matemática financeira, o  patrimonio dele pode ser atingido se ele iniciar os investimentos com `r classtools::format_cash(inicial)` e investir `r  classtools::format_cash(aporte)` reais mensalmente, a uma taxa de juros real e constante de `r classtools::format_percent(r)`. Ao ano, o final dos anos teria `r classtools::format_cash(P[length(P)])`
 
 
 # Valor presente
