@@ -1,0 +1,10 @@
+defaults:
+  style: >
+    Flat vector editorial illustration with a muted, desaturated
+    color palette. Mid-century modern aesthetic. Calm and approachable.
+
+images:
+  - name: robot-factory
+    description: >
+      Draw a picture of [profile] overseeing a factory full of robots.
+      The robots should be typing at computers.

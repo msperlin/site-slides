@@ -1,0 +1,44 @@
+## Sinopse de `r full_name`
+
+- Demonstrativos Financeiros
+- Valoração/matemática financeira 
+-   Planejamento e Finanças de longo prazo prazo
+    -   Títulos de dívida
+    -   Títulos de ações
+- Custo do Capital
+- ~~Alavancagem e Estrutura de Capital~~
+-   ~~Política de Dividendos~~
+-   ~~Captação de Recursos~~
+- Planejamento e Finanças de curto prazo
+    - Gestão do Caixa e da liquidez
+    - Gestão do crédito e dos estoques
+
+## O que eu espero dos alunos
+
+::: {.incremental}
+-   Aprendam as ferramentas e conceitos apresentados em aula e sejam capazes de aplicá-los a situações reais
+-   Levem alguma lição ou aprendizado para a sua própria vida pessoal
+-   Sejam fluentes no "financês"
+:::
+
+# Carreira
+
+## Carreira em Finanças
+
+
+::: {.incremental}
+
+-   Empresas Privadas
+    -   Analista, Controlador Financeiro
+-   Bancos Comerciais e de Investimento
+    -   Analista de Mercado Financeiro
+    -   Fundos
+    -   Trader, Gestor de Carteira
+-   Carreiras públicas
+    -   Banco Central, CVM, Tesouro, BNDES, etc
+-   Professor e pesquisador!
+:::
+
+## Perguntas do formulário
+
+[Link](`r gdrive_first_form`)
