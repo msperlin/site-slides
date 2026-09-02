@@ -14,18 +14,20 @@ self-contained: true
 execute: 
   echo: false
   cache: false
-bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
-logo: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/logos/ufrgs3.jpg"
+bibliography: "templates/bibfile.bib"
+logo: "templates/ufrgs3.jpg"
 toc: true
 toc-title: "Sumário"
 toc-depth: 1
 include-in-header:
   - text: |
-     <link rel = "shortcut icon" href = "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/logos/ufrgs3.jpg" />  
+     <link rel = "shortcut icon" href = "templates/ufrgs3.jpg" />  
 ---
 
 
 ```{r}
+classtools::setup_quarto_slides("templates")
+
 l_selic <- classtools::get_selic_rate()
 l_poup <-  classtools::get_poupanca_rate()
 ```
@@ -226,7 +228,8 @@ O montante seria de `r classtools::format_cash(vf)`, com uma capitalização de 
 ## Juros do Tesouro Direto
 
 ```{r}
-df_td <- GetTDData::td_get("NTN-B Principal", dl_folder = 'td-data')
+dl_folder <- "~/.cache/GetTDData"
+df_td <- GetTDData::td_get("NTN-B Principal", dl_folder = dl_folder)
 
 selected <- "NTN-B Principal 150824"
 
