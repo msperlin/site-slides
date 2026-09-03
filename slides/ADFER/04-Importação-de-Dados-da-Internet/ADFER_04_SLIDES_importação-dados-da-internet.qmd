@@ -69,7 +69,7 @@ Os diferenciais do `yfR` são:
 - Processamento paralelo
 - Flexibilidade de formato (mudança de frequência dos dados, e tipo de tabela)
 
-## Ibovespa desde 1995
+## Ibovespa desde 2000
 
 ```{r}
 # set tickers
@@ -122,7 +122,7 @@ df_yf <- yfR::yf_get(tickers = my_tickers,
 dplyr::glimpse(df_yf)
 ```
 
-## Grafico
+## Gráfico
 
 ```{r}
 #| echo: false
@@ -211,7 +211,7 @@ p <-
        title = glue::glue('Retornos Pré-fixados para {n_distinct(df_TD$asset_code)} {asset_codes}'),
        subtitle = glue::glue('Dados entre {first_year} e {last_year}'),
        caption = glue::glue('Dados obtidos junto ao Tesouro Nacional em {Sys.time()}'),
-       legend = '') +
+       color = '') +
   theme_bw() +
   scale_color_discrete(name = 'Título TD') 
 
@@ -232,12 +232,13 @@ dplyr::glimpse(df_yield)
 
 ## Gráfico
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 library(ggplot2)
 
 p <- ggplot(df_yield, aes(x=ref_date, y = value) ) +
-  geom_line(size=1) + geom_point() + facet_grid(~type, scales = 'free') +
-  labs(title = paste0('The current Brazilian Yield Curve - ', df_yield$current.date[1])) + 
+  geom_line(linewidth=1) + geom_point() + facet_grid(~type, scales = 'free') +
+  labs(title = paste0('Curva de Juros Brasileira Atual - ', df_yield$current.date[1])) + 
   theme_bw()
 
 print(p)
@@ -267,7 +268,6 @@ library(rb3)
 library(glue)
 library(stringr)
 
-# TODO: Get more examples
 date_vec <- bizdays::bizseq(Sys.Date() - 365 * 5, Sys.Date(), "Brazil/ANBIMA")
 fetch_marketdata("b3-reference-rates", 
                  refdate = date_vec,
@@ -354,10 +354,10 @@ library(ggplot2)
 
 p <- ggplot(df_cred, aes(x=ref.date, y = value)) +
   geom_line() + 
-  labs(y = 'Percentage of credit default',
+  labs(y = 'Percentual de inadimplência',
        x = '',
-       title = 'Credit Default in Brazil',
-       caption = 'Source: SGS - BCB (by GetBCBData)') + 
+       title = 'Inadimplência de Crédito no Brasil',
+       caption = 'Fonte: SGS - BCB (via GetBCBData)') + 
   theme_bw()
 
 print(p)
@@ -380,13 +380,14 @@ dplyr::glimpse(df_bcb)
 
 ## Gráfico da SELIC
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 p <- ggplot(df_bcb, aes(x = ref.date, 
                         y = value/100)) +   
   geom_line() + 
-  labs(x = 'Juros', 
+  labs(x = 'Data', 
        y = 'Taxa Selic (meta)',
-       title = "Taxa de Juros Básica no Brasil (SELIC") + 
+       title = "Taxa de Juros Básica no Brasil (SELIC)") + 
   scale_y_continuous(labels = scales::percent) + 
   theme_light()
 p
@@ -421,7 +422,7 @@ dplyr::glimpse(df_info)
 #| message: false 
 id_companies <- 19615
 first_year <- 2010
-last_year  <- 2022
+last_year  <- lubridate::year(Sys.Date())
 
 # download data
 l_dfp <- GetDFPData2::get_dfp_data(
@@ -438,7 +439,7 @@ dplyr::glimpse(l_dfp)
 ## O lucro da GRENDENE SA (código)
 
 ```{r}
-#| echo: false
+#| echo: true
 dre <- l_dfp$`DF Consolidado - Demonstração do Resultado`
 
 id_LL <- "3.11"
@@ -449,7 +450,7 @@ LL <- dre |>
   dplyr::mutate(VL_CONTA = VL_CONTA*1000)
 ```
 
-## O lucro da Grendene (tabela)
+## O lucro da GRENDENE SA (tabela)
 
 ```{r}
 #| echo: false
@@ -460,10 +461,10 @@ LL |>
 ```
 
 
-## O EBITDA da Grendene SA (código)
+## O EBITDA da GRENDENE SA (código)
 
 ```{r}
-#| echo: false
+#| echo: true
 
 id_EBITDA <- "3.05"
 
@@ -473,7 +474,7 @@ EBITDA <- dre |>
   dplyr::mutate(VL_CONTA = VL_CONTA*1000)
 ```
 
-## O EBITDA da Grendene SA (tabela)
+## O EBITDA da GRENDENE SA (tabela)
 
 ```{r}
 #| echo: false
@@ -526,15 +527,16 @@ dplyr::glimpse(l_fre)
 3. Visite o [site](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) de sistema de séries temporais do Banco Central do Brasil e escolha uma série para análise de acordo com seus próprios interesses de pesquisa. Importe a mesma usando pacote `GetBCBData`.
 
 4. Utilizando função `GetDFPData2::get_info_companies`, baixe informações sobre as ações negociadas na B3. 
-    - Quantas empresas no total estão atualmente disponíveis no banco de dados?     - Qual a proporção de empresas ativas (veja coluna `SIT_REG`)? 
+    - Quantas empresas no total estão atualmente disponíveis no banco de dados?
+    - Qual a proporção de empresas ativas (veja coluna `SIT_REG`)? 
     - Qual a empresa mais antiga (veja coluna `DT_REG`)? 
     - Quantas empresas existem para o setor de "Alimentos"?
 
-5. Com pacote `GetDFPData2`, baixe os demostrativos financeiros mais recentes da Petrobras. 
+5. Com pacote `GetDFPData2`, baixe os demonstrativos financeiros mais recentes da Petrobras. 
     - Qual foi o seu lucro líquido no exercício? 
     - Qual foi o pagamento total de proventos para o acionista (dividendo ou JSCP) mais recente?
 
-6. Com base no pacote `GetTDData`, baixe dados para títulos do tipo LTN (Letras Financeiras do Tesouro) entre 2015 e `r lubridate::year(Sys.Date())`. 
+6. Com base no pacote `GetTDData`, baixe dados para títulos do tipo LTN (Letras do Tesouro Nacional) entre 2015 e `r lubridate::year(Sys.Date())`. 
     - Entre todas LTNs, qual o título com maior data de vencimento?
     - Entre todas LTNs, qual o título de menor preço atualmente (última data)?
 
