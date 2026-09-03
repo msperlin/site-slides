@@ -1,0 +1,542 @@
+---
+title: "Pacotes para a Importação de Dados da Internet "
+subtitle: "Análise de Dados Financeiros e Econômicos com o R"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "content/theme-msperlin.scss"
+    scrollable: true
+    favicon: figs/R_logo.svg.png
+footer: 'ADFER - UFRGS'
+self-contained: true
+execute: 
+  echo: true
+  cache: false
+bibliography: "content/bibfile_ADFER.bib"
+title-block-banner: true
+toc: true
+toc-depth: 1
+toc-title: "Sumário"
+---
+
+```{r}
+#| echo: false
+classtools::setup_quarto_slides("content")
+```
+
+# R e a Internet
+
+## Por que importar dados da internet?
+
+::: {.incremental}
+- acessibilidade, quantidade e qualidade!
+- reprodutibilidade de pesquisa
+- flexibilidade da janela de análise 
+- fácil compartilhamento
+:::
+
+## Quais dados podemos importar?
+
+::: {.incremental}
+- Mercado Financeiro 
+    - Preços de fechamento e ajustados de preços de ações e contratos derivativos
+    - Preços e yields de títulos públicos
+    - Curvas de juros
+    - Dados corporativos de empresas negociadas em bolsa:
+        - Sistema DFP (Balanços financeiros Anuais: BP, DRE, FC)
+        - Sistema FRE (diversos dados corporativos)
+- Economia
+    - diversos dados do IBGE, SUS e BCB
+:::
+
+
+# Pacote `yfR` [@R-yfR]
+
+## Introdução 
+
+> Pacote `yfR` faz a comunicação do R com os dados financeiros disponíveis no _Yahoo Finance_. 
+
+Os diferenciais do `yfR` são:
+
+- Limpeza e organização
+- Controle de erros de importação
+- Comparação de datas a um _benchmark_
+- Uso de sistema de cache
+- Acesso a _tickers_ em índices de mercado
+- Processamento paralelo
+- Flexibilidade de formato (mudança de frequência dos dados, e tipo de tabela)
+
+## Ibovespa desde 1995
+
+```{r}
+# set tickers
+my_tickers <- "^BVSP"
+first_date <- '2000-01-01'
+last_date <- Sys.Date()
+cache_folder <- "~/.cache/yfR/"
+
+df_yf <- yfR::yf_get(tickers = my_tickers,
+                     first_date = first_date,
+                     last_date = last_date,
+                     cache_folder = cache_folder)
+
+dplyr::glimpse(df_yf)
+```
+
+## Gráfico Ibovespa
+
+```{r}
+#| echo: false
+
+library(ggplot2)
+
+p <- ggplot(df_yf, 
+            aes(x = ref_date,
+                y = cumret_adjusted_prices)) + 
+  geom_line() + 
+  labs(x = 'Datas',
+       y = "Valor Acumulado",
+       title = "Valor Acumulado do Ibovespa ao longo dos anos") + 
+  theme_light()
+
+p
+```
+
+## Exemplo para várias empresas
+
+```{r}
+# set tickers
+my_tickers <- c('PETR4.SA', 'CIEL3.SA',
+                'GGBR4.SA', 'GOAU4.SA')
+first_date <- "2015-01-01"
+last_date <- Sys.Date()
+
+df_yf <- yfR::yf_get(tickers = my_tickers,
+                     first_date = first_date,
+                     last_date = last_date,
+                     cache_folder = cache_folder)
+
+dplyr::glimpse(df_yf)
+```
+
+## Grafico
+
+```{r}
+#| echo: false
+p <- ggplot(df_yf, 
+            aes(x = ref_date,
+                y = cumret_adjusted_prices,
+                color = ticker)) + 
+  geom_line() + 
+  labs(x = 'Datas',
+       y = "Valor Acumulado",
+       title = "Valor Acumulado de cada Ação") + 
+  theme_light() + 
+  geom_hline(yintercept = 1)
+
+p
+```
+
+
+## Baixando Dados da Composição do Ibovespa
+
+```{r}
+# set tickers
+df_ibov <- yfR::yf_index_composition("IBOV")
+
+dplyr::glimpse(df_ibov)
+```
+
+
+# Pacote `GetTDData` [@R-GetTDData]
+
+## Introdução 
+
+> Pacote `GetTDData` importa os dados de preços e _yields_ de títulos do Tesouro Direto do site do Tesouro Nacional e os organiza para facilitar a análise.
+
+- resultado é sempre um `dataframe` com dados empilhados. 
+- disponibiliza dados para diferentes tipos de títulos de dívida, para diferentes maturidades
+
+
+```{r}
+asset_codes <- 'LTN'   # Identifier of assets
+maturity <- '010121'  # Maturity date as string (ddmmyy)
+first_year <- 2015
+last_year <- 2024
+dl_folder <- "~/.cache/GetTDData/"
+
+# download
+df_TD <- GetTDData::td_get(asset_codes, 
+                           first_year = first_year,
+                           last_year = last_year,
+                           dl_folder = dl_folder)
+
+dplyr::glimpse(df_TD)
+```
+
+## Preços de LTNs
+
+```{r}
+#| echo: FALSE
+
+library(dplyr)
+
+p <- ggplot(data = df_TD, aes(x = ref_date,
+                              y = price_bid,
+                              color = asset_code)) +
+  geom_line() +
+  labs(y = glue::glue('Preços de {asset_codes}'),
+       x = 'Data',
+       title = glue::glue('Preços para {n_distinct(df_TD$asset_code)} {asset_codes}'),
+       subtitle = glue::glue('Dados entre {first_year} e {last_year}'),
+       caption = glue::glue('Dados obtidos junto ao Tesouro Nacional em {Sys.time()}')) +
+  theme_bw() +
+  scale_color_discrete(name = 'Título TD') 
+
+p
+```
+
+## Yields LTN
+
+```{r}
+#| echo: false
+p <-
+  ggplot(data = df_TD, aes(x = ref_date, y = yield_bid,
+                           color = asset_code)) +
+  geom_line() +
+  labs(y = 'Retorno Préfixados', x = 'Data',
+       title = glue::glue('Retornos Pré-fixados para {n_distinct(df_TD$asset_code)} {asset_codes}'),
+       subtitle = glue::glue('Dados entre {first_year} e {last_year}'),
+       caption = glue::glue('Dados obtidos junto ao Tesouro Nacional em {Sys.time()}'),
+       legend = '') +
+  theme_bw() +
+  scale_color_discrete(name = 'Título TD') 
+
+print(p) 
+```
+
+## Curva de Juros
+
+```{r}
+library(GetTDData)
+
+# get yield curve
+df_yield <- get.yield.curve()
+
+# check result
+dplyr::glimpse(df_yield)
+```
+
+## Gráfico
+
+```{r, echo=FALSE}
+library(ggplot2)
+
+p <- ggplot(df_yield, aes(x=ref_date, y = value) ) +
+  geom_line(size=1) + geom_point() + facet_grid(~type, scales = 'free') +
+  labs(title = paste0('The current Brazilian Yield Curve - ', df_yield$current.date[1])) + 
+  theme_bw()
+
+print(p)
+```
+
+# Pacote `rb3` [@R-rb3]
+
+## Introdução 
+
+> Pacote desenvolvido por Wilson Freitas, especializado na captura de dados da B3, a bolsa brasileira
+
+Possui dados para:
+
+* equities/stocks
+* futures
+* FII (Reits)
+* options
+* BDRs
+* historical yield curves (calculated from futures contracts)
+* B3 indexes composition
+
+## Exemplo para curva de juros
+
+```{r}
+#| eval: false
+library(rb3)
+library(glue)
+library(stringr)
+
+# TODO: Get more examples
+date_vec <- bizdays::bizseq(Sys.Date() - 365 * 5, Sys.Date(), "Brazil/ANBIMA")
+fetch_marketdata("b3-reference-rates", 
+                 refdate = date_vec,
+                  curve_name = c("DIC", "DOC", "PRE"),
+                  throttle = TRUE)
+
+df_yc <- rb3::yc_brl_get() |>
+  dplyr::collect() |>
+  dplyr::filter(cur_days < 2500)
+
+dplyr::glimpse(df_yc)
+```
+
+## Gráfico da Curva
+
+```{r}
+#| echo: false
+#| eval: false
+
+library(ggplot2)
+
+p <- ggplot(
+  df_yc,
+  aes(
+    x = forward_date,
+    y = r_252,
+    group = refdate,
+    color = factor(refdate)
+  )
+) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Histórico de Curva de Juros no Brasil",
+    caption = str_glue("Dados importados com módulo rb3 em {classtools::format_date(Sys.Date())}"),
+    x = "Data Futura",
+    y = "Taxa de Juros Anual",
+    color = "Data de Referência"
+  ) +
+  theme_light() +
+  scale_y_continuous(labels = scales::percent) + 
+  colorspace::scale_color_discrete_sequential() +
+  theme(legend.position="none")
+
+p
+```
+
+# Pacote `GetBCBData` [@R-GetBCBData]
+
+## Introdução 
+
+> Pacote que permite acesso ao [Sistema de Séries Temporais (SGS)](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) do Banco Central Brasileiro (BCB)
+
+- Uso de um sistema de _cache_ local para acelerar solicitações repetidas de dados;
+- Escolha do formato da saída: longo (orientado a linhas, dados empilhados) ou amplo (orientado a colunas)
+- Tratamento interno de erros. Mesmo que a série solicitada não exista, a função ainda retornará todos os resultados.
+- identificadores de séries disponíveis no [sistema de séries temporais do BCB](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries)
+- Com o `id` e período de tempo, usamos função `GetBCBData::gbcbd_get_series()` para baixar os dados
+
+## Exemplo para série de inadimplência de crédito pessoal no brasil
+
+```{r}
+library(GetBCBData)
+library(dplyr)
+
+# set ids and dates
+id_series <- c(perc_default = 21082)
+first_date = '2010-01-01'
+
+# get series from bcb
+df_cred <- gbcbd_get_series(id = id_series,
+                            first.date = first_date,
+                            last.date = Sys.Date(), 
+                            use.memoise = FALSE)
+
+# check it
+glimpse(df_cred)
+```
+
+## Gráfico
+
+```{r}
+#| echo: false
+library(ggplot2)
+
+p <- ggplot(df_cred, aes(x=ref.date, y = value)) +
+  geom_line() + 
+  labs(y = 'Percentage of credit default',
+       x = '',
+       title = 'Credit Default in Brazil',
+       caption = 'Source: SGS - BCB (by GetBCBData)') + 
+  theme_bw()
+
+print(p)
+```
+## A Taxa Selic
+
+```{r}
+my_id <- c('Taxa SELIC' = 432)
+first_date <- '2010-01-01'
+last_date <- Sys.Date()
+
+df_bcb <- GetBCBData::gbcbd_get_series(
+  my_id,
+  first.date = first_date, 
+  last.date = last_date
+)
+
+dplyr::glimpse(df_bcb)
+```
+
+## Gráfico da SELIC
+
+```{r, echo=FALSE}
+p <- ggplot(df_bcb, aes(x = ref.date, 
+                        y = value/100)) +   
+  geom_line() + 
+  labs(x = 'Juros', 
+       y = 'Taxa Selic (meta)',
+       title = "Taxa de Juros Básica no Brasil (SELIC") + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme_light()
+p
+```
+
+
+# Pacote `GetDFPData2` [@R-GetDFPData2]
+
+## Introdução 
+
+> Pacote `GetDFPData2` [@R-GetDFPData2] é uma evolução do pacote `GetDFPData` [@R-GetDFPData] e fornece uma interface aberta para todas as demonstrações financeiras distribuídas pela B3 e pela CVM nos sistemas DFP (dados anuais)
+
+- Permite acesso a dados anuais do:
+  - DRE (demonstrativo de resultado do exercício)
+  - BP (balanço patrimonial)
+  - DFC (demonstrativo de fluxo de caixa)
+  
+## Exemplo de uso
+
+```{r}
+# get info for companies in B3
+df_info <- GetDFPData2::get_info_companies()
+
+# check it
+dplyr::glimpse(df_info)
+```
+
+
+## Dados Financeiros da GRENDENE SA
+
+```{r}
+#| message: false 
+id_companies <- 19615
+first_year <- 2010
+last_year  <- 2022
+
+# download data
+l_dfp <- GetDFPData2::get_dfp_data(
+  companies_cvm_codes = id_companies,
+  type_docs = '*', # get all docs  
+  type_format = 'con', # consolidated
+  first_year = first_year,
+  last_year = last_year
+)
+
+dplyr::glimpse(l_dfp)
+```
+
+## O lucro da GRENDENE SA (código)
+
+```{r}
+#| echo: false
+dre <- l_dfp$`DF Consolidado - Demonstração do Resultado`
+
+id_LL <- "3.11"
+
+LL <- dre |>
+  dplyr::filter(CD_CONTA == id_LL) |>
+  dplyr::select(DENOM_CIA, DT_REFER, CD_CONTA, VL_CONTA) |>
+  dplyr::mutate(VL_CONTA = VL_CONTA*1000)
+```
+
+## O lucro da Grendene (tabela)
+
+```{r}
+#| echo: false
+LL |>
+  gt::gt() |>
+  gt::tab_header("Lucro da GRENDENE SA") |>
+  gt::fmt_currency(VL_CONTA, currency = "BRL")
+```
+
+
+## O EBITDA da Grendene SA (código)
+
+```{r}
+#| echo: false
+
+id_EBITDA <- "3.05"
+
+EBITDA <- dre |>
+  dplyr::filter(CD_CONTA == id_EBITDA) |>
+  dplyr::select(DENOM_CIA, DT_REFER, CD_CONTA, VL_CONTA) |>
+  dplyr::mutate(VL_CONTA = VL_CONTA*1000)
+```
+
+## O EBITDA da Grendene SA (tabela)
+
+```{r}
+#| echo: false
+EBITDA |>
+  gt::gt() |>
+  gt::tab_header("EBITDA da GRENDENE SA") |>
+  gt::fmt_currency(VL_CONTA, currency = "BRL")
+```
+
+# Pacote `GetFREData` [@R-GetFREData]
+
+## Introdução
+
+> O pacote `GetFREData` importa dados do sistema FRE (Formulário de Referência) da B3
+
+- inclui dados para eventos e informações corporativas
+  - composição do conselho e diretoria
+  - remuneração dos conselhos
+  - composição da dívida
+  - vários outros. 
+
+## Exemplo de uso
+
+```{r}
+#| message: false
+id_companies <- 23264
+first_year <- 2017
+last_year  <- 2018
+
+# download data
+l_fre <- GetFREData::get_fre_data2(companies_cvm_codes = id_companies,
+                      first_year = first_year,
+                      last_year = last_year)
+
+dplyr::glimpse(l_fre)
+```
+
+# Tarefa de final de aula
+
+## Tarefa 02
+
+1. Utilizando pacote `yfR`, baixe os dados da ação MDIA3 (ticker MDIA3.SA) no _Yahoo Finance_ para os últimos 30 dias.   
+    - Qual o preço ajustado mais baixo no período analisado? 
+    - Qual a data com o preço mais baixo?
+    - Faça um gráfico simples com função `plot()`
+
+2. Utilize pacote `GetBCBData` para baixar dados do IPCA mensal (em % anual) nos últimos 5 anos. 
+    - É possível observar algum período com deflação, inflação negativa, mensal?
+
+3. Visite o [site](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) de sistema de séries temporais do Banco Central do Brasil e escolha uma série para análise de acordo com seus próprios interesses de pesquisa. Importe a mesma usando pacote `GetBCBData`.
+
+4. Utilizando função `GetDFPData2::get_info_companies`, baixe informações sobre as ações negociadas na B3. 
+    - Quantas empresas no total estão atualmente disponíveis no banco de dados?     - Qual a proporção de empresas ativas (veja coluna `SIT_REG`)? 
+    - Qual a empresa mais antiga (veja coluna `DT_REG`)? 
+    - Quantas empresas existem para o setor de "Alimentos"?
+
+5. Com pacote `GetDFPData2`, baixe os demostrativos financeiros mais recentes da Petrobras. 
+    - Qual foi o seu lucro líquido no exercício? 
+    - Qual foi o pagamento total de proventos para o acionista (dividendo ou JSCP) mais recente?
+
+6. Com base no pacote `GetTDData`, baixe dados para títulos do tipo LTN (Letras Financeiras do Tesouro) entre 2015 e `r lubridate::year(Sys.Date())`. 
+    - Entre todas LTNs, qual o título com maior data de vencimento?
+    - Entre todas LTNs, qual o título de menor preço atualmente (última data)?
+
+
+# Referências {.unlisted}
