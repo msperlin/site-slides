@@ -650,5 +650,25 @@ p_extra <- ggplot(df_comp, aes(x = mes, y = parcela, color = cenario)) +
 p_extra
 ```
 
+## Cuidados em um financiamento imobiliário
+
+> Financiamento imobiliário é um empréstimo aceitável para pessoa física, desde que seja feito com alguns cuidados. Porém, o sonho do imóvel próprio pode se tornar um pesadelo.
+
+::: {.incremental}
+- **Escolha um imóvel que caiba no seu orçamento!!**
+
+- Nunca financie mais que 75% do imóvel, **sempre dê a maior entrada possível**
+  - quanto maior a entrada, menor as parcelas e menor a chance de devolver o imóvel
+  - quanto menor a entrada, maior o risco de inadimplência e **perda do imóvel**
+
+- Nunca financie mais que 30% da sua renda, mesmo que o banco permita. Sua renda hoje não é garantida para sempre (exceto alguns casos especiais)
+
+- Dê preferência a tabela SAC, pois as parcelas são decrescentes e o valor total pago é menor
+
+- Sempre que possível, amortize o financiamento com recursos extras, pois o valor total pago será menor
+
+- Desde o início, tenha um plano B caso perca o emprego ou tenha uma queda de renda.
+
+:::
 
 ## Referências
