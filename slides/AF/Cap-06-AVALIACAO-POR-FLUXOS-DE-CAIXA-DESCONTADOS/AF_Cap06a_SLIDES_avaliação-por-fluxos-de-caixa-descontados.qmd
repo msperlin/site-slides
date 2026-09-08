@@ -8,13 +8,13 @@ institute: EA-UFRGS
 format:
   revealjs: 
     include-after-body: "content/clock.txt"
-    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/theme-msperlin.scss"
+    theme: "templates/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
 self-contained: true
 execute: 
   echo: false
-bibliography: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/templates/bibfile.bib"
-logo: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.5/classtools/extdata/logos/ufrgs3.jpg"
+bibliography: "templates/bibfile.bib"
+logo: "templates/ufrgs3.jpg"
 toc: true
 toc-title: "Sumário da aula"
 toc-expand: 2
@@ -25,6 +25,8 @@ slide-number: true
 ## Objetivos {.unlisted}
 
 ```{r}
+classtools::setup_quarto_slides("templates")
+
 l_selic <- classtools::get_selic_rate()
 l_poup <- classtools::get_poupanca_rate()
 ```
@@ -39,11 +41,11 @@ l_poup <- classtools::get_poupanca_rate()
 
 ## Fórmula VP
 
-$$VP = \sum ^T _{t=1} \frac{VF_t}{(1+r)^t}$$
+$$VP = \sum_{t=1}^{T} \frac{FC_t}{(1+r)^t}$$
 
 $VP$ - Valor presente dos múltiplos fluxos de caixa
 
-$VF_t$ - valor futuro do fluxo de caixa no tempo $t$
+$FC_t$ - fluxo de caixa no tempo $t$
 
 $r$ - taxa de juros
 
@@ -64,12 +66,13 @@ df_fc <- tibble::tibble(
 
 ```
 
-> Imagine que daqui durante `r my_T` anos irá receber dinheiro a cada ano, conforme tabela abaixo. Assumindo uma taxa de juros de `r classtools::format_percent(r)`, qual o valor presente desses fluxos de caixa?
+> Imagine que ao longo dos próximos `r my_T` anos você irá receber dinheiro a cada ano, conforme tabela abaixo. Assumindo uma taxa de juros de `r classtools::format_percent(r)`, qual o valor presente desses fluxos de caixa?
 
 ```{r}
 df_fc |>
   gt::gt() |>
-  gt::tab_header("Fluxos de caixa")
+  gt::tab_header("Fluxos de caixa") |>
+  gt::fmt_currency(columns = dplyr::where(is.numeric) & !dplyr::matches("^Tempo$"), currency = "BRL", locale = "pt")
 ```
 
 ## Solução
@@ -84,7 +87,8 @@ vp <- sum(df_fc$`Valor descontado`)
 df_fc |>
   gt::gt() |>
   gt::tab_header("Fluxos de caixa",
-                 glue::glue('custo de capital = {classtools::format_percent(r)}'))
+                 glue::glue('custo de capital = {classtools::format_percent(r)}')) |>
+  gt::fmt_currency(columns = dplyr::where(is.numeric) & !dplyr::matches("^Tempo$"), currency = "BRL", locale = "pt")
 ```
 
 O valor presente dos fluxos de caixa é `r  classtools::format_cash(vp)`.
@@ -99,7 +103,7 @@ l_out <- classtools::create_cashflow_plot(0, rep(cf, my_T-1), cf)
 ```
 
 
-> Uma anuidade é um fluxo de caixa contante e igual para todo o período
+> Uma anuidade é um fluxo de caixa constante e igual para todo o período
 
 Um exemplo é receber `r classtools::format_cash(cf)` por ano, ao longo de `r my_T` anos:
 
@@ -111,7 +115,7 @@ l_out$p
 
 Usando a fórmula anterior e assumindo $FC_t = FC$:
 
-$$VP = \sum ^T _{t=1} \frac{VF}{(1+r)^t}$$
+$$VP = \sum_{t=1}^{T} \frac{FC}{(1+r)^t}$$
 
 Simplificando a fórmula: 
 
@@ -119,7 +123,7 @@ $$VP = FC \frac{1 - \frac{1}{(1+r)^T}}{r}$$
 
 ## Exemplo anuidade
 
-> Imagine que daqui durante `r my_T` anos irá receber dinheiro a cada ano, conforme tabela abaixo. Assumindo uma taxa de juros de `r classtools::format_percent(r)`, qual o valor presente desses fluxos de caixa?
+> Imagine que ao longo dos próximos `r my_T` anos você irá receber dinheiro a cada ano, conforme tabela abaixo. Assumindo uma taxa de juros de `r classtools::format_percent(r)`, qual o valor presente desses fluxos de caixa?
 
 
 ```{r}
@@ -142,7 +146,8 @@ vp <- sum(df_fc$`Valor descontado`)
 df_fc |>
   gt::gt() |>
   gt::tab_header("Fluxos de caixa",
-                 glue::glue('custo de capital = {classtools::format_percent(r)}'))
+                 glue::glue('custo de capital = {classtools::format_percent(r)}')) |>
+  gt::fmt_currency(columns = dplyr::where(is.numeric) & !dplyr::matches("^Tempo$"), currency = "BRL", locale = "pt")
 ```
 
 O valor presente dos fluxos de caixa é `r  classtools::format_cash(vp)`.
@@ -151,11 +156,11 @@ O valor presente dos fluxos de caixa é `r  classtools::format_cash(vp)`.
 
 > Perpetuidades são fluxos de caixa constantes e perpétuos (nunca terminam)
 
-Substituindo $T = \inf$ na fórmula do VP, temos:
+Substituindo $T = \infty$ na fórmula do VP, temos:
 
-$$VP = \sum ^{\inf} _{t=1} \frac{VF}{(1+r)^t}$$
+$$VP = \sum_{t=1}^{\infty} \frac{FC}{(1+r)^t}$$
 
-Simplificando e levando a equação anterior ao limite onde $t$ aproxima-se de do infinito ($\inf$), temos:
+Simplificando e levando a equação anterior ao limite onde $T$ aproxima-se do infinito ($\infty$), temos:
 
 $$VP=\frac{FC}{r}$$
 
@@ -164,9 +169,11 @@ $$VP=\frac{FC}{r}$$
 
 ## Fórmula $VF$
 
-$$VF_t = \sum ^{T-1} _{t=1} VF_t (1+r)^{T-t}$$
+$$VF_T = \sum_{t=1}^{T} FC_t (1+r)^{T-t}$$
 
-$VF_t$ - valor futuro do fluxo de caixa no tempo $t$
+$VF_T$ - Valor futuro total acumulado no tempo $T$
+
+$FC_t$ - fluxo de caixa no tempo $t$
 
 $r$ - taxa de juros
 
@@ -195,14 +202,15 @@ df_fc <- tibble::tibble(
 
 ```
 
-> Imagine que irás depositar `r classtools::format_cash(fc)` por mês na poupança pelos próximos `r my_T` meses. Ao final do `r my_T` período, qual o valor encontrado na conta poupança?
+> Imagine que você irá depositar `r classtools::format_cash(fc)` por mês na poupança pelos próximos `r my_T` meses. Ao final do `r my_T`º mês, qual o valor encontrado na conta poupança?
 
 . . .
 
 ```{r}
 df_fc |>
   gt::gt() |>
-  gt::tab_header("Fluxos de caixa")
+  gt::tab_header("Fluxos de caixa") |>
+  gt::fmt_currency(columns = dplyr::where(is.numeric) & !dplyr::matches("^Tempo$"), currency = "BRL", locale = "pt")
 ```
 
 ## Solução
@@ -217,7 +225,8 @@ vf <- sum(df_fc$`VF`)
 df_fc |>
   gt::gt() |>
   gt::tab_header("Fluxos de caixa",
-                 glue::glue('Taxa de juros = {classtools::format_percent(r)}'))
+                 glue::glue('Taxa de juros = {classtools::format_percent(r)}')) |>
+  gt::fmt_currency(columns = dplyr::where(is.numeric) & !dplyr::matches("^Tempo$"), currency = "BRL", locale = "pt")
 ```
 
 O valor futuro dos fluxos de caixa é `r  classtools::format_cash(vf)`.
@@ -226,15 +235,17 @@ O valor futuro dos fluxos de caixa é `r  classtools::format_cash(vf)`.
 
 ##  A importância do reinvestimento dos dividendos
 
-- Investimentos renda variável (Ações e FIIs) dão direito ao recebimento de dividendos (parcelas do lucro)
+> Investimentos em renda variável (Ações e FIIs) dão direito ao recebimento de dividendos (parcelas do lucro)
 
-- Esses dividendos variam no valor de acordo com lucro e decisão do payout
+::: {.incremental}
+- Esses dividendos variam de valor de acordo com o lucro e a decisão de payout
 
-- A frequência também não é sempre percebida (empresas decidem quando e como vão pagar)
+- A frequência de pagamento também varia (empresas decidem quando e como vão pagar)
 
 - Esse dinheiro pode ser gasto ou reinvestido
 
-- O não reinvestimento causa grande impacto no patrimônio
+- O não reinvestimento causa grande impacto no patrimônio final
+:::
 
 ## O caso da EGIE3
 
@@ -259,11 +270,11 @@ l_out$p
 ##  O impacto do não reinvestimento de dividendos
 
 ```{r}
-require(dplyr)
-require(ggplot2)
+library(dplyr)
+library(ggplot2)
 
 ticker <- "EGIE3.SA"
-first_date <- "2010-01-01"
+first_date <- "2015-01-01"
 
 l_out <- classtools::make_cashflow_plot(ticker, 'SA', first_date)
 
@@ -271,17 +282,17 @@ df_yf <- l_out$df_prices |>
   dplyr::mutate(cumret_close = price_close/first(price_close),
                 cumret_adj = adjusted_close/first(adjusted_close))
 
-df_plot <- tibble(
+df_plot <- tibble::tibble(
   prices = c(df_yf$cumret_close, df_yf$cumret_adj),
   ref_date = rep(df_yf$ref_date, 2),
-  type = c(rep("Sem reinvestimendo de dividendo", nrow(df_yf)),
+  type = c(rep("Sem reinvestimento de dividendo", nrow(df_yf)),
            rep("Reinvestindo dividendo", nrow(df_yf))
            )
 )
 
 p <- ggplot(df_plot, aes(x = ref_date, y = prices, color = type)) + 
   geom_line() + 
-  labs(title = paste0("Efeito do reinvestimendo do dividendo (", ticker, ")"),
+  labs(title = paste0("Efeito do reinvestimento do dividendo (", ticker, ")"),
        x = 'Dias',
        y = "Investimento acumulado",
        color = "Tipo") + 
@@ -323,7 +334,7 @@ r <- 0.2
 ```
 
 
-Um retorno mensal de `r classtools::format_percent(selic_am)` equivale a `r classtools::format_percent(selic_aa)` anualmente
+Um retorno mensal de `r classtools::format_percent(selic_am)` equivale a `r classtools::format_percent(selic_aa)` anualmente.
 
 :::
 
@@ -367,7 +378,7 @@ true_debt <- debt - cost_register - cost_credit
 
 . . .
 
-O VF futuro a ser pago no ano `r my_T` é de `r classtools::format_cash(vf)`. Porém, o banco tem os seguintes custos na operação de concessão de empréstimo:
+O valor futuro (VF) a ser pago no ano `r my_T` é de `r classtools::format_cash(vf)`. Porém, o banco tem os seguintes custos na operação de concessão de empréstimo:
 
 1) taxa fixa de registro de `r classtools::format_cash(cost_register)`
 2) custo fixo de análise de crédito de `r classtools::format_cash(cost_credit)`
@@ -420,7 +431,7 @@ cet <- FinCal::irr(l_p$cashflows$CF)
 ```
 
 
-Calculando a tir, temos que:
+Calculando a TIR, temos que:
 
 CET = `r classtools::format_percent(cet)`
 
@@ -484,17 +495,85 @@ Aplicando a fórmula da TIR, temos que o CET é igual a `r classtools::format_pe
 
 ::::
 
-## [Exemplo](https://portal.loft.com.br/financiamento-price-sac/)
+## Exemplo Comparativo: SAC x PRICE
 
-> Imagine que você tenha um financiamento de R$ 100 mil, Custo Efetivo Total (CET) de 8% e 60 meses para pagar. 
+```{r}
+principal <- 300000
+n_months <- 30*12
+r_annual <- 0.12
+r_monthly <- (1 + r_annual)^(1/12) - 1
 
-- Sua primeira parcela na Tabela PRICE, assim como todas as outras parcelas, custaria R\$ 8.079,79. 
-  - Dentro da primeira, a amortização corresponderia a R\$ 79,79. Na última, a R\$ 7.481,29. 
-  - Ao final, você teria pago R\$ 484.787,69 ao banco, sendo R\$ 384.787,69 de juros. 
+# PRICE
+pmt_price <- principal * (r_monthly * (1 + r_monthly)^n_months) / ((1 + r_monthly)^n_months - 1)
+total_price <- pmt_price * n_months
+juros_price <- total_price - principal
 
-- O mesmo valor e as mesmas condições no Sistema SAC teriam resultado: 
-  - primeira parcela de R\$ 9.666,67. Já a última custaria R\$ 1.800. 
-  - O valor da amortização se manteria constante em \$1.666,67. O valor total pago seria de R\$ \$344.000, sendo R\$ 244.000 de juros. 
+# SAC
+amort_sac <- principal / n_months
+pmt_sac_1 <- amort_sac + principal * r_monthly
+pmt_sac_n <- amort_sac + (principal - (n_months - 1) * amort_sac) * r_monthly
+total_sac <- sum(sapply(1:n_months, function(m) amort_sac + (principal - (m - 1) * amort_sac) * r_monthly))
+juros_sac <- total_sac - principal
+```
+
+> Imagine um financiamento de **`r classtools::format_cash(principal)`**, CET de **`r classtools::format_percent(r_annual)` a.a.** e prazo de **`r n_months` meses**:
+
+- **Tabela PRICE**:
+  - Parcela constante de **`r classtools::format_cash(pmt_price)`** ao mês.
+  - Total pago ao final: **`r classtools::format_cash(total_price)`** (sendo `r classtools::format_cash(juros_price)` de juros).
+
+- **Sistema SAC**:
+  - Amortização constante de **`r classtools::format_cash(amort_sac)`** ao mês.
+  - 1ª parcela de **`r classtools::format_cash(pmt_sac_1)`** e última parcela de **`r classtools::format_cash(pmt_sac_n)`**.
+  - Total pago ao final: **`r classtools::format_cash(total_sac)`** (sendo `r classtools::format_cash(juros_sac)` de juros).
+
+::: {.callout-note}
+**Nota sobre a taxa de juros**: Considerou-se a taxa efetiva mensal $r_{am} = (1 + 8\%)^{1/12} - 1 \approx 0,6434\%$ a.m.
+:::
+
+
+## Gráfico com parcelas (primeiros 24 meses)
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+n_plot <- 24
+
+# PRICE
+df_price <- tibble::tibble(
+  mes = 1:n_plot,
+  parcela = rep(pmt_price, n_plot),
+  sistema = "PRICE"
+)
+
+# SAC
+pmt_sac_vec <- sapply(1:n_plot, function(m) amort_sac + (principal - (m - 1) * amort_sac) * r_monthly)
+df_sac <- tibble::tibble(
+  mes = 1:n_plot,
+  parcela = pmt_sac_vec,
+  sistema = "SAC"
+)
+
+df_plot <- dplyr::bind_rows(df_price, df_sac)
+
+p <- ggplot(df_plot, aes(x = mes, y = parcela, color = sistema, group = sistema)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title = "Evolução das Parcelas nos Primeiros 24 Meses",
+    subtitle = paste0("Financiamento de R$ ", classtools::format_cash(principal), ", 60 meses, CET ", classtools::format_percent(r_annual), " a.a."),
+    x = "Mês",
+    y = "Valor da Parcela (R$)",
+    color = "Sistema"
+  ) +
+  scale_y_continuous(labels = classtools::format_cash) +
+  scale_x_continuous(breaks = seq(1, n_plot, by = 2)) +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+p
+```
 
 
 ## Referências
