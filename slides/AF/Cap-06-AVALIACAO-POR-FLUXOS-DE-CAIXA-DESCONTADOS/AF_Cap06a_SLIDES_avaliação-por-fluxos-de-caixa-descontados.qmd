@@ -650,7 +650,9 @@ p_extra <- ggplot(df_comp, aes(x = mes, y = parcela, color = cenario)) +
 p_extra
 ```
 
-## Cuidados em um financiamento imobiliário
+# Cuidados em um financiamento imobiliário
+
+## 
 
 > Financiamento imobiliário é um empréstimo aceitável para pessoa física, desde que seja feito com alguns cuidados. Porém, o sonho do imóvel próprio pode se tornar um pesadelo.
 
