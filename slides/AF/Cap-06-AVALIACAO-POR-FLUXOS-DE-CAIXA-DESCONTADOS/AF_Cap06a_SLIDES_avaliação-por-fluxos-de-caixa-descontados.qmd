@@ -403,6 +403,38 @@ cet <- (vf/received)^(1/my_T) - 1
 
 Enquanto a taxa de juros nominal era de  `r classtools::format_percent(r_nominal)`, a CET é equivalente a `r classtools::format_percent(cet)`.
 
+## CET Real em Financiamento Imobiliário
+
+```{r}
+principal_cet <- 200000
+n_months_cet <- 360
+r_annual_cet <- 0.09
+r_monthly_cet <- (1 + r_annual_cet)^(1/12) - 1
+
+pmt_base_cet <- principal_cet * (r_monthly_cet * (1 + r_monthly_cet)^n_months_cet) / ((1 + r_monthly_cet)^n_months_cet - 1)
+
+# Custos adicionais obrigatórios
+mip <- 60    # Seguro Morte e Invalidez Permanente
+dfi <- 25    # Seguro Danos Físicos ao Imóvel
+admin <- 25  # Taxa mensal de administração bancária
+
+pmt_total_cet <- pmt_base_cet + mip + dfi + admin
+
+cfs_cet <- c(principal_cet, rep(-pmt_total_cet, n_months_cet))
+cet_m_real <- FinCal::irr(cfs_cet)
+cet_aa_real <- (1 + cet_m_real)^12 - 1
+```
+
+> Em um financiamento de **`r classtools::format_cash(principal_cet)`** a uma taxa nominal de **`r classtools::format_percent(r_annual_cet)` a.a.** (parcela base: `r classtools::format_cash(pmt_base_cet)`):
+
+- **Custos adicionais mensais**:
+  - Seguro MIP (Morte e Invalidez): `r classtools::format_cash(mip)`/mês
+  - Seguro DFI (Danos Físicos ao Imóvel): `r classtools::format_cash(dfi)`/mês
+  - Taxa de Administração Bancária: `r classtools::format_cash(admin)`/mês
+- **Prestação total real**: **`r classtools::format_cash(pmt_total_cet)`**/mês
+- **CET Efetivo Real**: **`r classtools::format_percent(cet_aa_real)` a.a.** (em vez de `r classtools::format_percent(r_annual_cet)` a.a.).
+
+
 # Tipos de empréstimos
 
 ## Empréstimos tipo desconto
@@ -573,6 +605,49 @@ p <- ggplot(df_plot, aes(x = mes, y = parcela, color = sistema, group = sistema)
   theme(legend.position = "bottom")
 
 p
+```
+
+## Amortização Extraordinária no SAC
+
+```{r}
+extra_month <- 12
+extra_amount <- 15000
+
+pmt_normal <- sapply(1:n_months, function(m) amort_sac + (principal - (m - 1) * amort_sac) * r_monthly)
+
+sd_m12_new <- (principal - 12 * amort_sac) - extra_amount
+amort_sac_new <- sd_m12_new / (n_months - extra_month)
+
+pmt_extra <- c(
+  sapply(1:extra_month, function(m) amort_sac + (principal - (m - 1) * amort_sac) * r_monthly),
+  sapply(1:(n_months - extra_month), function(m) amort_sac_new + (sd_m12_new - (m - 1) * amort_sac_new) * r_monthly)
+)
+
+total_normal <- sum(pmt_normal)
+total_extra <- sum(pmt_extra)
+economia <- total_normal - total_extra - extra_amount
+
+df_comp <- tibble::tibble(
+  mes = rep(1:n_months, 2),
+  parcela = c(pmt_normal, pmt_extra),
+  cenario = c(rep("Sem Amortização Extra", n_months), rep("Com Amortização de R$ 15k no mês 12", n_months))
+)
+
+p_extra <- ggplot(df_comp, aes(x = mes, y = parcela, color = cenario)) +
+  geom_line(linewidth = 1.2) +
+  geom_vline(xintercept = 12, linetype = "dashed", color = "red") +
+  labs(
+    title = "Efeito da Amortização Extraordinária de R$ 15.000 (Mês 12)",
+    subtitle = paste0("Economia líquida de juros: ", classtools::format_cash(economia)),
+    x = "Mês",
+    y = "Valor da Parcela (R$)",
+    color = "Cenário"
+  ) +
+  scale_y_continuous(labels = classtools::format_cash) +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+p_extra
 ```
 
 
