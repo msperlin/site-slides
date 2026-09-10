@@ -218,7 +218,7 @@ cache_folder <- "td-cache"
 
 min_date <- as.Date("2010-01-01")
 
-df <- td_get(asset_codes,
+df <- td_get2(asset_codes,
              dl_folder = cache_folder) 
 
 df <- df |>
@@ -303,7 +303,7 @@ asset_codes <- c('LFT', 'LTN', 'NTN-B Principal')
 min_year <- 2005
 max_year <- lubridate::year(Sys.Date())
 
-df <- td_get(asset_codes,
+df <- td_get2(asset_codes,
              min_year, 
              max_year,
              dl_folder = cache_folder)

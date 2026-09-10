@@ -95,7 +95,7 @@ print(my_df)
 ::: {.callout-caution}
 ## Atenção!
 
-Inspecionar tabelas é uma das artes em análise de dados, exigindo intimidades com os dados e o problema em questão.
+Inspecionar tabelas é uma das artes em análise de dados, exigindo intimidade com os dados e o problema em questão.
 :::
 
 Estamos interessados em:
@@ -161,7 +161,7 @@ df |>
 - coluna `Data` em formato local (dd/mm/yyyy)
 - coluna `id.candidato` tem somente valor 1
 - coluna `Nome do Candidato` tem espaço no nome da coluna, e valores que não fazem sentido
-- coluna `Profissão` tem caracter latino e valor "casado", o qual não faz sentido
+- coluna `Profissão` tem caractere especial e valor "casado", o qual não faz sentido
 - coluna `age` está em inglês
 - **ninguém com menos de 10 anos pode estar casado!!!!**
 :::
@@ -170,7 +170,7 @@ df |>
 
 - use sempre nomes para acessar colunas (via posição é possível, mas não recomendado)
 - toda coluna de um _dataframe_ vira um vetor atômico
-- todo `dataframe` possui notação matricial para elementos indiviudais ou blocos
+- todo `dataframe` possui notação matricial para elementos individuais ou blocos
 
 ## Acessando colunas inteiras
 
@@ -220,7 +220,7 @@ Ao usar notação de matriz ([row, column]) em um _dataframe_, o resultado é se
 
 ## Introdução
 
-> O operador de _pipeline_ é usado com o símbolos `|>` (nativo com R > 4.1) e `%>%` (pacote `magritt`) e permite que dataframes sejam criados em etapas consecutivas
+> O operador de _pipeline_ é usado com os símbolos `|>` (nativo com R > 4.1) e `%>%` (pacote `magrittr`) e permite que dataframes sejam criados em etapas consecutivas
 
 Imagine o seguinte código, onde a ideia é repassar um _dataframe_ entre diferentes e consecutivas funções:
 
@@ -233,7 +233,8 @@ df3 <- fct3(df2)
 
 Uma maneira equivalente e mais elegante:
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 my_tab <- my_df |>
   fct1() |>
   fct2() |>
@@ -329,7 +330,7 @@ glimpse(temp_df)
 
 ## Filtrando linhas de um `dataframe`
 
-- selecione linhas de um tabela com `dplyr::filter()`:
+- selecione linhas de uma tabela com `dplyr::filter()`:
 
 ```{r}
 library(dplyr)
@@ -340,7 +341,7 @@ df_temp1 <- my_df |>
   glimpse()
 ```
 
-A função também aceita mais de uma condição. Veja a seguir onde filtramos os dados para `'ABEV3'` em datas após ou igual a `'2010-01-05'`:
+A função também aceita mais de uma condição. Veja a seguir onde filtramos os dados para `'ABEV3'` em datas posteriores ou iguais a `'2010-01-05'`:
 
 ```{r}
 library(dplyr)
@@ -354,7 +355,7 @@ my_df_temp <- my_df |>
 
 ## Ordenando um `dataframe`
 
-No `tidyverse`, a forma de ordenar `dataframes` é pelo uso da função `arrange`. No caso de ordenamento decrescente, encapsulamos o nome das colunas com `desc`: \index{dplyr!desc}
+No `tidyverse`, a forma de ordenar `dataframes` é pelo uso da função `arrange`. No caso de ordenamento decrescente, encapsulamos o nome das colunas com `desc`:
 
 ```{r}
 library(dplyr)
@@ -379,7 +380,7 @@ my_df <- my_df |>
 ## Combinando e Agregando `dataframes`
 
 - podemos combinar tabelas por linhas (orientação vertical): `dplyr::bind_rows()`  
-- podemos combinar tabelas por colunas (orientação horizontal): `dlyr::bind_cols()`
+- podemos combinar tabelas por colunas (orientação horizontal): `dplyr::bind_cols()`
 - **agregar** tabelas de acordo com colunas: `dplyr::inner_join`, `dplyr::left_join`, `dplyr::right_join`, `dplyr::full_join`
 
 ## Função `dplyr::bind_rows()`  
@@ -423,7 +424,7 @@ my_df <- bind_cols(my_df_1, my_df_2) |>
 
 ## Funções da família `join` 
 
-![](figs/join_family.jpg_large)
+![](figs/join_family.jpg)
 
 ## `left_join()`
 
@@ -474,7 +475,7 @@ library(dplyr)
 # create list
 my_l <- list(c(1, 2, 3),
              c('a', 'b'),
-             factor('A', 'B', 'C'),
+             factor(c('A', 'B', 'C')),
              tibble(col1 = 1:5))
 
 # use base::print
@@ -546,7 +547,7 @@ glimpse(my_l)
 
 ## Processando os Elementos de uma Lista
 
-> Toda lista pode ser processado de forma programática através de funções específicas. 
+> Toda lista pode ser processada de forma programática através de funções específicas. 
 
 - processar elemento por elemento de uma lista
 
@@ -571,7 +572,7 @@ mean_3 <- mean(my_l_num[[3]])
 print(c(mean_1, mean_2, mean_3))
 ```
 
-O código anterior funciona, porém não é recomendado devido sua falta de escabilidade. 
+O código anterior funciona, porém não é recomendado devido à sua falta de escalabilidade. 
 
 Uma maneira mais fácil, elegante e inteligente seria utilizar a função `sapply`:
 
@@ -588,7 +589,7 @@ print(my_mean)
 
 ## Introdução
 
-> uma matriz é uma representação bidimensional de diversos valores, arranjados em linhas e colunas. O uso de matrizes é uma poderosa maneira de representar dados numéricos em duas dimensões e, em certos casos, funções matriciais podem simplificar operações matemáticas complexas.
+> Uma matriz é uma representação bidimensional de diversos valores, arranjados em linhas e colunas. O uso de matrizes é uma poderosa maneira de representar dados numéricos em duas dimensões e, em certos casos, funções matriciais podem simplificar operações matemáticas complexas.
 
 Um claro exemplo do uso de matrizes em Finanças seria a representação dos preços de diferentes ações ao longo do tempo. 
 
@@ -644,28 +645,28 @@ print(my_mat >5)
 
 3. Com função `dplyr::filter()`, filtre o dataframe `my_df` para manter apenas as linhas onde o valor da coluna `x` é maior que 25.
 
-4. Utilize pacote `yfR` para baixar dados da ação do META/Facebook (META) desde a data `'2010-01-01'` até hoje. Filtre os dados para mentar apenas dados onde o dia da semana era segunda feira.
+4. Utilize pacote `yfR` para baixar dados da ação do META/Facebook (META) desde a data `'2010-01-01'` até hoje. Filtre os dados para manter apenas dados onde o dia da semana era segunda-feira.
 
 5. Importe os dados disponíveis no arquivo `CH11_grunfeld.csv`, disponível no arquivo com os dados do livro. Utilize funções `dplyr::glimpse`, `summary` e `skimr::skim` para conhecer os dados importados.
 
 6. Crie um objeto do tipo lista com três dataframes em seu conteúdo, `df1`,  `df2` e `df3`. O conteúdo e tamanho dos dataframes é livre. Utilize função `sapply` para descobrir o número de linhas e colunas em cada dataframe.
 
-7. Usando pacote `yfR`, baixe os dados da Petrobras (PETR4.SA) e do índice ibovespa (^BVSP) em dois dataframes diferentes (duas chamadas da função `yfR::yf_get`). Empilhe os dados das duas ações com o comando `dplyr::bind_rows`.
+7. Usando pacote `yfR`, baixe os dados da Petrobras (PETR4.SA) e do índice Ibovespa (^BVSP) em dois dataframes diferentes (duas chamadas da função `yfR::yf_get`). Empilhe os dados das duas ações com o comando `dplyr::bind_rows`.
 
-8. Usando os mesmos dados do exercício anterior, crie uma nova coluna na tabela da Petrobras com os retornos do índice ibovespa. A tabela resultante deve ser como a apresentada a seguir:
+8. Usando os mesmos dados do exercício anterior, crie uma nova coluna na tabela da Petrobras com os retornos do índice Ibovespa. A tabela resultante deve ser como a apresentada a seguir:
 
 ```{r}
 #| echo: false
 df <- tibble::tibble(
   ref_date = Sys.Date()+1:10,
-  ret_petr3 = 100 + cumsum(runif(10)),
+  ret_petr4 = 100 + cumsum(runif(10)),
   ret_ibov = 100 + cumsum(runif(10))
 ) 
 
 df |>
   gt::gt()
 ```
-Note que precisarás:
+Note que você precisará:
 
 - renomear e selecionar colunas da tabela da Petrobras
 - renomear e selecionar colunas da tabela do Ibovespa
