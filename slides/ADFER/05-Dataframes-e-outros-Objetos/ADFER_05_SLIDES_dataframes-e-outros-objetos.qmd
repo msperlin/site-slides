@@ -135,7 +135,10 @@ skimr::skim(my_df)
 
 ## Exemplo
 
-Avalie os seguintes dados:
+::: {.callout-note}
+## Desafio em aula
+Olhe atentamente para a tabela abaixo. Quantos problemas de estrutura ou consistência de dados você consegue identificar antes de avançar?
+:::
 
 ```{r}
 #| echo: false
@@ -162,7 +165,7 @@ df |>
 - coluna `id.candidato` tem somente valor 1
 - coluna `Nome do Candidato` tem espaço no nome da coluna, e valores que não fazem sentido
 - coluna `Profissão` tem caractere especial e valor "casado", o qual não faz sentido
-- coluna `age` está em inglês
+- coluna `age` está em inglês e apresenta **valores negativos** (ex: -5)
 - **ninguém com menos de 10 anos pode estar casado!!!!**
 :::
 
@@ -282,11 +285,19 @@ Para criar novas colunas em um `dataframe`, basta utilizar a função `dplyr::mu
 ```{r}
 library(dplyr)
 
+my_df <- yfR::yf_get(
+  tickers = c('ABEV3.SA', 'PETR4.SA'),
+  first_date = '2023-01-01',
+  last_date = '2023-01-15'
+)
+
 # add columns with mutate
 my_df <- my_df |>
-  mutate(ret = price/dplyr::lag(price) -1,
-         my_seq1 = 1:nrow(my_df),
-         my_seq2 =  my_seq1 +9) |>
+  group_by(ticker) |>
+  mutate(ret = price_adjusted / dplyr::lag(price_adjusted) - 1) |>
+  ungroup() |>
+  mutate(my_seq1 = 1:nrow(my_df),
+         my_seq2 = my_seq1 + 9) |>
   glimpse()
 
 ```
@@ -320,7 +331,7 @@ No uso de funções nativas do R, a maneira tradicional de remover colunas é al
 temp_df <- my_df
 
 # remove cols
-temp_df$price <- NULL
+temp_df$price_adjusted <- NULL
 temp_df$ref_date  <- NULL
 
 # check it
@@ -337,18 +348,18 @@ library(dplyr)
 
 # filter df for single stock
 df_temp1 <- my_df |>
-  filter(ticker == 'ABEV3') |>
+  filter(ticker == 'ABEV3.SA') |>
   glimpse()
 ```
 
-A função também aceita mais de uma condição. Veja a seguir onde filtramos os dados para `'ABEV3'` em datas posteriores ou iguais a `'2010-01-05'`:
+A função também aceita mais de uma condição. Veja a seguir onde filtramos os dados para `'ABEV3.SA'` em datas posteriores ou iguais a `'2023-01-10'`:
 
 ```{r}
 library(dplyr)
 # filter df for single stock and date
 my_df_temp <- my_df |>
-  filter(ticker == 'ABEV3',
-         ref_date >= as.Date('2010-01-05')) |>
+  filter(ticker == 'ABEV3.SA',
+         ref_date >= as.Date('2023-01-10')) |>
   glimpse()
 ```
 
@@ -455,6 +466,15 @@ my_df <- inner_join(my_df_1, my_df_2)
 glimpse(my_df)
 ```
 
+## Exemplo `dplyr::left_join()`
+
+```{r}
+# left_join mantém todas as linhas da tabela à esquerda e preenche faltantes com NA
+my_df_left <- left_join(my_df_1, my_df_2, by = "date")
+
+print(my_df_left, n = 8)
+```
+
 
 # Listas
 
@@ -556,7 +576,7 @@ Por exemplo, imagine uma lista com vetores numéricos de diferentes tamanhos, ta
 ```{r}
 # set list
 my_l_num <- list(c(1, 2, 3),
-                 seq(1:50),
+                 1:50,
                  seq(-5, 5, by = 0.5))
 ```
 
@@ -574,14 +594,15 @@ print(c(mean_1, mean_2, mean_3))
 
 O código anterior funciona, porém não é recomendado devido à sua falta de escalabilidade. 
 
-Uma maneira mais fácil, elegante e inteligente seria utilizar a função `sapply`:
+Uma maneira mais fácil, elegante e inteligente seria utilizar a função `sapply` (Base R) ou `purrr::map_dbl` (Tidyverse):
 
 ```{r}
-# using sapply
+# using base R
 my_mean <- sapply(my_l_num, mean)
-
-# print result
 print(my_mean)
+
+# using tidyverse (purrr)
+purrr::map_dbl(my_l_num, mean)
 ```
 
 
@@ -637,21 +658,27 @@ print(my_mat >5)
 
 # Tarefa final de aula
 
-## Tarefa 03
+## Tarefa 03 - Manipulação Básica
 
-1. Crie um dataframe chamado `my_df` com uma coluna chamada `x` contendo uma sequência de 1 a 100 e outra coluna chamada `y` com o valor da coluna x adicionada de 5. Usando código, qual a quantidade de valores em `x` maiores que 10 e menores que 25?
+1. Crie um dataframe chamado `my_df` com uma coluna chamada `x` contendo uma sequência de 1 a 100 e outra coluna chamada `y` com o valor da coluna `x` adicionada de 5. Usando código, qual a quantidade de valores em `x` maiores que 10 e menores que 25?
 
-2. Use função `dplyr::mutate` para criar uma nova coluna em `my_df` chamada `cumsum_x`, contendo a soma cumulativa de `x` (função `base::cumsum()`). Desta nova coluna, quantos valores são maiores que 50?
+2. Use a função `dplyr::mutate` para criar uma nova coluna em `my_df` chamada `cumsum_x`, contendo a soma cumulativa de `x` (função `base::cumsum()`). Desta nova coluna, quantos valores são maiores que 50?
 
-3. Com função `dplyr::filter()`, filtre o dataframe `my_df` para manter apenas as linhas onde o valor da coluna `x` é maior que 25.
+3. Com a função `dplyr::filter()`, filtre o dataframe `my_df` para manter apenas as linhas onde o valor da coluna `x` é maior que 25.
 
-4. Utilize pacote `yfR` para baixar dados da ação do META/Facebook (META) desde a data `'2010-01-01'` até hoje. Filtre os dados para manter apenas dados onde o dia da semana era segunda-feira.
+
+## Tarefa 03 - Dados Financeiros e Listas
+
+4. Utilize o pacote `yfR` para baixar dados da ação da META/Facebook (META) desde a data `'2010-01-01'` até hoje. Filtre os dados para manter apenas dados onde o dia da semana era segunda-feira.
 
 5. Importe os dados disponíveis no arquivo `CH11_grunfeld.csv`, disponível no arquivo com os dados do livro. Utilize funções `dplyr::glimpse`, `summary` e `skimr::skim` para conhecer os dados importados.
 
-6. Crie um objeto do tipo lista com três dataframes em seu conteúdo, `df1`,  `df2` e `df3`. O conteúdo e tamanho dos dataframes é livre. Utilize função `sapply` para descobrir o número de linhas e colunas em cada dataframe.
+6. Crie um objeto do tipo lista com três dataframes em seu conteúdo, `df1`, `df2` e `df3`. O conteúdo e tamanho dos dataframes é livre. Utilize a função `sapply` para descobrir o número de linhas e colunas em cada dataframe.
 
-7. Usando pacote `yfR`, baixe os dados da Petrobras (PETR4.SA) e do índice Ibovespa (^BVSP) em dois dataframes diferentes (duas chamadas da função `yfR::yf_get`). Empilhe os dados das duas ações com o comando `dplyr::bind_rows`.
+
+## Tarefa 03 - Integração de Mercado
+
+7. Usando o pacote `yfR`, baixe os dados da Petrobras (PETR4.SA) e do índice Ibovespa (^BVSP) em dois dataframes diferentes (duas chamadas da função `yfR::yf_get`). Empilhe os dados das duas ações com o comando `dplyr::bind_rows`.
 
 8. Usando os mesmos dados do exercício anterior, crie uma nova coluna na tabela da Petrobras com os retornos do índice Ibovespa. A tabela resultante deve ser como a apresentada a seguir:
 
@@ -666,6 +693,7 @@ df <- tibble::tibble(
 df |>
   gt::gt()
 ```
+
 Note que você precisará:
 
 - renomear e selecionar colunas da tabela da Petrobras

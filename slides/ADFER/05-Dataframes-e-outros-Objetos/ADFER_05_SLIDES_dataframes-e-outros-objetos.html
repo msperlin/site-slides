@@ -1127,7 +1127,7 @@ Marcelo S. Perlin
 <pre><code>Rows: 10
 Columns: 2
 $ x &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-$ y &lt;chr&gt; &quot;d&quot;, &quot;h&quot;, &quot;n&quot;, &quot;w&quot;, &quot;r&quot;, &quot;e&quot;, &quot;x&quot;, &quot;l&quot;, &quot;z&quot;, &quot;y&quot;</code></pre>
+$ y &lt;chr&gt; &quot;l&quot;, &quot;j&quot;, &quot;p&quot;, &quot;v&quot;, &quot;e&quot;, &quot;w&quot;, &quot;c&quot;, &quot;o&quot;, &quot;q&quot;, &quot;k&quot;</code></pre>
 </div>
 </div>
 <h3 id="exemplo-menos-simples">Exemplo menos simples</h3>
@@ -1407,7 +1407,19 @@ $ price    &lt;dbl&gt; 736.67, 764.14, 768.63, 776.47, 59.40, 59.80, 59.20, 59.2
 </section>
 <section id="exemplo" class="slide level2">
 <h2>Exemplo</h2>
-<p>Avalie os seguintes dados:</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Desafio em aula</strong></p>
+</div>
+<div class="callout-content">
+<p>Olhe atentamente para a tabela abaixo. Quantos problemas de estrutura ou consistência de dados você consegue identificar antes de avançar?</p>
+</div>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
 <div id="lywxfzgsjf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -1913,7 +1925,7 @@ height: 0px !important;
 <li class="fragment">coluna <code>id.candidato</code> tem somente valor 1</li>
 <li class="fragment">coluna <code>Nome do Candidato</code> tem espaço no nome da coluna, e valores que não fazem sentido</li>
 <li class="fragment">coluna <code>Profissão</code> tem caractere especial e valor “casado”, o qual não faz sentido</li>
-<li class="fragment">coluna <code>age</code> está em inglês</li>
+<li class="fragment">coluna <code>age</code> está em inglês e apresenta <strong>valores negativos</strong> (ex: -5)</li>
 <li class="fragment"><strong>ninguém com menos de 10 anos pode estar casado!!!!</strong></li>
 </ul>
 </section>
@@ -2072,21 +2084,37 @@ $ col3 &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb24-2"><a href></a></span>
-<span id="cb24-3"><a href></a><span class="co"># add columns with mutate</span></span>
-<span id="cb24-4"><a href></a>my_df <span class="ot">&lt;-</span> my_df <span class="sc">|&gt;</span></span>
-<span id="cb24-5"><a href></a>  <span class="fu">mutate</span>(<span class="at">ret =</span> price<span class="sc">/</span>dplyr<span class="sc">::</span><span class="fu">lag</span>(price) <span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb24-6"><a href></a>         <span class="at">my_seq1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(my_df),</span>
-<span id="cb24-7"><a href></a>         <span class="at">my_seq2 =</span>  my_seq1 <span class="sc">+</span><span class="dv">9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-8"><a href></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-3"><a href></a>my_df <span class="ot">&lt;-</span> yfR<span class="sc">::</span><span class="fu">yf_get</span>(</span>
+<span id="cb24-4"><a href></a>  <span class="at">tickers =</span> <span class="fu">c</span>(<span class="st">&#39;ABEV3.SA&#39;</span>, <span class="st">&#39;PETR4.SA&#39;</span>),</span>
+<span id="cb24-5"><a href></a>  <span class="at">first_date =</span> <span class="st">&#39;2023-01-01&#39;</span>,</span>
+<span id="cb24-6"><a href></a>  <span class="at">last_date =</span> <span class="st">&#39;2023-01-15&#39;</span></span>
+<span id="cb24-7"><a href></a>)</span>
+<span id="cb24-8"><a href></a></span>
+<span id="cb24-9"><a href></a><span class="co"># add columns with mutate</span></span>
+<span id="cb24-10"><a href></a>my_df <span class="ot">&lt;-</span> my_df <span class="sc">|&gt;</span></span>
+<span id="cb24-11"><a href></a>  <span class="fu">group_by</span>(ticker) <span class="sc">|&gt;</span></span>
+<span id="cb24-12"><a href></a>  <span class="fu">mutate</span>(<span class="at">ret =</span> price_adjusted <span class="sc">/</span> dplyr<span class="sc">::</span><span class="fu">lag</span>(price_adjusted) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-13"><a href></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-14"><a href></a>  <span class="fu">mutate</span>(<span class="at">my_seq1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(my_df),</span>
+<span id="cb24-15"><a href></a>         <span class="at">my_seq2 =</span> my_seq1 <span class="sc">+</span> <span class="dv">9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-16"><a href></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 12
-Columns: 6
-$ ticker   &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;…
-$ ref_date &lt;date&gt; 2010-01-01, 2010-01-04, 2010-01-05, 2010-01-06, 2010-01-01, …
-$ price    &lt;dbl&gt; 736.67, 764.14, 768.63, 776.47, 59.40, 59.80, 59.20, 59.28, 2…
-$ ret      &lt;dbl&gt; NA, 0.037289424, 0.005875887, 0.010199966, -0.923499942, 0.00…
-$ my_seq1  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-$ my_seq2  &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21</code></pre>
+<pre><code>Rows: 20
+Columns: 14
+$ ticker                 &lt;chr&gt; &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;,…
+$ ref_date               &lt;date&gt; 2023-01-02, 2023-01-03, 2023-01-04, 2023-01-05…
+$ price_open             &lt;dbl&gt; 14.40, 14.16, 14.28, 14.27, 14.30, 14.29, 14.26…
+$ price_high             &lt;dbl&gt; 14.45, 14.39, 14.47, 14.41, 14.36, 14.47, 14.60…
+$ price_low              &lt;dbl&gt; 14.02, 14.11, 14.08, 14.14, 14.16, 14.27, 14.25…
+$ price_close            &lt;dbl&gt; 14.19, 14.17, 14.25, 14.29, 14.32, 14.40, 14.54…
+$ volume                 &lt;dbl&gt; 14995900, 36363800, 23791800, 31031500, 2088980…
+$ price_adjusted         &lt;dbl&gt; 11.85739, 11.84068, 11.90753, 11.94095, 11.9660…
+$ ret_adjusted_prices    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ ret_closing_prices     &lt;dbl&gt; NA, -0.001409408, 0.005645725, 0.002807015, 0.0…
+$ cumret_adjusted_prices &lt;dbl&gt; 1.0000000, 0.9985906, 1.0042284, 1.0070472, 1.0…
+$ ret                    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ my_seq1                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+$ my_seq2                &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,…</code></pre>
 </div>
 </div>
 <p>A maneira mais tradicional, e comumente encontrada em código, para criar novas colunas é utilizar o símbolo <code>$</code>:</p>
@@ -2097,15 +2125,23 @@ $ my_seq2  &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21</code></pr
 <span id="cb26-4"><a href></a><span class="co"># check it</span></span>
 <span id="cb26-5"><a href></a><span class="fu">glimpse</span>(my_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 12
-Columns: 7
-$ ticker   &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;…
-$ ref_date &lt;date&gt; 2010-01-01, 2010-01-04, 2010-01-05, 2010-01-06, 2010-01-01, …
-$ price    &lt;dbl&gt; 736.67, 764.14, 768.63, 776.47, 59.40, 59.80, 59.20, 59.28, 2…
-$ ret      &lt;dbl&gt; NA, 0.037289424, 0.005875887, 0.010199966, -0.923499942, 0.00…
-$ my_seq1  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-$ my_seq2  &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
-$ my_seq3  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12</code></pre>
+<pre><code>Rows: 20
+Columns: 15
+$ ticker                 &lt;chr&gt; &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;,…
+$ ref_date               &lt;date&gt; 2023-01-02, 2023-01-03, 2023-01-04, 2023-01-05…
+$ price_open             &lt;dbl&gt; 14.40, 14.16, 14.28, 14.27, 14.30, 14.29, 14.26…
+$ price_high             &lt;dbl&gt; 14.45, 14.39, 14.47, 14.41, 14.36, 14.47, 14.60…
+$ price_low              &lt;dbl&gt; 14.02, 14.11, 14.08, 14.14, 14.16, 14.27, 14.25…
+$ price_close            &lt;dbl&gt; 14.19, 14.17, 14.25, 14.29, 14.32, 14.40, 14.54…
+$ volume                 &lt;dbl&gt; 14995900, 36363800, 23791800, 31031500, 2088980…
+$ price_adjusted         &lt;dbl&gt; 11.85739, 11.84068, 11.90753, 11.94095, 11.9660…
+$ ret_adjusted_prices    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ ret_closing_prices     &lt;dbl&gt; NA, -0.001409408, 0.005645725, 0.002807015, 0.0…
+$ cumret_adjusted_prices &lt;dbl&gt; 1.0000000, 0.9985906, 1.0042284, 1.0070472, 1.0…
+$ ret                    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ my_seq1                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+$ my_seq2                &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,…
+$ my_seq3                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …</code></pre>
 </div>
 </div>
 </section>
@@ -2118,12 +2154,20 @@ $ my_seq3  &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12</code></pre>
 <span id="cb28-3"><a href></a>  <span class="fu">select</span>(<span class="sc">-</span>my_seq1, <span class="sc">-</span>my_seq2, <span class="sc">-</span>my_seq3) <span class="sc">|&gt;</span></span>
 <span id="cb28-4"><a href></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 12
-Columns: 4
-$ ticker   &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;…
-$ ref_date &lt;date&gt; 2010-01-01, 2010-01-04, 2010-01-05, 2010-01-06, 2010-01-01, …
-$ price    &lt;dbl&gt; 736.67, 764.14, 768.63, 776.47, 59.40, 59.80, 59.20, 59.28, 2…
-$ ret      &lt;dbl&gt; NA, 0.037289424, 0.005875887, 0.010199966, -0.923499942, 0.00…</code></pre>
+<pre><code>Rows: 20
+Columns: 12
+$ ticker                 &lt;chr&gt; &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;,…
+$ ref_date               &lt;date&gt; 2023-01-02, 2023-01-03, 2023-01-04, 2023-01-05…
+$ price_open             &lt;dbl&gt; 14.40, 14.16, 14.28, 14.27, 14.30, 14.29, 14.26…
+$ price_high             &lt;dbl&gt; 14.45, 14.39, 14.47, 14.41, 14.36, 14.47, 14.60…
+$ price_low              &lt;dbl&gt; 14.02, 14.11, 14.08, 14.14, 14.16, 14.27, 14.25…
+$ price_close            &lt;dbl&gt; 14.19, 14.17, 14.25, 14.29, 14.32, 14.40, 14.54…
+$ volume                 &lt;dbl&gt; 14995900, 36363800, 23791800, 31031500, 2088980…
+$ price_adjusted         &lt;dbl&gt; 11.85739, 11.84068, 11.90753, 11.94095, 11.9660…
+$ ret_adjusted_prices    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ ret_closing_prices     &lt;dbl&gt; NA, -0.001409408, 0.005645725, 0.002807015, 0.0…
+$ cumret_adjusted_prices &lt;dbl&gt; 1.0000000, 0.9985906, 1.0042284, 1.0070472, 1.0…
+$ ret                    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…</code></pre>
 </div>
 </div>
 <p>No uso de funções nativas do R, a maneira tradicional de remover colunas é alocar o valor nulo (<code>NULL</code>):</p>
@@ -2132,19 +2176,27 @@ $ ret      &lt;dbl&gt; NA, 0.037289424, 0.005875887, 0.010199966, -0.923499942, 
 <span id="cb30-2"><a href></a>temp_df <span class="ot">&lt;-</span> my_df</span>
 <span id="cb30-3"><a href></a></span>
 <span id="cb30-4"><a href></a><span class="co"># remove cols</span></span>
-<span id="cb30-5"><a href></a>temp_df<span class="sc">$</span>price <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb30-5"><a href></a>temp_df<span class="sc">$</span>price_adjusted <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb30-6"><a href></a>temp_df<span class="sc">$</span>ref_date  <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb30-7"><a href></a></span>
 <span id="cb30-8"><a href></a><span class="co"># check it</span></span>
 <span id="cb30-9"><a href></a><span class="fu">glimpse</span>(temp_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 12
-Columns: 5
-$ ticker  &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;, &quot;BBAS3&quot;,…
-$ ret     &lt;dbl&gt; NA, 0.037289424, 0.005875887, 0.010199966, -0.923499942, 0.006…
-$ my_seq1 &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-$ my_seq2 &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21
-$ my_seq3 &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12</code></pre>
+<pre><code>Rows: 20
+Columns: 13
+$ ticker                 &lt;chr&gt; &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;,…
+$ price_open             &lt;dbl&gt; 14.40, 14.16, 14.28, 14.27, 14.30, 14.29, 14.26…
+$ price_high             &lt;dbl&gt; 14.45, 14.39, 14.47, 14.41, 14.36, 14.47, 14.60…
+$ price_low              &lt;dbl&gt; 14.02, 14.11, 14.08, 14.14, 14.16, 14.27, 14.25…
+$ price_close            &lt;dbl&gt; 14.19, 14.17, 14.25, 14.29, 14.32, 14.40, 14.54…
+$ volume                 &lt;dbl&gt; 14995900, 36363800, 23791800, 31031500, 2088980…
+$ ret_adjusted_prices    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ ret_closing_prices     &lt;dbl&gt; NA, -0.001409408, 0.005645725, 0.002807015, 0.0…
+$ cumret_adjusted_prices &lt;dbl&gt; 1.0000000, 0.9985906, 1.0042284, 1.0070472, 1.0…
+$ ret                    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ my_seq1                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+$ my_seq2                &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,…
+$ my_seq3                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …</code></pre>
 </div>
 </div>
 </section>
@@ -2158,38 +2210,54 @@ $ my_seq3 &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12</code></pre>
 <span id="cb32-2"><a href></a></span>
 <span id="cb32-3"><a href></a><span class="co"># filter df for single stock</span></span>
 <span id="cb32-4"><a href></a>df_temp1 <span class="ot">&lt;-</span> my_df <span class="sc">|&gt;</span></span>
-<span id="cb32-5"><a href></a>  <span class="fu">filter</span>(ticker <span class="sc">==</span> <span class="st">&#39;ABEV3&#39;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href></a>  <span class="fu">filter</span>(ticker <span class="sc">==</span> <span class="st">&#39;ABEV3.SA&#39;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb32-6"><a href></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 4
-Columns: 7
-$ ticker   &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;, &quot;ABEV3&quot;
-$ ref_date &lt;date&gt; 2010-01-01, 2010-01-04, 2010-01-05, 2010-01-06
-$ price    &lt;dbl&gt; 736.67, 764.14, 768.63, 776.47
-$ ret      &lt;dbl&gt; NA, 0.037289424, 0.005875887, 0.010199966
-$ my_seq1  &lt;int&gt; 1, 2, 3, 4
-$ my_seq2  &lt;dbl&gt; 10, 11, 12, 13
-$ my_seq3  &lt;int&gt; 1, 2, 3, 4</code></pre>
+<pre><code>Rows: 10
+Columns: 15
+$ ticker                 &lt;chr&gt; &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;,…
+$ ref_date               &lt;date&gt; 2023-01-02, 2023-01-03, 2023-01-04, 2023-01-05…
+$ price_open             &lt;dbl&gt; 14.40, 14.16, 14.28, 14.27, 14.30, 14.29, 14.26…
+$ price_high             &lt;dbl&gt; 14.45, 14.39, 14.47, 14.41, 14.36, 14.47, 14.60…
+$ price_low              &lt;dbl&gt; 14.02, 14.11, 14.08, 14.14, 14.16, 14.27, 14.25…
+$ price_close            &lt;dbl&gt; 14.19, 14.17, 14.25, 14.29, 14.32, 14.40, 14.54…
+$ volume                 &lt;dbl&gt; 14995900, 36363800, 23791800, 31031500, 2088980…
+$ price_adjusted         &lt;dbl&gt; 11.85739, 11.84068, 11.90753, 11.94095, 11.9660…
+$ ret_adjusted_prices    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ ret_closing_prices     &lt;dbl&gt; NA, -0.001409408, 0.005645725, 0.002807015, 0.0…
+$ cumret_adjusted_prices &lt;dbl&gt; 1.0000000, 0.9985906, 1.0042284, 1.0070472, 1.0…
+$ ret                    &lt;dbl&gt; NA, -0.001409432, 0.005645766, 0.002806915, 0.0…
+$ my_seq1                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+$ my_seq2                &lt;dbl&gt; 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+$ my_seq3                &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</code></pre>
 </div>
 </div>
-<p>A função também aceita mais de uma condição. Veja a seguir onde filtramos os dados para <code>&#39;ABEV3&#39;</code> em datas posteriores ou iguais a <code>&#39;2010-01-05&#39;</code>:</p>
+<p>A função também aceita mais de uma condição. Veja a seguir onde filtramos os dados para <code>&#39;ABEV3.SA&#39;</code> em datas posteriores ou iguais a <code>&#39;2023-01-10&#39;</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb34-2"><a href></a><span class="co"># filter df for single stock and date</span></span>
 <span id="cb34-3"><a href></a>my_df_temp <span class="ot">&lt;-</span> my_df <span class="sc">|&gt;</span></span>
-<span id="cb34-4"><a href></a>  <span class="fu">filter</span>(ticker <span class="sc">==</span> <span class="st">&#39;ABEV3&#39;</span>,</span>
-<span id="cb34-5"><a href></a>         ref_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">&#39;2010-01-05&#39;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb34-4"><a href></a>  <span class="fu">filter</span>(ticker <span class="sc">==</span> <span class="st">&#39;ABEV3.SA&#39;</span>,</span>
+<span id="cb34-5"><a href></a>         ref_date <span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">&#39;2023-01-10&#39;</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb34-6"><a href></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 2
-Columns: 7
-$ ticker   &lt;chr&gt; &quot;ABEV3&quot;, &quot;ABEV3&quot;
-$ ref_date &lt;date&gt; 2010-01-05, 2010-01-06
-$ price    &lt;dbl&gt; 768.63, 776.47
-$ ret      &lt;dbl&gt; 0.005875887, 0.010199966
-$ my_seq1  &lt;int&gt; 3, 4
-$ my_seq2  &lt;dbl&gt; 12, 13
-$ my_seq3  &lt;int&gt; 3, 4</code></pre>
+<pre><code>Rows: 4
+Columns: 15
+$ ticker                 &lt;chr&gt; &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;, &quot;ABEV3.SA&quot;
+$ ref_date               &lt;date&gt; 2023-01-10, 2023-01-11, 2023-01-12, 2023-01-13
+$ price_open             &lt;dbl&gt; 14.26, 14.51, 13.80, 14.00
+$ price_high             &lt;dbl&gt; 14.60, 14.79, 14.17, 14.05
+$ price_low              &lt;dbl&gt; 14.25, 13.95, 13.66, 13.77
+$ price_close            &lt;dbl&gt; 14.54, 14.29, 14.10, 13.88
+$ volume                 &lt;dbl&gt; 35535000, 74419600, 69959500, 44291300
+$ price_adjusted         &lt;dbl&gt; 12.14986, 11.94095, 11.78219, 11.59835
+$ ret_adjusted_prices    &lt;dbl&gt; 0.009722304, -0.017194124, -0.013295907, -0.015…
+$ ret_closing_prices     &lt;dbl&gt; 0.009722246, -0.017193948, -0.013295982, -0.01…
+$ cumret_adjusted_prices &lt;dbl&gt; 1.0246654, 1.0070472, 0.9936576, 0.9781537
+$ ret                    &lt;dbl&gt; 0.009722304, -0.017194124, -0.013295907, -0.015…
+$ my_seq1                &lt;int&gt; 7, 8, 9, 10
+$ my_seq2                &lt;dbl&gt; 16, 17, 18, 19
+$ my_seq3                &lt;int&gt; 7, 8, 9, 10</code></pre>
 </div>
 </div>
 </section>
@@ -2330,6 +2398,29 @@ $ x    &lt;int&gt; 5, 6, 7, 8, 9, 10, 11
 $ y    &lt;dbl&gt; 20, 21, 22, 23, 24, 25, 26</code></pre>
 </div>
 </div>
+</section>
+<section id="exemplo-dplyrleft_join" class="slide level2">
+<h2>Exemplo <code>dplyr::left_join()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href></a><span class="co"># left_join mantém todas as linhas da tabela à esquerda e preenche faltantes com NA</span></span>
+<span id="cb46-2"><a href></a>my_df_left <span class="ot">&lt;-</span> <span class="fu">left_join</span>(my_df_1, my_df_2, <span class="at">by =</span> <span class="st">&quot;date&quot;</span>)</span>
+<span id="cb46-3"><a href></a></span>
+<span id="cb46-4"><a href></a><span class="fu">print</span>(my_df_left, <span class="at">n =</span> <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 3
+  date           x     y
+  &lt;date&gt;     &lt;int&gt; &lt;dbl&gt;
+1 2016-01-01     1    NA
+2 2016-01-02     2    NA
+3 2016-01-03     3    NA
+4 2016-01-04     4    NA
+5 2016-01-05     5    20
+6 2016-01-06     6    21
+7 2016-01-07     7    22
+8 2016-01-08     8    23
+# ℹ 3 more rows</code></pre>
+</div>
+</div>
 </section></section>
 <section>
 <section id="listas" class="title-slide slide level1 center">
@@ -2350,16 +2441,16 @@ $ y    &lt;dbl&gt; 20, 21, 22, 23, 24, 25, 26</code></pre>
 <h2>Criando Listas</h2>
 <p>Uma lista pode ser criada através do comando <code>base::list</code>, seguido por seus elementos separados por vírgula:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb46-2"><a href></a></span>
-<span id="cb46-3"><a href></a><span class="co"># create list</span></span>
-<span id="cb46-4"><a href></a>my_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
-<span id="cb46-5"><a href></a>             <span class="fu">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>),</span>
-<span id="cb46-6"><a href></a>             <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>)),</span>
-<span id="cb46-7"><a href></a>             <span class="fu">tibble</span>(<span class="at">col1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
-<span id="cb46-8"><a href></a></span>
-<span id="cb46-9"><a href></a><span class="co"># use base::print</span></span>
-<span id="cb46-10"><a href></a><span class="fu">print</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb48-2"><a href></a></span>
+<span id="cb48-3"><a href></a><span class="co"># create list</span></span>
+<span id="cb48-4"><a href></a>my_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb48-5"><a href></a>             <span class="fu">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>),</span>
+<span id="cb48-6"><a href></a>             <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>)),</span>
+<span id="cb48-7"><a href></a>             <span class="fu">tibble</span>(<span class="at">col1 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
+<span id="cb48-8"><a href></a></span>
+<span id="cb48-9"><a href></a><span class="co"># use base::print</span></span>
+<span id="cb48-10"><a href></a><span class="fu">print</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] 1 2 3
@@ -2381,8 +2472,8 @@ Levels: A B C
 4     4
 5     5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href></a><span class="co"># use dplyr::glimpse</span></span>
-<span id="cb48-2"><a href></a><span class="fu">glimpse</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href></a><span class="co"># use dplyr::glimpse</span></span>
+<span id="cb50-2"><a href></a><span class="fu">glimpse</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 4
  $ : num [1:3] 1 2 3
@@ -2394,14 +2485,14 @@ Levels: A B C
 </div>
 <p>Também podemos nomear os elementos:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href></a><span class="co"># set named list</span></span>
-<span id="cb50-2"><a href></a>my_named_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ticker =</span> <span class="st">&#39;TICK4&#39;</span>,</span>
-<span id="cb50-3"><a href></a>                   <span class="at">market =</span> <span class="st">&#39;Bovespa&#39;</span>,</span>
-<span id="cb50-4"><a href></a>                   <span class="at">df_prices =</span> <span class="fu">tibble</span>(<span class="at">P =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.5</span>,<span class="dv">2</span>,<span class="fl">2.3</span>),</span>
-<span id="cb50-5"><a href></a>                                      <span class="at">ref_date =</span> <span class="fu">Sys.Date</span>()<span class="sc">+</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>))</span>
-<span id="cb50-6"><a href></a></span>
-<span id="cb50-7"><a href></a><span class="co"># check content</span></span>
-<span id="cb50-8"><a href></a><span class="fu">glimpse</span>(my_named_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href></a><span class="co"># set named list</span></span>
+<span id="cb52-2"><a href></a>my_named_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">ticker =</span> <span class="st">&#39;TICK4&#39;</span>,</span>
+<span id="cb52-3"><a href></a>                   <span class="at">market =</span> <span class="st">&#39;Bovespa&#39;</span>,</span>
+<span id="cb52-4"><a href></a>                   <span class="at">df_prices =</span> <span class="fu">tibble</span>(<span class="at">P =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.5</span>,<span class="dv">2</span>,<span class="fl">2.3</span>),</span>
+<span id="cb52-5"><a href></a>                                      <span class="at">ref_date =</span> <span class="fu">Sys.Date</span>()<span class="sc">+</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb52-6"><a href></a></span>
+<span id="cb52-7"><a href></a><span class="co"># check content</span></span>
+<span id="cb52-8"><a href></a><span class="fu">glimpse</span>(my_named_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
  $ ticker   : chr &quot;TICK4&quot;
@@ -2416,12 +2507,12 @@ Levels: A B C
 <h2>Acessando os Elementos de uma Lista</h2>
 <p>Os elementos de uma lista podem ser acessados através do uso de duplo colchete (<code>[[ ]]</code>) ou <code>$</code>, tal como em:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href></a><span class="co"># accessing elements from list</span></span>
-<span id="cb52-2"><a href></a><span class="fu">print</span>(my_named_l[[<span class="dv">2</span>]]) <span class="co"># using position</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href></a><span class="co"># accessing elements from list</span></span>
+<span id="cb54-2"><a href></a><span class="fu">print</span>(my_named_l[[<span class="dv">2</span>]]) <span class="co"># using position</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;Bovespa&quot;</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href></a><span class="fu">print</span>(my_named_l[[<span class="st">&quot;df_prices&quot;</span>]]) <span class="co"># using name</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href></a><span class="fu">print</span>(my_named_l[[<span class="st">&quot;df_prices&quot;</span>]]) <span class="co"># using name</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
       P ref_date  
@@ -2431,7 +2522,7 @@ Levels: A B C
 3   2   2026-09-12
 4   2.3 2026-09-13</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href></a><span class="fu">print</span>(my_named_l<span class="sc">$</span>ticker) <span class="co"># using $</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href></a><span class="fu">print</span>(my_named_l<span class="sc">$</span>ticker) <span class="co"># using $</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;TICK4&quot;</code></pre>
 </div>
@@ -2441,16 +2532,16 @@ Levels: A B C
 <h2>Adicionando e Removendo Elementos de uma Lista</h2>
 <p>Para adicionar ou substituir, basta definir um novo objeto na posição desejada da lista:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href></a><span class="co"># set list</span></span>
-<span id="cb58-2"><a href></a>my_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">slot1 =</span> <span class="st">&#39;a&#39;</span>,</span>
-<span id="cb58-3"><a href></a>             <span class="at">slot2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb58-4"><a href></a></span>
-<span id="cb58-5"><a href></a><span class="co"># add new elements to list</span></span>
-<span id="cb58-6"><a href></a>my_l<span class="sc">$</span>slot3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb58-7"><a href></a>my_l<span class="sc">$</span>slot4 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;b&quot;</span>, <span class="dv">15</span>)</span>
-<span id="cb58-8"><a href></a></span>
-<span id="cb58-9"><a href></a><span class="co"># print result</span></span>
-<span id="cb58-10"><a href></a><span class="fu">glimpse</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href></a><span class="co"># set list</span></span>
+<span id="cb60-2"><a href></a>my_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">slot1 =</span> <span class="st">&#39;a&#39;</span>,</span>
+<span id="cb60-3"><a href></a>             <span class="at">slot2 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb60-4"><a href></a></span>
+<span id="cb60-5"><a href></a><span class="co"># add new elements to list</span></span>
+<span id="cb60-6"><a href></a>my_l<span class="sc">$</span>slot3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb60-7"><a href></a>my_l<span class="sc">$</span>slot4 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;b&quot;</span>, <span class="dv">15</span>)</span>
+<span id="cb60-8"><a href></a></span>
+<span id="cb60-9"><a href></a><span class="co"># print result</span></span>
+<span id="cb60-10"><a href></a><span class="fu">glimpse</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 4
  $ slot1: chr &quot;a&quot;
@@ -2464,16 +2555,16 @@ Levels: A B C
 <h2>Removendo elementos de uma lista</h2>
 <p>Para remover elementos de uma lista, basta definir o elemento para o símbolo reservado <code>NULL</code> (nulo):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href></a><span class="co"># set list</span></span>
-<span id="cb60-2"><a href></a>my_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">text =</span> <span class="st">&#39;b&#39;</span>, </span>
-<span id="cb60-3"><a href></a>             <span class="at">num1 =</span> <span class="dv">2</span>, </span>
-<span id="cb60-4"><a href></a>             <span class="at">num2 =</span> <span class="dv">4</span>)</span>
-<span id="cb60-5"><a href></a></span>
-<span id="cb60-6"><a href></a><span class="co"># remove elements</span></span>
-<span id="cb60-7"><a href></a>my_l<span class="sc">$</span>num1 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb60-8"><a href></a>my_l<span class="sc">$</span>num2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb60-9"><a href></a></span>
-<span id="cb60-10"><a href></a><span class="fu">glimpse</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href></a><span class="co"># set list</span></span>
+<span id="cb62-2"><a href></a>my_l <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">text =</span> <span class="st">&#39;b&#39;</span>, </span>
+<span id="cb62-3"><a href></a>             <span class="at">num1 =</span> <span class="dv">2</span>, </span>
+<span id="cb62-4"><a href></a>             <span class="at">num2 =</span> <span class="dv">4</span>)</span>
+<span id="cb62-5"><a href></a></span>
+<span id="cb62-6"><a href></a><span class="co"># remove elements</span></span>
+<span id="cb62-7"><a href></a>my_l<span class="sc">$</span>num1 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb62-8"><a href></a>my_l<span class="sc">$</span>num2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb62-9"><a href></a></span>
+<span id="cb62-10"><a href></a><span class="fu">glimpse</span>(my_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 1
  $ text: chr &quot;b&quot;</code></pre>
@@ -2490,32 +2581,35 @@ Levels: A B C
 </ul>
 <p>Por exemplo, imagine uma lista com vetores numéricos de diferentes tamanhos, tal como a seguir:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href></a><span class="co"># set list</span></span>
-<span id="cb62-2"><a href></a>my_l_num <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
-<span id="cb62-3"><a href></a>                 <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>),</span>
-<span id="cb62-4"><a href></a>                 <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href></a><span class="co"># set list</span></span>
+<span id="cb64-2"><a href></a>my_l_num <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb64-3"><a href></a>                 <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,</span>
+<span id="cb64-4"><a href></a>                 <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Caso quiséssemos calcular a média de cada elemento de <code>my_l_num</code> e apresentar o resultado na tela como um vetor, poderíamos fazer isso através de um procedimento simples, processando cada elemento individualmente:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href></a><span class="co"># calculate mean of vectors</span></span>
-<span id="cb63-2"><a href></a>mean_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(my_l_num[[<span class="dv">1</span>]])</span>
-<span id="cb63-3"><a href></a>mean_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(my_l_num[[<span class="dv">2</span>]])</span>
-<span id="cb63-4"><a href></a>mean_3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(my_l_num[[<span class="dv">3</span>]])</span>
-<span id="cb63-5"><a href></a></span>
-<span id="cb63-6"><a href></a><span class="co"># print it</span></span>
-<span id="cb63-7"><a href></a><span class="fu">print</span>(<span class="fu">c</span>(mean_1, mean_2, mean_3))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href></a><span class="co"># calculate mean of vectors</span></span>
+<span id="cb65-2"><a href></a>mean_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(my_l_num[[<span class="dv">1</span>]])</span>
+<span id="cb65-3"><a href></a>mean_2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(my_l_num[[<span class="dv">2</span>]])</span>
+<span id="cb65-4"><a href></a>mean_3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(my_l_num[[<span class="dv">3</span>]])</span>
+<span id="cb65-5"><a href></a></span>
+<span id="cb65-6"><a href></a><span class="co"># print it</span></span>
+<span id="cb65-7"><a href></a><span class="fu">print</span>(<span class="fu">c</span>(mean_1, mean_2, mean_3))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2.0 25.5  0.0</code></pre>
 </div>
 </div>
 <p>O código anterior funciona, porém não é recomendado devido à sua falta de escalabilidade.</p>
-<p>Uma maneira mais fácil, elegante e inteligente seria utilizar a função <code>sapply</code>:</p>
+<p>Uma maneira mais fácil, elegante e inteligente seria utilizar a função <code>sapply</code> (Base R) ou <code>purrr::map_dbl</code> (Tidyverse):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href></a><span class="co"># using sapply</span></span>
-<span id="cb65-2"><a href></a>my_mean <span class="ot">&lt;-</span> <span class="fu">sapply</span>(my_l_num, mean)</span>
-<span id="cb65-3"><a href></a></span>
-<span id="cb65-4"><a href></a><span class="co"># print result</span></span>
-<span id="cb65-5"><a href></a><span class="fu">print</span>(my_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href></a><span class="co"># using base R</span></span>
+<span id="cb67-2"><a href></a>my_mean <span class="ot">&lt;-</span> <span class="fu">sapply</span>(my_l_num, mean)</span>
+<span id="cb67-3"><a href></a><span class="fu">print</span>(my_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2.0 25.5  0.0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href></a><span class="co"># using tidyverse (purrr)</span></span>
+<span id="cb69-2"><a href></a>purrr<span class="sc">::</span><span class="fu">map_dbl</span>(my_l_num, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2.0 25.5  0.0</code></pre>
 </div>
@@ -2570,19 +2664,19 @@ Levels: A B C
 </table>
 <p>A matriz anterior poderia ser criada da seguinte forma no R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href></a><span class="co"># create matrix</span></span>
-<span id="cb67-2"><a href></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">736.67</span>, <span class="fl">764.14</span>, <span class="fl">768.63</span>, <span class="fl">776.47</span>,</span>
-<span id="cb67-3"><a href></a>          <span class="fl">59.4</span>, <span class="fl">59.8</span>, <span class="fl">59.2</span>, <span class="fl">59.28</span>,</span>
-<span id="cb67-4"><a href></a>          <span class="fl">29.81</span>, <span class="fl">30.82</span>, <span class="fl">30.38</span>, <span class="fl">30.20</span>)</span>
-<span id="cb67-5"><a href></a></span>
-<span id="cb67-6"><a href></a>my_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(data, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb67-7"><a href></a></span>
-<span id="cb67-8"><a href></a><span class="co"># set names of cols and rows</span></span>
-<span id="cb67-9"><a href></a><span class="fu">colnames</span>(my_mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;ABEV3&#39;</span>, <span class="st">&#39;BBAS3&#39;</span>, <span class="st">&#39;BBDC3&#39;</span>)</span>
-<span id="cb67-10"><a href></a><span class="fu">rownames</span>(my_mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;2010-01-01&#39;</span>, <span class="st">&#39;2010-01-04&#39;</span>,</span>
-<span id="cb67-11"><a href></a>                      <span class="st">&#39;2010-01-05&#39;</span>, <span class="st">&#39;2010-01-06&#39;</span>)</span>
-<span id="cb67-12"><a href></a></span>
-<span id="cb67-13"><a href></a><span class="fu">print</span>(my_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href></a><span class="co"># create matrix</span></span>
+<span id="cb71-2"><a href></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">736.67</span>, <span class="fl">764.14</span>, <span class="fl">768.63</span>, <span class="fl">776.47</span>,</span>
+<span id="cb71-3"><a href></a>          <span class="fl">59.4</span>, <span class="fl">59.8</span>, <span class="fl">59.2</span>, <span class="fl">59.28</span>,</span>
+<span id="cb71-4"><a href></a>          <span class="fl">29.81</span>, <span class="fl">30.82</span>, <span class="fl">30.38</span>, <span class="fl">30.20</span>)</span>
+<span id="cb71-5"><a href></a></span>
+<span id="cb71-6"><a href></a>my_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(data, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb71-7"><a href></a></span>
+<span id="cb71-8"><a href></a><span class="co"># set names of cols and rows</span></span>
+<span id="cb71-9"><a href></a><span class="fu">colnames</span>(my_mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;ABEV3&#39;</span>, <span class="st">&#39;BBAS3&#39;</span>, <span class="st">&#39;BBDC3&#39;</span>)</span>
+<span id="cb71-10"><a href></a><span class="fu">rownames</span>(my_mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;2010-01-01&#39;</span>, <span class="st">&#39;2010-01-04&#39;</span>,</span>
+<span id="cb71-11"><a href></a>                      <span class="st">&#39;2010-01-05&#39;</span>, <span class="st">&#39;2010-01-06&#39;</span>)</span>
+<span id="cb71-12"><a href></a></span>
+<span id="cb71-13"><a href></a><span class="fu">print</span>(my_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            ABEV3 BBAS3 BBDC3
 2010-01-01 736.67 59.40 29.81
@@ -2598,23 +2692,23 @@ Levels: A B C
 <li>Os elementos de uma matriz podem ser acessados pela notação <code>[i,j]</code>, onde <em>i</em> representa a linha e <em>j</em> a coluna. Veja o exemplo a seguir:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href></a>my_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb69-2"><a href></a><span class="fu">print</span>(my_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href></a>my_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb73-2"><a href></a><span class="fu">print</span>(my_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    1    4    7
 [2,]    2    5    8
 [3,]    3    6    9</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href></a><span class="fu">print</span>(my_mat[<span class="dv">1</span>,<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href></a><span class="fu">print</span>(my_mat[<span class="dv">1</span>,<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
 <p>O uso de testes lógicos para selecionar valores de matrizes também é possível. Veja a seguir:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href></a>my_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb73-2"><a href></a><span class="fu">print</span>(my_mat <span class="sc">&gt;</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href></a>my_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb77-2"><a href></a><span class="fu">print</span>(my_mat <span class="sc">&gt;</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      [,1]  [,2] [,3]
 [1,] FALSE FALSE TRUE
@@ -2628,34 +2722,44 @@ Levels: A B C
 <h1>Tarefa final de aula</h1>
 
 </section>
-<section id="tarefa-03" class="slide level2 scrollable">
-<h2>Tarefa 03</h2>
+<section id="tarefa-03---manipulação-básica" class="slide level2 scrollable">
+<h2>Tarefa 03 - Manipulação Básica</h2>
 <ol type="1">
-<li><p>Crie um dataframe chamado <code>my_df</code> com uma coluna chamada <code>x</code> contendo uma sequência de 1 a 100 e outra coluna chamada <code>y</code> com o valor da coluna x adicionada de 5. Usando código, qual a quantidade de valores em <code>x</code> maiores que 10 e menores que 25?</p></li>
-<li><p>Use função <code>dplyr::mutate</code> para criar uma nova coluna em <code>my_df</code> chamada <code>cumsum_x</code>, contendo a soma cumulativa de <code>x</code> (função <code>base::cumsum()</code>). Desta nova coluna, quantos valores são maiores que 50?</p></li>
-<li><p>Com função <code>dplyr::filter()</code>, filtre o dataframe <code>my_df</code> para manter apenas as linhas onde o valor da coluna <code>x</code> é maior que 25.</p></li>
-<li><p>Utilize pacote <code>yfR</code> para baixar dados da ação do META/Facebook (META) desde a data <code>&#39;2010-01-01&#39;</code> até hoje. Filtre os dados para manter apenas dados onde o dia da semana era segunda-feira.</p></li>
+<li><p>Crie um dataframe chamado <code>my_df</code> com uma coluna chamada <code>x</code> contendo uma sequência de 1 a 100 e outra coluna chamada <code>y</code> com o valor da coluna <code>x</code> adicionada de 5. Usando código, qual a quantidade de valores em <code>x</code> maiores que 10 e menores que 25?</p></li>
+<li><p>Use a função <code>dplyr::mutate</code> para criar uma nova coluna em <code>my_df</code> chamada <code>cumsum_x</code>, contendo a soma cumulativa de <code>x</code> (função <code>base::cumsum()</code>). Desta nova coluna, quantos valores são maiores que 50?</p></li>
+<li><p>Com a função <code>dplyr::filter()</code>, filtre o dataframe <code>my_df</code> para manter apenas as linhas onde o valor da coluna <code>x</code> é maior que 25.</p></li>
+</ol>
+</section>
+<section id="tarefa-03---dados-financeiros-e-listas" class="slide level2 scrollable">
+<h2>Tarefa 03 - Dados Financeiros e Listas</h2>
+<ol start="4" type="1">
+<li><p>Utilize o pacote <code>yfR</code> para baixar dados da ação da META/Facebook (META) desde a data <code>&#39;2010-01-01&#39;</code> até hoje. Filtre os dados para manter apenas dados onde o dia da semana era segunda-feira.</p></li>
 <li><p>Importe os dados disponíveis no arquivo <code>CH11_grunfeld.csv</code>, disponível no arquivo com os dados do livro. Utilize funções <code>dplyr::glimpse</code>, <code>summary</code> e <code>skimr::skim</code> para conhecer os dados importados.</p></li>
-<li><p>Crie um objeto do tipo lista com três dataframes em seu conteúdo, <code>df1</code>, <code>df2</code> e <code>df3</code>. O conteúdo e tamanho dos dataframes é livre. Utilize função <code>sapply</code> para descobrir o número de linhas e colunas em cada dataframe.</p></li>
-<li><p>Usando pacote <code>yfR</code>, baixe os dados da Petrobras (PETR4.SA) e do índice Ibovespa (^BVSP) em dois dataframes diferentes (duas chamadas da função <code>yfR::yf_get</code>). Empilhe os dados das duas ações com o comando <code>dplyr::bind_rows</code>.</p></li>
+<li><p>Crie um objeto do tipo lista com três dataframes em seu conteúdo, <code>df1</code>, <code>df2</code> e <code>df3</code>. O conteúdo e tamanho dos dataframes é livre. Utilize a função <code>sapply</code> para descobrir o número de linhas e colunas em cada dataframe.</p></li>
+</ol>
+</section>
+<section id="tarefa-03---integração-de-mercado" class="slide level2 scrollable">
+<h2>Tarefa 03 - Integração de Mercado</h2>
+<ol start="7" type="1">
+<li><p>Usando o pacote <code>yfR</code>, baixe os dados da Petrobras (PETR4.SA) e do índice Ibovespa (^BVSP) em dois dataframes diferentes (duas chamadas da função <code>yfR::yf_get</code>). Empilhe os dados das duas ações com o comando <code>dplyr::bind_rows</code>.</p></li>
 <li><p>Usando os mesmos dados do exercício anterior, crie uma nova coluna na tabela da Petrobras com os retornos do índice Ibovespa. A tabela resultante deve ser como a apresentada a seguir:</p></li>
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<div id="tgmvlpamuf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tgmvlpamuf table {
+<div id="vlpamufqig" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vlpamufqig table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#tgmvlpamuf thead, #tgmvlpamuf tbody, #tgmvlpamuf tfoot, #tgmvlpamuf tr, #tgmvlpamuf td, #tgmvlpamuf th {
+#vlpamufqig thead, #vlpamufqig tbody, #vlpamufqig tfoot, #vlpamufqig tr, #vlpamufqig td, #vlpamufqig th {
 border-style: none;
 }
-#tgmvlpamuf p {
+#vlpamufqig p {
 margin: 0;
 padding: 0;
 }
-#tgmvlpamuf .gt_table {
+#vlpamufqig .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2680,11 +2784,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_caption {
+#vlpamufqig .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#tgmvlpamuf .gt_title {
+#vlpamufqig .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2695,7 +2799,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#tgmvlpamuf .gt_subtitle {
+#vlpamufqig .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2706,7 +2810,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#tgmvlpamuf .gt_heading {
+#vlpamufqig .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -2717,12 +2821,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_bottom_border {
+#vlpamufqig .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_col_headings {
+#vlpamufqig .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2736,7 +2840,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_col_heading {
+#vlpamufqig .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2755,7 +2859,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#tgmvlpamuf .gt_column_spanner_outer {
+#vlpamufqig .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2766,13 +2870,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#tgmvlpamuf .gt_column_spanner_outer:first-child {
+#vlpamufqig .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#tgmvlpamuf .gt_column_spanner_outer:last-child {
+#vlpamufqig .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#tgmvlpamuf .gt_column_spanner {
+#vlpamufqig .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -2783,10 +2887,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#tgmvlpamuf .gt_spanner_row {
+#vlpamufqig .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#tgmvlpamuf .gt_group_heading {
+#vlpamufqig .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2811,7 +2915,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#tgmvlpamuf .gt_empty_group_heading {
+#vlpamufqig .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -2825,13 +2929,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#tgmvlpamuf .gt_from_md > :first-child {
+#vlpamufqig .gt_from_md > :first-child {
 margin-top: 0;
 }
-#tgmvlpamuf .gt_from_md > :last-child {
+#vlpamufqig .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#tgmvlpamuf .gt_row {
+#vlpamufqig .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2849,7 +2953,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#tgmvlpamuf .gt_stub {
+#vlpamufqig .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2861,7 +2965,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tgmvlpamuf .gt_stub_row_group {
+#vlpamufqig .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2874,13 +2978,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#tgmvlpamuf .gt_row_group_first td {
+#vlpamufqig .gt_row_group_first td {
 border-top-width: 2px;
 }
-#tgmvlpamuf .gt_row_group_first th {
+#vlpamufqig .gt_row_group_first th {
 border-top-width: 2px;
 }
-#tgmvlpamuf .gt_summary_row {
+#vlpamufqig .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2889,14 +2993,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tgmvlpamuf .gt_first_summary_row {
+#vlpamufqig .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_first_summary_row.thick {
+#vlpamufqig .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#tgmvlpamuf .gt_last_summary_row {
+#vlpamufqig .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2905,7 +3009,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_grand_summary_row {
+#vlpamufqig .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2914,7 +3018,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tgmvlpamuf .gt_first_grand_summary_row {
+#vlpamufqig .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2923,7 +3027,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_last_grand_summary_row_top {
+#vlpamufqig .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2932,10 +3036,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_striped {
+#vlpamufqig .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#tgmvlpamuf .gt_table_body {
+#vlpamufqig .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2943,7 +3047,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_footnotes {
+#vlpamufqig .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2956,7 +3060,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_footnote {
+#vlpamufqig .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -2964,7 +3068,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tgmvlpamuf .gt_sourcenotes {
+#vlpamufqig .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2977,64 +3081,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#tgmvlpamuf .gt_sourcenote {
+#vlpamufqig .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tgmvlpamuf .gt_left {
+#vlpamufqig .gt_left {
 text-align: left;
 }
-#tgmvlpamuf .gt_center {
+#vlpamufqig .gt_center {
 text-align: center;
 }
-#tgmvlpamuf .gt_right {
+#vlpamufqig .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#tgmvlpamuf .gt_font_normal {
+#vlpamufqig .gt_font_normal {
 font-weight: normal;
 }
-#tgmvlpamuf .gt_font_bold {
+#vlpamufqig .gt_font_bold {
 font-weight: bold;
 }
-#tgmvlpamuf .gt_font_italic {
+#vlpamufqig .gt_font_italic {
 font-style: italic;
 }
-#tgmvlpamuf .gt_super {
+#vlpamufqig .gt_super {
 font-size: 65%;
 }
-#tgmvlpamuf .gt_footnote_marks {
+#vlpamufqig .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#tgmvlpamuf .gt_asterisk {
+#vlpamufqig .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#tgmvlpamuf .gt_indent_1 {
+#vlpamufqig .gt_indent_1 {
 text-indent: 5px;
 }
-#tgmvlpamuf .gt_indent_2 {
+#vlpamufqig .gt_indent_2 {
 text-indent: 10px;
 }
-#tgmvlpamuf .gt_indent_3 {
+#vlpamufqig .gt_indent_3 {
 text-indent: 15px;
 }
-#tgmvlpamuf .gt_indent_4 {
+#vlpamufqig .gt_indent_4 {
 text-indent: 20px;
 }
-#tgmvlpamuf .gt_indent_5 {
+#vlpamufqig .gt_indent_5 {
 text-indent: 25px;
 }
-#tgmvlpamuf .katex-display {
+#vlpamufqig .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#tgmvlpamuf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vlpamufqig div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3050,53 +3154,53 @@ height: 0px !important;
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_right" headers="ref_date">2026-09-11</td>
-<td class="gt_row gt_right" headers="ret_petr4">100.3338</td>
-<td class="gt_row gt_right" headers="ret_ibov">100.3254</td>
+<td class="gt_row gt_right" headers="ret_petr4">100.7773</td>
+<td class="gt_row gt_right" headers="ret_ibov">100.2455</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_right" headers="ref_date">2026-09-12</td>
-<td class="gt_row gt_right" headers="ret_petr4">100.8101</td>
-<td class="gt_row gt_right" headers="ret_ibov">101.0824</td>
+<td class="gt_row gt_right" headers="ret_petr4">101.7379</td>
+<td class="gt_row gt_right" headers="ret_ibov">100.3888</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_right" headers="ref_date">2026-09-13</td>
-<td class="gt_row gt_right" headers="ret_petr4">101.7023</td>
-<td class="gt_row gt_right" headers="ret_ibov">101.2851</td>
+<td class="gt_row gt_right" headers="ret_petr4">102.1726</td>
+<td class="gt_row gt_right" headers="ret_ibov">100.6284</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_right" headers="ref_date">2026-09-14</td>
-<td class="gt_row gt_right" headers="ret_petr4">102.5667</td>
-<td class="gt_row gt_right" headers="ret_ibov">101.9963</td>
+<td class="gt_row gt_right" headers="ret_petr4">102.8851</td>
+<td class="gt_row gt_right" headers="ret_ibov">100.6874</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_right" headers="ref_date">2026-09-15</td>
-<td class="gt_row gt_right" headers="ret_petr4">102.9567</td>
-<td class="gt_row gt_right" headers="ret_ibov">102.1179</td>
+<td class="gt_row gt_right" headers="ret_petr4">103.2851</td>
+<td class="gt_row gt_right" headers="ret_ibov">101.3296</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_right" headers="ref_date">2026-09-16</td>
-<td class="gt_row gt_right" headers="ret_petr4">103.7340</td>
-<td class="gt_row gt_right" headers="ret_ibov">102.3634</td>
+<td class="gt_row gt_right" headers="ret_petr4">103.6105</td>
+<td class="gt_row gt_right" headers="ret_ibov">102.2059</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_right" headers="ref_date">2026-09-17</td>
-<td class="gt_row gt_right" headers="ret_petr4">104.6946</td>
-<td class="gt_row gt_right" headers="ret_ibov">102.5067</td>
+<td class="gt_row gt_right" headers="ret_petr4">104.3675</td>
+<td class="gt_row gt_right" headers="ret_ibov">102.9848</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_right" headers="ref_date">2026-09-18</td>
-<td class="gt_row gt_right" headers="ret_petr4">105.1293</td>
-<td class="gt_row gt_right" headers="ret_ibov">102.7464</td>
+<td class="gt_row gt_right" headers="ret_petr4">104.5702</td>
+<td class="gt_row gt_right" headers="ret_ibov">103.7821</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_right" headers="ref_date">2026-09-19</td>
-<td class="gt_row gt_right" headers="ret_petr4">105.8418</td>
-<td class="gt_row gt_right" headers="ret_ibov">102.8053</td>
+<td class="gt_row gt_right" headers="ret_petr4">105.2814</td>
+<td class="gt_row gt_right" headers="ret_ibov">104.2374</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_right" headers="ref_date">2026-09-20</td>
-<td class="gt_row gt_right" headers="ret_petr4">106.2418</td>
-<td class="gt_row gt_right" headers="ret_ibov">103.4476</td>
+<td class="gt_row gt_right" headers="ret_petr4">105.4031</td>
+<td class="gt_row gt_right" headers="ret_ibov">104.6475</td>
 </tr>
 </tbody>
 </table>
