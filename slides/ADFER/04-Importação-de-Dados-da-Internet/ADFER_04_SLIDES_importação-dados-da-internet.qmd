@@ -362,6 +362,7 @@ p <- ggplot(df_cred, aes(x=ref.date, y = value)) +
 
 print(p)
 ```
+
 ## A Taxa Selic
 
 ```{r}
