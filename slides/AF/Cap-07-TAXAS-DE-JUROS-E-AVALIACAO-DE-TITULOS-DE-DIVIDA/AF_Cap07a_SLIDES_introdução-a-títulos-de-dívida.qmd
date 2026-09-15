@@ -174,21 +174,19 @@ knitr::include_graphics("figs/divida-com-cupom.png")
 Tabela disponível em <https://www.tesourodireto.com.br/titulos/precos-e-taxas.htm>
 
 ```{r}
-#| eval: false
+#| eval: true
 df_curr <- GetTDData::td_get_current()
 
 df_curr <- df_curr |>
-  dplyr::filter(!stringr::str_detect(name, "Renda+|Educa+|IGPM+")) |>
-  dplyr::arrange(name)
+  dplyr::filter(!stringr::str_detect(asset_code, "Renda+|Educa+|IGPM+")) |>
+  dplyr::arrange(asset_code)
 
 tbl <- df_curr |>
-  dplyr::rename(Maturidade = maturity,
-                Nome = name,
-                `Min. Qtd` = min_qtd,
-                `Min. Valor` = min_value,
-                `Valor Título` = price,
-                `Taxa Anual` = annual_ret) |>
-  dplyr::select(Nome, Maturidade, `Min. Qtd`, `Min. Valor`,
+  dplyr::rename(Maturidade = matur_date,
+                Nome = asset_code,
+                `Valor Título` = price_bid,
+                `Taxa Anual` = yield_bid) |>
+  dplyr::select(Nome, Maturidade,
                 `Valor Título`, `Taxa Anual`)
 
 tbl |>
