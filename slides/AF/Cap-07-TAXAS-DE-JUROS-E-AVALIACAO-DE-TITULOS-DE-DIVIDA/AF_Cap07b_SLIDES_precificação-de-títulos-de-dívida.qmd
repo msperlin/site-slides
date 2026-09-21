@@ -661,9 +661,8 @@ library(ggplot2)
 # datas de referência: primeiro dia útil de cada ano (últimos 20 anos) +
 # primeiro dia útil de cada mês do ano corrente
 ref_dates <- unique(c(
-  getdate("first bizday", 2006:2025, "Brazil/ANBIMA"),
   getdate("first bizday",
-          seq(as.Date(format(Sys.Date(), "%Y-01-01")), Sys.Date(), by = "month"),
+          seq(as.Date("2005-01-01"), Sys.Date(), by = "1 month"),
           "Brazil/ANBIMA")
 ))
 
