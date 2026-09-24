@@ -15,7 +15,9 @@ self-contained: true
 execute: 
   echo: true
   cache: false
-bibliography: ["content/bibfile_ADFER.bib"]  
+bibliography: 
+  - "content/bibfile_ADFER.bib"
+  - "bib/pkgs_bib.bib"
 title-block-banner: true
 toc: true
 toc-depth: 1
@@ -28,6 +30,20 @@ classtools::setup_quarto_slides('content')
 ```
 
 
+# Objetivos de Aprendizagem {.unlisted}
+
+## Objetivos de Aprendizagem
+
+Ao final desta aula, você será capaz de:
+
+::: {.incremental}
+- Criar e usar **funções** para encapsular procedimentos
+- Repetir tarefas com **_loops_** e executar código condicionalmente (`if`/`else`)
+- Aplicar **programação funcional** com o pacote `purrr`
+- Realizar operações de agrupamento (_split-apply-combine_) com o `dplyr`
+:::
+
+
 # Introdução a Programação com o R 
 
 ## Introdução
@@ -36,7 +52,7 @@ classtools::setup_quarto_slides('content')
 
 ::: {.incremental}
 
-- permite iterações sequenciais, encasulamento de métodos, e automatização de qualquer procedimento computacional
+- permite iterações sequenciais, encapsulamento de métodos, e automatização de qualquer procedimento computacional
 
 - Em resumo, o computador será uma poderosa e escalável extensão do seu cérebro
 :::
@@ -68,8 +84,8 @@ classtools::setup_quarto_slides('content')
 %%| echo: false
 
 flowchart LR
-A[Entrada_1 \n Entrada_2 \n ... \n Entrada_k] --> B(((Processamento)))
-B --> C[Resulado_1 \n Resultado_2 \n ... \n Resultado_k]
+A[Entrada_1 <br> Entrada_2 <br> ... <br> Entrada_k] --> B(((Processamento)))
+B --> C[Resultado_1 <br> Resultado_2 <br> ... <br> Resultado_k]
 ```
 
 ## Qual é a sua idade?
@@ -83,7 +99,7 @@ A[<b> Entradas:</b> <br><br>Ano de Nascimento <br> Ano Atual] --> B(((<b>Process
 B --> C[<b>Saída:</b> <br><br> Idade Atual]
 ```
 
-## Estrutura de uma função no R
+## Sintaxe de uma função
 
 ```{r}
 #| echo: false
@@ -121,7 +137,7 @@ print(out2)
 
 ## Um exemplo prático
 
-> Vamos criar uma função que calcule, para qualquer ação do YF, o retorno acumulado entre 2015 e a data atual
+> Vamos criar uma função que calcule, para qualquer ação do Yahoo Finance (`yfR`), o retorno acumulado entre 2015 e a data atual
 
 ```{r}
 get_cum_ret <- function(ticker){
@@ -143,15 +159,16 @@ get_cum_ret <- function(ticker){
 Testando a função:
 
 ```{r}
+#| cache: true
 ticker <- "PETR4.SA"
 print(get_cum_ret(ticker))
 ```
 
 # Loops
 
-## Utilizando Loops (comando _for_) {#loops}
+## Utilizando Loops (comando _for_)
 
-> Utilizados de forma ostensiva na análise de dados, os _loops_ permitindo a repetição estruturada de códigos e possibilitando o processamento de itens individualmente de uma forma fácil.
+> Utilizados de forma ostensiva na análise de dados, os _loops_ permitem a repetição estruturada de códigos e possibilitam o processamento de itens individualmente de uma forma fácil.
 
 - o tamanho do _loop_ é definido dinamicamente, com base em dados
 
@@ -189,9 +206,10 @@ for (i in seq(1, nrow(my_mat))){
 }
 ```
 
-## Coletando retorno acumulados com loops
+## Coletando retornos acumulados com loops
 
 ```{r}
+#| cache: true
 ticker_vec <- c("PETR4.SA", "GRND3.SA", "WEGE3.SA", "AMER3.SA", "^BVSP")
 
 cum_ret_vec <- numeric()
@@ -210,6 +228,7 @@ cum_ret_vec
 ## Usando dados em loops
 
 ```{r}
+#| cache: true
 sp_comp <- yfR::yf_index_composition("SP500")
 
 ticker_vec <- sp_comp$ticker[1:5]
@@ -228,7 +247,7 @@ cum_ret_vec
 
 ## Exemplo de loop e agrupamento de dados
 
-- Outro exemplo prático do uso de um _loop_ é o processamento de dados de acordo com grupos. Por exemplo, para dados de preços de diferentes ações da Bovespa, caso quiséssemos calcular o preço médio de cada ação, construiríamos o seguinte código para importar os dados e processá-los:
+- Outro exemplo prático do uso de um _loop_ é o processamento de dados de acordo com grupos. Por exemplo, para dados de preços de diferentes ações do índice SP500, caso quiséssemos calcular o preço médio de cada ação, construiríamos o seguinte código para importar os dados e processá-los:
 
 ```{r, tidy=FALSE}
 library(dplyr)
@@ -250,11 +269,11 @@ for (i_ticker in unique_tickers){
   temp_df <- my_df |>
     filter(ticker == i_ticker)
   
-  temp_last_price <- dplyr::last(temp_df$price_adjusted)
+  temp_mean_price <- mean(temp_df$price_adjusted)
   temp_last_date <- dplyr::last(temp_df$ref_date)
   
   tibble_temp <- tibble(ticker = i_ticker,
-                        mean_price = temp_last_price,
+                        mean_price = temp_mean_price,
                         last_date = temp_last_date)
   
   tab_out <- bind_rows(tab_out,
@@ -265,6 +284,12 @@ for (i_ticker in unique_tickers){
 # print result
 print(tab_out[1:10, ])
 ```
+
+::: {.callout-tip}
+## Dica de desempenho
+
+Crescer `tab_out` com `bind_rows` a cada iteração funciona, mas é ineficiente. Em produção, colete os resultados em uma lista e combine-os uma única vez ao final do _loop_ (ou use `purrr::map()` combinado com `dplyr::bind_rows()`).
+:::
 
 # Execuções Condicionais (`if`, `else`, `switch`)
 
@@ -302,7 +327,7 @@ my_thresh <- 5
 for (i in my_x){
   if (i > my_thresh){
     message('Value of i is ', i, ' - Higher than ', my_thresh)
-  } else if (i==my_thresh) {
+  } else if (i == my_thresh) {
     message('Value of i ', i, ' - equal to ', my_thresh)
   } else {
     message('Value of i ', i, ' - lower than ', my_thresh)
@@ -323,7 +348,8 @@ for (i in my_x){
   - permite controle automático de erros de execução
   - código mais fácil de manter e de ser reutilizado
 - Pontos negativos:
-  - nenhum
+  - maior curva de aprendizado para iniciantes
+  - erros de execução podem ser mais difíceis de depurar
 :::
 
 
@@ -357,7 +383,7 @@ x_results
 
 ::: {.column width="50%"}
 
-**Versão com `purrr::map`**
+**Versão com `purrr::map_dbl`**
 ```{r}
 x_results <- purrr::map_dbl(y_vec, fct)
 x_results
@@ -380,18 +406,19 @@ x_results
 
 ::: {.incremental}
 - Pacote `base` oferece funções nativas da família _apply_: `sapply`, `lapply`, `tapply`, `mapply`, `apply` e `by`. 
-- No `tidyverse`, programação funcional é oferecida pelo pacote `r classtools::cite_pkg("purrr")`
-- O foco aqui será com as funções do pacote `r classtools::cite_pkg("purrr", clean_up = TRUE)`
+- No `tidyverse`, programação funcional é oferecida pelo pacote `r classtools::cite_pkg("purrr", clean_up = TRUE)`
+- O foco aqui será com as funções do pacote `purrr`
 :::
 
 
-## Pacote `r classtools::cite_pkg("purrr")`
+## Pacote `purrr`
 
 Principais funções:
 
 - `map()`: retorna sempre uma lista
-- `map_dbl()`: retorna sempre  um vetor numérico (_double_)
-- `map_chr()`: retorna sempre  um vetor de text (_character_)
+- `map_dbl()`: retorna sempre um vetor numérico (_double_)
+- `map_int()`: retorna sempre um vetor de inteiros (_integer_)
+- `map_chr()`: retorna sempre um vetor de texto (_character_)
 - `map_lgl()`: retorna sempre um vetor lógico (_logical_)
 - `pmap()`: retorna uma lista, mas com entrada flexível de argumentos
 
@@ -447,20 +474,20 @@ Exemplo:
 ```{r, error=TRUE}
 library(purrr)
 
-my_fct <- function(x) {
+add_one <- function(x) {
   return(x + 1)
 }
 
-my_fct('a')
+add_one('a')
 ```
 
-Agora vamos utilizar `safely` para encapsular `my_fct` em outra função chamada `my_fct_safely`:
+Agora vamos utilizar `safely` para encapsular `add_one` em outra função chamada `add_one_safely`:
 
 ```{r}
 # with safely
-my_fct_safely <- safely(my_fct)
+add_one_safely <- safely(add_one)
 
-print(my_fct_safely('a'))
+print(add_one_safely('a'))
 ```
 
 Um exemplo de uso completo:
@@ -471,7 +498,7 @@ my_l <- list(1:5,
              1:4)
 
 res_out <- my_l |>
-  map(safely(my_fct))
+  map(safely(add_one))
 
 print(res_out)
 ```
@@ -497,7 +524,7 @@ my_l <- list(1,
 
 # NA for errors
 res_out <- my_l |>
-  map(safely(my_fct,
+  map(safely(add_one,
              otherwise = NA)) |>
   map_dbl('result')
 
@@ -556,7 +583,7 @@ l_args <- list(name_in = df_grid$names_vec,
                fruit_in = df_grid$fruits_vec,
                verb_in = df_grid$verb_vec)
 
-my_phrases <- purrr::pmap(.l = l_args, 
+my_phrases <- purrr::pmap_chr(.l = l_args, 
                           .f = build_phrase)
 
 print(my_phrases)
@@ -576,7 +603,7 @@ knitr::include_graphics("figs/split-apply-combine.png")
 ```
 
 
-## Operações de Grupo com `r classtools::cite_pkg("dplyr")`
+## Operações de Grupo com `dplyr`
 
 Etapas:
 
@@ -589,6 +616,7 @@ Etapas:
 > vamos calcular a média,  desvio padrão, máximo e mínimo dos retornos de um grupo de ações
 
 ```{r}
+#| cache: true
 library(dplyr)
 
 tickers <- c("PETR4.SA", "VALE3.SA", "GRND3.SA")
@@ -610,6 +638,7 @@ tbl_yf
 
 
 ```{r}
+#| cache: true
 tbl_yf <- yfR::yf_get(tickers, first_date) |>
   na.omit() |>
   mutate(weekday = weekdays(ref_date)) |>
@@ -624,6 +653,19 @@ tbl_yf
 ```
 
 
+# Resumo {.unlisted}
+
+## Resumo
+
+::: {.incremental}
+- **Funções** encapsulam entradas → processamento → saída e são o maior ativo do pesquisador
+- **Loops** (`for`) repetem instruções de forma dinâmica e são úteis para processar grupos de dados
+- **Condicionais** (`if`/`else`) permitem tomar decisões no código
+- **Programação funcional** (`purrr`) substitui loops por `map_*`/`pmap_*`
+- **`dplyr`** resolve _split-apply-combine_ com `group_by()` + `summarise()`
+:::
+
+
 # Tarefa final de aula
 
 ## Tarefa 04
@@ -636,11 +678,11 @@ tbl_yf
 
 04. No banco de dados do [Brasil.IO](https://data.brasil.io/dataset/genero-nomes/grupos.csv.gz)^[https://data.brasil.io/dataset/genero-nomes/grupos.csv.gz] encontrarás uma tabela com nomes e gêneros derivados de uma das pesquisas do IBGE. Importe os dados do arquivo para R e, usando um _loop_, aplique a função `say_my_name` a 15 nomes aleatórios do banco de dados. Dica: neste caso, você pode baixar os dados direto do link usando `readr::read_csv(LINK)`.
 
-05. Use o pacote `yfR` para baixar dados do índice SP500 (`'^GSPC'`), Ibovespa (`'^BVSP'`), FTSE (`'^FSTE'`) e Nikkei 225 (`'^N225'`) de `'2010-01-01'` até a data atual. Com os dados importados, use um _loop_ para calcular o retorno médio, máximo e mínimo de cada índice durante o período analisado. Salve todos os resultados em uma tabela única e a mostre no _prompt_ do R.
+05. Use o pacote `yfR` para baixar dados do índice SP500 (`'^GSPC'`), Ibovespa (`'^BVSP'`), FTSE (`'^FTSE'`) e Nikkei 225 (`'^N225'`) de `'2010-01-01'` até a data atual. Com os dados importados, use um _loop_ para calcular o retorno médio, máximo e mínimo de cada índice durante o período analisado. Salve todos os resultados em uma tabela única e a mostre no _prompt_ do R.
 
 06. Refaça o exercício anterior utilizando as funções `group_by` e `summarise`, ambas do pacote `dplyr`.
 
-07. No site do [Rstudio CRAN logs](http://cran-logs.rstudio.com/) você encontrará  dados sobre as estatísticas de download para a distribuição de base de R na seção _Daily R downloads_. Usando suas habilidades de programação, importe todos os dados disponíveis entre `r "2015-01-01"` e `r Sys.Date()` e agregue-os em uma única tabela. Qual país apresenta a maior contagem de downloads do R? NOTA: caso tiver erro no download, ignore os arquivos com falha, e continue a importaçẽo e análise dos demais. Podes usar `purrr::safely` para tratar erros no código.
+07. No site do [RStudio CRAN logs](http://cran-logs.rstudio.com/) você encontrará dados sobre as estatísticas de download para a distribuição de base de R na seção _Daily R downloads_. Usando suas habilidades de programação, importe os dados disponíveis entre `r "2015-01-01"` e `r Sys.Date()` e agregue-os em uma única tabela. Qual país apresenta a maior contagem de downloads do R? NOTA 1: para viabilizar o exercício, comece importando apenas um período curto (por exemplo, um único mês) antes de expandir para todos os arquivos. NOTA 2: caso tiver erro no download, ignore os arquivos com falha, e continue a importação e análise dos demais. Podes usar `purrr::safely` para tratar erros no código.
 
 
 # Referências {.unlisted}
