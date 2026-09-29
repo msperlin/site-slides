@@ -24,13 +24,140 @@ toc-title: "Sumário"
 ```{r}
 #| echo: false
 classtools::setup_quarto_slides('content')
+
+library(dplyr)
+library(ggplot2)
+
+eodhdR2::set_token(classtools::get_eodhd_token())
+
+# ---------------------------------------------------------------------------
+# Dados baixados uma única vez por render (evita chamadas repetidas à API)
+# ---------------------------------------------------------------------------
+fii_tickers <- c("XPML11", "HGLG11", "HGCR11", "VINO11")
+fii_first_date <- Sys.Date() - 5 * 365
+fii_last_date <- Sys.Date()
+
+fii_data <- purrr::map(
+  fii_tickers,
+  \(t) list(
+    prices = dplyr::arrange(eodhdR2::get_prices(t, "SA"), date),
+    divs   = dplyr::arrange(eodhdR2::get_dividends(t, "SA"), date)
+  )
+) |>
+  purrr::set_names(fii_tickers)
+
+# Rendimentos anuais, ajustando anos incompletos (primeiro e último)
+get_annual_divs <- function(ticker) {
+  fii_data[[ticker]]$divs |>
+    dplyr::filter(date >= fii_first_date, date <= fii_last_date) |>
+    dplyr::mutate(
+      year = lubridate::year(date),
+      partial = year %in% c(min(year), max(year))
+    ) |>
+    dplyr::group_by(year) |>
+    dplyr::reframe(
+      n_values = dplyr::n(),
+      extra = ifelse(partial[1], mean(value) * (12 - dplyr::n()), 0),
+      sum_div = sum(value) + extra
+    ) |>
+    dplyr::arrange(year)
+}
+
+# CAGR dos rendimentos: usa o número de ANOS entre os pontos (n - 1)
+get_div_cagr <- function(divs_annual) {
+  n_periods <- max(divs_annual$year) - min(divs_annual$year)
+  if (n_periods < 1) return(NA_real_)
+  (divs_annual$sum_div[nrow(divs_annual)] / divs_annual$sum_div[1])^(1 / n_periods) - 1
+}
+
+# Resumo do fundo (DY dos últimos 12 meses)
+get_fii_summary <- function(ticker) {
+  prices <- fii_data[[ticker]]$prices
+  last_price <- prices$close[nrow(prices)]
+  last_divs  <- dplyr::filter(fii_data[[ticker]]$divs, date >= fii_last_date - 365)
+  list(last_price = last_price, dy = sum(last_divs$value) / last_price)
+}
+
+# Preços "limpos": remove cotações claramente inconsistentes (erros do provedor)
+get_clean_prices <- function(ticker) {
+  prices <- fii_data[[ticker]]$prices |>
+    dplyr::filter(date >= fii_first_date, date <= fii_last_date) |>
+    dplyr::arrange(date)
+
+  med <- stats::median(prices$adjusted_close, na.rm = TRUE)
+
+  prices |>
+    dplyr::filter(
+      !is.na(adjusted_close),
+      adjusted_close > 0.1 * med,
+      adjusted_close < 10 * med
+    )
+}
+
+# Gráfico de rendimentos anuais
+get_div_plot <- function(ticker) {
+  divs_annual <- get_annual_divs(ticker)
+  cagr <- get_div_cagr(divs_annual)
+
+  ggplot(divs_annual, aes(x = factor(year), y = sum_div)) +
+    geom_col(fill = "#1667c4") +
+    geom_text(aes(label = classtools::format_cash(sum_div)), vjust = -0.5, size = 4) +
+    labs(
+      title = paste0("Rendimentos anuais para ", ticker),
+      subtitle = paste0("CAGR: ", classtools::format_percent(cagr)),
+      x = "Ano",
+      y = "Soma de rendimentos ajustados (R$)",
+      caption = "Fonte: EODHD. Anos incompletos ajustados pela média mensal."
+    ) +
+    theme_light()
+}
+
+# Screener de FIIs (fonte: Fundamentus): P/VP, DY e vacância média
+get_fii_screener <- function() {
+  cache_folder <- fs::path(tools::R_user_dir("AF-slides", which = "cache"), "fii-screener")
+  fs::dir_create(cache_folder, recurse = TRUE)
+  f_cache <- fs::path(cache_folder, glue::glue("fii_screener_{Sys.Date()}.rds"))
+  if (fs::file_exists(f_cache)) return(readr::read_rds(f_cache))
+
+  my_locale <- readr::locale(decimal_mark = ",", grouping_mark = ".")
+  pct <- function(x) readr::parse_number(x, locale = my_locale) / 100
+  num <- function(x) readr::parse_number(x, locale = my_locale)
+
+  df <- rvest::read_html(
+      "https://www.fundamentus.com.br/fii_resultado.php",
+      encoding = "ISO-8859-1") |>
+    rvest::html_table() |>
+    purrr::pluck(1) |>
+    janitor::clean_names() |>
+    dplyr::mutate(
+      dplyr::across(c(ffo_yield, dividend_yield, vacancia_media), pct),
+      dplyr::across(c(cotacao, p_vp, valor_de_mercado, liquidez), num)
+    )
+
+  readr::write_rds(df, f_cache)
+  df
+}
 ```
 
 # Introdução
 
+## Objetivos de aprendizagem
+
+::: {.incremental}
+- Entender **o que é um FII** e por que ele se tornou uma das principais portas de entrada para a renda variável no Brasil
+
+- Diferenciar os segmentos (**tijolo** e **papel**) e os riscos típicos de cada um
+
+- Conhecer os indicadores de análise (**DY, P/VP, vacância e CAGR**) e as suas armadilhas
+
+- Aplicar esses conceitos em FIIs reais negociados na B3
+:::
+
+Referência principal: [@ross], capítulo 08.
+
 ## O que são FIIs?
 
-> Fundos de Investimento Imobiliário (FIIs) é um contrato típico do mercado de renda variável, onde existe uma comunhão de recursos destinados à aplicação em empreendimentos imobiliários.
+> Fundos de Investimento Imobiliário (FIIs) são contratos típicos do mercado de renda variável, onde existe uma comunhão de recursos destinados à aplicação em empreendimentos imobiliários.
 
 ::: {.incremental}
 - Semelhante a uma ação de uma empresa, o FII é uma forma de investir em imóveis sem precisar comprar um imóvel físico inteiro, pois o patrimônio do fundo é dividido em **cotas**
@@ -41,25 +168,41 @@ classtools::setup_quarto_slides('content')
 ## Imóvel Físico vs. FIIs {background-image="figs/investidor.jpg" background-opacity=0.25}
 
 ::: {.incremental}
-- **Liquidez:** FIIs podem ser vendidos em D+2 na bolsa; um imóvel pode levar meses ou anos
-- **Fracionamento:** É possível investir com valores muito baixos (ex: R$ 10 ou R$ 100) de forma diversificada
-- **Gestão Profissional:** Uma equipe especializada administra os inquilinos e os imóveis
-- **Diversificação:** Um único Fundo pode ter dezenas de imóveis com centenas de inquilinos
-- **Isenção de IR:** Os rendimentos (dividendos) distribuídos aos cotistas pessoa física são geralmente **isentos** de Imposto de Renda
+- **Liquidez:** as cotas são negociadas em bolsa e liquidadas em **D+2**; vender um imóvel físico pode levar meses ou anos
+- **Fracionamento:** é possível investir com valores muito baixos (ex: R$ 10 ou R$ 100) de forma diversificada
+- **Gestão Profissional:** uma equipe especializada administra os inquilinos e os imóveis
+- **Diversificação:** um único fundo pode ter dezenas de imóveis com centenas de inquilinos
+- **Isenção de IR:** os rendimentos distribuídos aos cotistas pessoa física podem ser **isentos** de Imposto de Renda (sob condições legais — ver adiante)
 :::
 
-## Performance de FIIs no longíssimo prazo (USA)
+## Performance de FIIs no longuíssimo prazo (USA)
 
 ![Performance de REITs nos EUA - fonte: [globalxetfs](https://www.globalxetfs.com/articles/reits-a-key-portfolio-building-block)](figs/Historical-Performance-Global-REITs-image-5.png)
 
+::: {.incremental}
+- REITs são o equivalente internacional dos FIIs, mas seguem regras próprias (nos EUA, a distribuição de ~90% do lucro tributável é obrigatória)
+- No longo prazo, o retorno total do imobiliário listado é competitivo com o de ações, com menor volatilidade
+- Essa evidência reforça o papel de imóveis listados em uma carteira de longo prazo
+:::
 
 ## Como funciona a Distribuição de Rendimentos?
 
 ::: {.incremental}
-- Pela lei ([Lei 8.668/93](https://www.planalto.gov.br/ccivil_03/leis/l8668.htm)), os FIIs devem distribuir no mínimo **95% do lucro** apurado em **regime de caixa** a cada semestre
+- A [Lei 8.668/93](https://www.planalto.gov.br/ccivil_03/leis/l8668.htm) exige a distribuição de, no mínimo, **95% do lucro** apurado em **regime de caixa**, com base em balanço semestral (30/06 e 31/12)
 - No entanto, a grande maioria dos fundos opta por realizar distribuições **mensais**
-- Essa constância atrai investidores buscando geração de renda passiva (viver de aluguéis)
-- A isenção de IR sobre esses proventos mensais é o grande atrativo da classe de ativos no Brasil
+- Essa constância atrai investidores buscando geração de renda passiva ("viver de aluguéis")
+- A possibilidade de isenção de IR sobre esses proventos mensais é o grande atrativo da classe no Brasil
+:::
+
+## Tributação: a isenção tem condições
+
+::: {.incremental}
+- Os **rendimentos** distribuídos a pessoa física são **isentos** de IR, desde que atendidas as condições da [Lei 11.033/2004, art. 3º](https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/lei/l11033.htm):
+  - o fundo tenha **no mínimo 100 cotistas**;
+  - as cotas sejam negociadas **exclusivamente em bolsa** (ou balcão organizado);
+  - o cotista pessoa física **não** detenha **10% ou mais** das cotas do fundo.
+- **Ganho de capital na venda das cotas:** IR de **20%**, **sem** a isenção de R$ 20 mil/mês válida para ações ([Lei 8.668/93, art. 18](https://www.planalto.gov.br/ccivil_03/leis/l8668.htm))
+- FIIs **não** estão sujeitos ao *come-cotas*; para pessoa jurídica, os rendimentos são tributados
 :::
 
 # Segmentos e Tipos de FIIs
@@ -75,7 +218,7 @@ classtools::setup_quarto_slides('content')
 - Investem em imóveis físicos (reais)
 - O fundo constrói, adquire ou aluga os imóveis
 - Renda majoritariamente dos contratos de aluguel
-- Tipos de fundos de tijolos:
+- Tipos de fundos de tijolo:
   - Lajes corporativas
   - Shoppings
   - Galpões logísticos e industriais
@@ -89,13 +232,14 @@ classtools::setup_quarto_slides('content')
 
 ::: {.incremental}
 - Investem em instrumentos financeiros atrelados ao mercado imobiliário (CRI, LCI, etc)
-- Fundos agregam dezenas de contratos de dívidas indexadas a taxa de juros e  inflação
-- Geralmente pagam maior renda (maior *dividend yield*), porém cota não se valoriza tanto quanto os fundos de tijolo
+- Agregam dezenas de contratos de dívidas indexadas à taxa de juros e à inflação
+- Geralmente pagam maior renda (maior *dividend yield*), porém a cota não se valoriza tanto quanto a dos fundos de tijolo
 :::
 :::
 
 ::::
 
+Além de tijolo e papel, existem **fundos de fundos (FoF)**, **híbridos** e os **Fiagro** (agronegócio).
 
 ## Fundos de Tijolo: Shopping Centers
 
@@ -115,22 +259,30 @@ classtools::setup_quarto_slides('content')
 - **Risco de Vacância:** Embora o tempo de vacância de um galpão possa ser maior, os contratos longos com pesadas multas rescisórias mitigam esse risco no curto prazo.
 :::
 
+## Riscos específicos dos Fundos de Papel
 
+::: {.incremental}
+- **Risco de crédito:** o devedor do CRI pode atrasar ou deixar de pagar, reduzindo o rendimento distribuído
+- **Subordinação:** as séries subordinadas absorvem as primeiras perdas do lastro — a estrutura da operação importa
+- **Indexador:** CDI ou IPCA — muda o comportamento do fundo em cenários de juros e inflação
+- **Marcação a mercado:** vender o CRI antes do vencimento pode gerar perdas relevantes
+- **Pré-pagamento:** a antecipação do pagamento pelos devedores reduz o rendimento futuro
+:::
 
 # Como avaliar um FII e os seus riscos?
 
 ## Indicadores Quantitativos (Tijolo)
 
 ::: {.incremental}
-1. **DY CAGR, Crescimento Dividendos**: Crescimento do rendimento ao longos dos anos
+1. **DY CAGR, Crescimento Dividendos**: Crescimento do rendimento ao longo dos anos
 
 1. **Tempo de mercado:** Fundos mais novos são mais arriscados (mínimo 5 anos)
 
-1. **Vacância:**: Percentual de vacância (física e financeira). Quanto menor, melhor.
+1. **Vacância:** Percentual de vacância (física e financeira). Quanto menor, melhor.
 
-1. **Dividend Yield (DY %):** (Dividendo dos últimos 12 meses / Preço Atual da cota) -- [CUIDADO, alto DY geralmente é um sinal de algo errado]{style="color: red;"}
+1. **Dividend Yield (DY %):** (Rendimento dos últimos 12 meses / Preço Atual da cota) — [CUIDADO, alto DY geralmente é um sinal de algo errado]{style="color: red;"}
 
-1. **P/VP (Preço / Valor Patrimonial):** (Valor de Mercado Total / Valor de Avaliação dos Ativos do Fundo). [CUIDADO, baixo P/PV geralmente é sinal de algo errado]{style="color: red;"}.
+1. **P/VP (Preço / Valor Patrimonial):** (Valor de Mercado Total / Valor de Avaliação dos Ativos do Fundo). [CUIDADO, baixo P/VP geralmente é sinal de algo errado]{style="color: red;"}.
 :::
 
 ## Análise Qualitativa
@@ -145,6 +297,43 @@ classtools::setup_quarto_slides('content')
 1. **Gestora e Governança:** O histórico do administrador importa muito. O investidor depende de gestão ética.
 :::
 
+## DY alto nem sempre é bom: DY vs. P/VP
+
+```{r}
+df_screener <- get_fii_screener()
+selic <- classtools::get_selic_rate()$aa
+
+df_liq <- df_screener |>
+  dplyr::filter(
+    liquidez > 3e5,
+    dividend_yield > 0.02, dividend_yield < 0.30,
+    p_vp > 0.2, p_vp < 2.5
+  ) |>
+  dplyr::mutate(is_exemplo = papel %in% fii_tickers)
+
+p_screener <- ggplot(df_liq, aes(x = p_vp, y = dividend_yield)) +
+  geom_point(color = "grey70", alpha = 0.8) +
+  geom_point(data = dplyr::filter(df_liq, is_exemplo), aes(color = papel), size = 3) +
+  geom_text(data = dplyr::filter(df_liq, is_exemplo),
+            aes(label = papel, color = papel), vjust = -0.9, size = 4, show.legend = FALSE) +
+  geom_vline(xintercept = 1, linetype = "dashed") +
+  geom_hline(yintercept = selic, linetype = "dashed", color = "red") +
+  annotate("label", x = 0.42, y = 0.285, hjust = 0, color = "red",
+           label = "DY alto + P/VP baixo:\npossível armadilha") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Dividend Yield vs. P/VP dos FIIs líquidos",
+    subtitle = paste0("Linhas de referência: P/VP = 1 e Selic = ",
+                      classtools::format_percent(selic)),
+    x = "P/VP (Preço / Valor Patrimonial)",
+    y = "Dividend Yield (últimos 12 meses)",
+    color = "",
+    caption = "Fonte: Fundamentus. Somente fundos com liquidez diária acima de R$ 300 mil."
+  ) +
+  theme_light()
+
+p_screener
+```
 
 ## O que pode dar errado?
 
@@ -157,110 +346,66 @@ classtools::setup_quarto_slides('content')
 
 - **Risco Político:** Risco sobre alterações na isenção do IR dos proventos de FIIs na legislação vigente.
 
-- **Risco ambiental:** Risco de desvalorização do imóvel por questões ambientais (ex: enchentes, deslizamentos, etc).
+- **Risco Ambiental:** Risco de desvalorização do imóvel por questões ambientais (ex: enchentes, deslizamentos, etc).
 :::
 
+## O custo de oportunidade: FIIs vs. renda fixa
+
+```{r}
+p_dy <- df_liq |>
+  ggplot(aes(x = dividend_yield)) +
+  geom_histogram(bins = 30, fill = "#1667c4", color = "white") +
+  geom_vline(xintercept = selic, color = "red", linetype = "dashed", linewidth = 1) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(
+    title = "Distribuição do Dividend Yield dos FIIs líquidos",
+    subtitle = paste0("Linha vermelha: Selic = ", classtools::format_percent(selic)),
+    x = "Dividend Yield (últimos 12 meses)",
+    y = "Número de fundos",
+    caption = "Fonte: Fundamentus. Fundos com liquidez diária acima de R$ 300 mil."
+  ) +
+  theme_light()
+
+p_dy
+```
 
 # FIIs na Prática
 
 ```{r}
 ticker <- "XPML11"
 type <- "Shopping Centers"
+fii_sum <- get_fii_summary(ticker)
 ```
 
-## `r ticker` (`r type`)
+## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
 
-```{r}
-exchange <- "SA"
+::: {.incremental}
+- IPO em 2017, com dezenas de shoppings no portfólio
+- Foco em imóveis AAA (alta qualidade), em diversos estados do país
+- Alta liquidez: um dos fundos de shopping mais negociados da B3
+- Dividend Yield (DY) de `r classtools::format_percent(fii_sum$dy)`
+:::
 
-token <- classtools::get_eodhd_token()
-eodhdR2::set_token(token)
-
-prices <- eodhdR2::get_prices(ticker, exchange) |>
-  dplyr::filter(date >= Sys.Date() - 365)
-divs <- eodhdR2::get_dividends(ticker, exchange)
-
-last_year <- divs |>
-  dplyr::filter(date >= Sys.Date() - 365)
-
-sum_divs <- sum(last_year$value)
-
-last_price <- prices$close[nrow(prices)]
-div_year <- sum_divs / last_price
-
-sum_volume <- sum(prices$volume*prices$close)
-```
-
-- IPO em 2017, 16 shoppings no porfólio
-- Foco em imoveis AAA (alta qualidade), em 7 distintos estados do país
-- Alta liquidez (média diária de R$ 1,5 milhões)
-- Dividend Yield (DY) de `r classtools::format_percent(div_year)`
+*Valores de portfólio conforme o último relatório gerencial disponível.*
 
 ## `r ticker`: Fluxos de caixa 
 
 ```{r}
-ticker <- "XPML11"
-exchange <- "SA"
-first_date <-  Sys.Date() - 5*365
-last_date <- Sys.Date()
-
-l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
+l_plot <- classtools::make_cashflow_plot(ticker, "SA", fii_first_date, fii_last_date)
 l_plot$p
 ```
-
 
 ## `r ticker`: Gráfico dos Rendimentos Anuais
 
 ```{r}
-library(dplyr)
-library(ggplot2)
-
-get_div_plot <- function(ticker, exchange) {
-
-  first_date <-  Sys.Date() - 5*365
-  last_date <- Sys.Date()
-  
-  divs <- eodhdR2::get_dividends(ticker, exchange) 
-
-  divs_annual <- divs |>
-    dplyr::filter(
-      date >= first_date, 
-      date <= last_date) |>
-    dplyr::mutate(
-      year = lubridate::year(date),
-      fix_value = if_else(year %in% c(max(year), min(year)), TRUE, FALSE)
-    ) |>
-    dplyr::group_by(year) |>
-    dplyr::reframe(
-      n_values = n(),
-      extra = if_else(
-        fix_value[1], mean(value)*(12 - n_values), 0
-        ),
-      sum_div = sum(value) + extra, 
-      .groups = 'drop')
-
-  cagr <- (divs_annual$sum_div[nrow(divs_annual)] / divs_annual$sum_div[1])^(1/nrow(divs_annual)) - 1
-
-  p_divs <- ggplot(divs_annual, aes(x = factor(year), y = sum_div)) +
-    geom_col() +
-    labs(title = paste0("Rendimentos anuais para ", ticker),
-          subtitle = paste0("CAGR: ", classtools::format_percent(cagr)),
-         x = "Ano",
-         y = "Soma de Rendimentos Ajustados (R$)",
-         caption = "Dados do EODHD, ajustados para meses incompletos") +
-    theme_light() +
-    geom_text(aes(label = classtools::format_cash(sum_div)), vjust = -0.5, size = 4)
-
-  return(p_divs)
-}
-
-p_divs <- get_div_plot(ticker, "SA")
+p_divs <- get_div_plot(ticker)
 p_divs
 ```
 
 ```{r}
 ticker <- "HGLG11"
 type <- "Galpões Logísticos"
+fii_sum <- get_fii_summary(ticker)
 ```
 
 ## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
@@ -270,31 +415,28 @@ type <- "Galpões Logísticos"
 - Portfólio diversificado com dezenas de galpões logísticos e industriais, localizados em pontos estratégicos de distribuição
 - Forte concentração na região Sudeste, destacando-se o estado de São Paulo
 - Inquilinos de grande porte, abrangendo setores estratégicos como e-commerce, varejo, bens de consumo e automotivo
-- Contratos Atípicos, de longíssimo prazo (10-15 anos) e com pesadas multas rescisórias, garantindo alta previsibilidade de receita
+- Contratos atípicos, de longuíssimo prazo (10-15 anos) e com pesadas multas rescisórias, garantindo alta previsibilidade de receita
+- Dividend Yield (DY) de `r classtools::format_percent(fii_sum$dy)`
 :::
 
 ## `r ticker`: Fluxos de caixa 
 
 ```{r}
-exchange <- "SA"
-first_date <-  Sys.Date() - 5*365
-last_date <- Sys.Date()
-
-l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
+l_plot <- classtools::make_cashflow_plot(ticker, "SA", fii_first_date, fii_last_date)
 l_plot$p
 ```
-
 
 ## `r ticker`: Gráfico dos Rendimentos Anuais
 
 ```{r}
-p_divs <- get_div_plot(ticker, "SA")
+p_divs <- get_div_plot(ticker)
 p_divs
 ```
 
 ```{r}
 ticker <- "HGCR11"
 type <- "Papel"
+fii_sum <- get_fii_summary(ticker)
 ```
 
 ## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
@@ -304,207 +446,159 @@ type <- "Papel"
 - Investe predominantemente em Certificados de Recebíveis Imobiliários (CRIs)
 - Portfólio diversificado em títulos de dívida atrelados ao setor imobiliário, com indexadores focados em CDI e índices de inflação (IPCA)
 - Perfil focado em operações de baixo e médio risco (**High Grade**), oferecendo previsibilidade e distribuição consistente de rendimentos
+- Dividend Yield (DY) de `r classtools::format_percent(fii_sum$dy)`
 :::
 
 ## `r ticker`: Fluxos de caixa
 
 ```{r}
-exchange <- "SA"
-first_date <-  Sys.Date() - 5*365
-last_date <- Sys.Date()
-
-l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
-
+l_plot <- classtools::make_cashflow_plot(ticker, "SA", fii_first_date, fii_last_date)
 l_plot$p
 ```
 
 ## `r ticker`: Gráfico dos Rendimentos Anuais
 
 ```{r}
-p_divs <- get_div_plot("HGCR11", "SA")
+p_divs <- get_div_plot(ticker)
 p_divs
 ```
-
 
 ```{r}
 ticker <- "VINO11"
 type <- "Edifícios Corporativos"
+fii_sum <- get_fii_summary(ticker)
 ```
 
 ## `r ticker` (`r type`) {background-image="figs/investidor.jpg" background-opacity=0.25}
 
 ::: {.incremental}
-- Fundo de tijolo gerido pela Vinci Partners, com foco principal em edifícios corporativos (lajes corporativas) de alto padrão.
-- Portfólio concentrado em prédios de escritórios bem localizados em regiões estratégicas e *premium*, principalmente nas cidades de São Paulo e Rio de Janeiro.
-- O VINO11 utilizou muita dívida para adquirir imóveis. Com o aumento da taxa Selic de 2% para 13,75%, o custo dessa dívida disparou e rendimentos diminuíram.
+- Fundo de tijolo gerido pela Vinci Partners, com foco principal em edifícios corporativos (lajes corporativas) de alto padrão
+- Portfólio concentrado em prédios de escritórios bem localizados em regiões estratégicas e *premium*, principalmente nas cidades de São Paulo e Rio de Janeiro
+- O VINO11 utilizou muita dívida para adquirir imóveis. Com o aumento da taxa Selic (de 2% para 13,75% entre 2021 e 2023), o custo dessa dívida disparou e os rendimentos diminuíram
+- Dividend Yield (DY) de `r classtools::format_percent(fii_sum$dy)`
 :::
 
 ## `r ticker`: Fluxos de caixa
 
 ```{r}
-exchange <- "SA"
-first_date <-  Sys.Date() - 5*365
-last_date <- Sys.Date()
-
-l_plot <- classtools::make_cashflow_plot(ticker,exchange,first_date, last_date)
-
+l_plot <- classtools::make_cashflow_plot(ticker, "SA", fii_first_date, fii_last_date)
 l_plot$p
 ```
 
 ## `r ticker`: Gráfico dos Rendimentos Anuais
 
 ```{r}
-p_divs <- get_div_plot(ticker, "SA")
+p_divs <- get_div_plot(ticker)
 p_divs
 ```
-
 
 ## Evolução de Preços da Cota na Bolsa
 
 ```{r}
-library(ggplot2)
-
-tickers <- c("XPML11", "HGLG11", "HGCR11", "VINO11")
-
-
-get_prices <- function(ticker) {
-  df <- eodhdR2::get_prices(ticker, "SA")
-
-  df <- df |>
-    dplyr::arrange(date) |>
-    dplyr::filter(
-      date >= Sys.Date() - 5*365,
-      date <= Sys.Date(),
-      adjusted_close > 1.06) |>
+get_cumret <- function(ticker) {
+  get_clean_prices(ticker) |>
     dplyr::mutate(cumret = adjusted_close / adjusted_close[1])
-
-  return(df)
 }
 
-df_prices <- purrr::map(tickers, get_prices) |>
-  purrr::list_rbind()  |>
+df_prices <- purrr::map(fii_tickers, get_cumret) |>
+  purrr::list_rbind() |>
   na.omit()
 
-p <- ggplot(df_prices, aes(x=date, y = cumret, color = ticker)) + 
-  geom_line() + 
-  labs(title = "Evolução do Preço Ajustado das Cotas (5 Anos)",
-       x = 'Data',
-       y = "Preço Ajustado (R$)") + 
+p_prices <- ggplot(df_prices, aes(x = date, y = cumret, color = ticker)) +
+  geom_line(linewidth = 0.8) +
+  labs(
+    title = "Evolução do retorno acumulado das cotas (5 anos)",
+    subtitle = "Base = 1 no início do período",
+    x = "Data",
+    y = "Retorno acumulado",
+    color = "Fundo",
+    caption = "Fonte: EODHD. Cotações claramente inconsistentes foram removidas."
+  ) +
   theme_light()
 
-p
+p_prices
 ```
 
 ## Retornos de diferentes FIIs
 
 ```{r}
-#| label: FIIs stats
-library(dplyr)
-
 make_cols <- function(this_ticker) {
-  require(dplyr)
+  prices <- get_clean_prices(this_ticker)
 
-  first_date <- as.Date("2015-01-01")
-  first_date <- Sys.Date() - 5*365
-  #first_date <- as.Date("2019-01-01")
-  
-  last_date <- Sys.Date()
+  div <- fii_data[[this_ticker]]$divs |>
+    dplyr::filter(date >= fii_first_date, date <= fii_last_date) |>
+    dplyr::arrange(date)
 
-  prices <- eodhdR2::get_prices(this_ticker, "SA", check_quota = FALSE) |> 
-    dplyr::filter(
-      date >= first_date, 
-      date <= last_date) |>
-    dplyr::arrange(date) 
+  divs_annual <- get_annual_divs(this_ticker)
+  cagr_div <- get_div_cagr(divs_annual)
 
-  div <- eodhdR2::get_dividends(this_ticker, "SA",check_quota = FALSE) |>
-    dplyr::filter(
-      date >= first_date, 
-      date <= last_date) |>
-    dplyr::arrange(date) 
-  
-  divs_annual <- div |>
-    dplyr::mutate(
-      year = lubridate::year(date),
-      fix_value = if_else(year %in% c(max(year), min(year)), TRUE, FALSE)
-    ) |>
-    dplyr::group_by(year) |>
-    dplyr::reframe(
-      n_values = n(),
-      extra = if_else(
-        fix_value[1], mean(value)*(12 - n_values), 0
-        ),
-      sum_div = sum(value) + extra
-      )
+  divs_last_year <- dplyr::filter(div, date >= fii_last_date - 365)
+  div_yield <- sum(divs_last_year$value) / prices$adjusted_close[nrow(prices)]
 
-  cagr_div <- (divs_annual$sum_div[nrow(divs_annual)] / divs_annual$sum_div[1])^(1/nrow(divs_annual)) - 1
+  total_return <- prices$adjusted_close[nrow(prices)] / prices$adjusted_close[1] - 1
+  n_days <- nrow(prices)
+  annualized_return <- (1 + total_return)^(252 / n_days) - 1
 
-  divs_last_year <- div |>
-    dplyr::filter(date >= Sys.Date() - 365)
+  # Máximo drawdown calculado em R base (evita dependência externa)
+  running_max <- cummax(prices$adjusted_close)
+  max_drawdown <- max(1 - prices$adjusted_close / running_max)
 
-  div_yeild <- sum(divs_last_year$value) / prices$adjusted_close[nrow(prices)]
-
-  first_year <- lubridate::year(min(prices$date))
-  last_year <- lubridate::year(max(prices$date))
-  n_years <- last_year - first_year + 1
-  total_return <- prices$adjusted_close[nrow(prices)]/prices$adjusted_close[1] - 1
-  annualized_return <- (1 + total_return)^(252/nrow(prices)) - 1
-  annualized_vol <- sd(prices$ret_adj_close) * sqrt(252)
-  sharpe_ratio <- annualized_return / annualized_vol
-  max_drawndown <- PerformanceAnalytics::maxDrawdown(prices$ret_adj_close)
-
-  df_out <- dplyr::tibble(
+  dplyr::tibble(
     ticker = this_ticker,
-    #n_years = n_years,
+    n_years = round(n_days / 252, 1),
     total_return = total_return,
     annualized_return = annualized_return,
-    annualized_vol = annualized_vol,
-    sharpe_ratio = sharpe_ratio,
-    max_drawndown = max_drawndown,
-    div_yeild = div_yeild,
-    cagr_div = cagr_div
+    max_drawdown = max_drawdown,
+    cagr_div = cagr_div,
+    div_yield = div_yield
   )
-  return(df_out)
-
 }
 
-df_stats <- purrr::map(tickers, make_cols) |>
+df_stats <- purrr::map(fii_tickers, make_cols) |>
   purrr::list_rbind()
 
 df_stats |>
-  arrange(desc(annualized_return)) |>
-  select(-annualized_vol, -sharpe_ratio) |>
+  dplyr::arrange(dplyr::desc(annualized_return)) |>
   gt::gt() |>
-  gt::fmt_percent(columns = c(total_return, annualized_return, 
-  #annualized_vol, 
-  max_drawndown, cagr_div, div_yeild),
-                  decimals = 2) |>
-  #gt::fmt_number(columns = c(sharpe_ratio), decimals = 2) |>
+  gt::fmt_number(columns = c(n_years), decimals = 1) |>
+  gt::fmt_percent(
+    columns = c(total_return, annualized_return, max_drawdown, cagr_div, div_yield),
+    decimals = 2) |>
   gt::cols_label(
     ticker = "Ticker",
-    #n_years = "Anos de Operação",
+    n_years = "Anos de Histórico",
     total_return = "Retorno Total",
     annualized_return = "Retorno Anualizado",
-    #annualized_vol = "Volatilidade Anualizada",
-    #sharpe_ratio = "Sharpe Ratio",
-    max_drawndown = "Máximo Drawdown",
-    cagr_div = "CAGR dos Dividendos",
-    div_yeild = "DY dos Dividendos"
+    max_drawdown = "Máximo Drawdown",
+    cagr_div = "CAGR dos Rendimentos",
+    div_yield = "Dividend Yield"
   ) |>
   gt::tab_header(
     title = "Estatísticas de Retorno e Risco dos FIIs",
-    subtitle = glue::glue("Período: {format(min(df_prices$date), '%d/%m/%Y')} a {format(max(df_prices$date), '%d/%m/%Y')}")
-  ) 
-
+    subtitle = glue::glue(
+      "Período: {format(fii_first_date, '%d/%m/%Y')} a {format(fii_last_date, '%d/%m/%Y')}")
+  )
 ```
 
+## Como começar a investir
+
+::: {.incremental}
+- Abra conta em uma **corretora** de confiança (muitas oferecem corretagem zero para FIIs)
+- Os tickers de FIIs terminam em **11** (ex: XPML11, HGLG11)
+- Verifique a **liquidez diária** antes de comprar: fundos pouco líquidos têm *spread* alto
+- Leia o **regulamento** e os **relatórios gerenciais** (fonte primária de informações)
+- Consulte dados em portais como Status Invest, Funds Explorer e Fundamentus
+- Reinvista os rendimentos na fase de acumulação para acelerar os juros compostos
+:::
 
 ## Conclusão
 
 ::: {.incremental}
-- FIIs democratizaram o acesso a imóveis comerciais de alta qualidade (Padrões Triple A) para todos os brasileiros.
-- São consistentes e excelentes geradores de **renda passiva mensal isenta**.
-- Como são Renda Variável, exigem controle emocional durante as oscilações de mercado e **foco no longo prazo**.
-- O reinvestimento dos dividendos durante os primeiros anos (Fase de Acumulação) constrói ativamente o poderoso efeito de ganhos dos *juros compostos*.
+- FIIs democratizaram o acesso a imóveis comerciais de alta qualidade (Padrões Triple A) para todos os brasileiros
+- São consistentes e excelentes geradores de **renda passiva mensal**, com isenção de IR sob condições legais
+- Os indicadores (**DY, P/VP, vacância, CAGR**) devem ser lidos em conjunto, e não isoladamente
+- Como são Renda Variável, exigem controle emocional durante as oscilações de mercado e **foco no longo prazo**
+- O reinvestimento dos dividendos durante os primeiros anos (Fase de Acumulação) constrói ativamente o poderoso efeito dos *juros compostos*
 :::
 
 ## Referências
