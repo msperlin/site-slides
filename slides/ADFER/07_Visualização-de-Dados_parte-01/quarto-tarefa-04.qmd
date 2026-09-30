@@ -1,0 +1,146 @@
+---
+title: "tarefa-04-gabarito-aula"
+format: html
+editor: visual
+---
+
+01 - O grupo LatinoMetrics produz e distribui um conteúdo muito interessante de visualização de dados econômicos para a América Latina. Observando o material do Instagram, visualize as seis últimas imagens disponibilizadas na página principal. Observando as figuras como um todo, destaque os elementos comuns na criação das imagens. Isto, é, destaque os elementos visuais que foram repetidos entre uma figura e outra.
+
+- usam o mesmo template e paleta de cores para os graficos
+- abusam de cores e símbolos para passar uma mensagem
+- gráficos são sempre simples
+
+02 - No Reddit é possível encontrar o grupo r/dataisugly, o qual contém inúmeros posts sobre visualizações de dados realizadas da forma errada. Na data de 27/09/2022 foi publicado a seguinte mensagem no fórum. Analise o gráfico e, sem buscar a resposta no fórum, indique qual o problema com o gráfico.
+
+- eixo y está errado
+- uso de cores para salientar determinado candidato
+
+03 - Em 22/09/2022, o grupo LatinoMetrics publicou uma visualização de dados a respeito da impressão de confiança da população brasileira em relação às diferentes mídias jornalísticas. O conteúdo pode ser acessado no Instagram. Observando a figura, destaque os elementos textuais e gráficos utilizados pelo autor.
+
+- textuais: escalas e títulos
+- gráficos: cores e logos das empresas
+
+05 - No Reddit/dataisbeautiful é possível encontrar a visualização da receita de todos os filmes da franchise Star Wars. Apesar de ser esteticamente interessante, o mesmo poderia ser melhorado. Com base no que aprendeu neste capítulo do livro, analise o gráfico e faça recomendações para sua melhoria buscando sempre maior claridade e simplicidade.
+
+06 - Em um novo script do R, crie um vetor de valores aleatórios da distribuição Normal com o comando rnorm(N), onde N é igual a 100. Agora, crie um gráfico de pontos onde o eixo y é representado pela série anterior, e o eixo x é simplesmente a contagem dos valores (1..100). Para este gráfico, utilize o template básico do ggplot2, isto é, não precisas modificar nenhum elemento textual do gráfico, por enquanto.
+
+```{r}
+library(ggplot2)
+
+N <- 100
+y <- rnorm(N)
+x <- seq(1, N)
+
+df <- tibble::tibble(
+  x, y
+)
+
+dplyr::glimpse(df)
+
+p0 <- ggplot(df, aes(x = x, y = y)) + 
+  geom_point()
+
+p0
+```
+
+
+07 - Para o gráfico anterior, adicione os seguintes elementos textuais e gráficos:
+
+título, subtítulo;
+caption com a data e tempo de compilação do gráfico;
+textos nos eixos x e y;
+aplique o tema theme_light
+
+```{r}
+p1 <- p0 + 
+  labs(
+    title = "Meu lindo gráfico",
+    subtitle = "Aqui vai o subtítulo",
+    caption = paste0("compilado em ", Sys.time()),
+    x = "Eixo x",
+    y = "Eixo y"
+  ) + 
+  theme_light()
+
+p1
+```
+08 - Para o mesmo gráfico anterior, adicione uma nova coluna chamada type no dataframe, a qual pode tomar o valor “A” ou “B”. Para isto, podes usar o comando sample(c("A", "B"), size = N, replace = TRUE). Note que o valor de N foi definido anteriormente. Com base no novo dataframe, crie um gráfico de linhas com cores diferentes para cada valor em type.
+
+```{r}
+df <- df |>
+  dplyr::mutate(type = sample(c("A", "B"), 
+                              size = N,
+                              replace = TRUE))
+
+
+p3 <- ggplot(df, 
+             aes(x = x, 
+                 y = y,
+                 color = type)) + 
+  geom_point()
+
+p3
+
+```
+
+09 - Para o mesmo gráfico anterior, adicione uma camada de linhas no gráfico.
+
+
+```{r}
+p4 <- p3 + 
+  geom_line()
+
+p4
+```
+10 - Com base na função yfR::yf_collection_get, baixe os dados de preços de ações para a composição atual do índice Ibovespa, com início a cinco anos atrás e término como sendo a data atual. Com base nos dados importados, siga os seguintes passos:
+
+filtre os dados para manter apenas as 5 ações com maior rentabilidade acumulado na período, e as 5 com menor.
+construa uma figura com os retornos acumulados das 10 ações selecionadas anteriormente, onde o eixo horizontal representa as datas.
+Implemente as seguintes modificações no gráfico:
+Adicione título, subtítulo e caption e também o texto dos eixo horizontal e vertical;
+modifique a escala do eixo horizontal para percentagens com comando scale_y_continuous(labels = scales::percent);
+use o tema theme_light;
+exporte a figura resultante para um arquivo de 10 cm (height) x 15 cm (width) chamado “fig-ibov-10-ações.png”, localizado na pasta padrão “Documentos” (atalho com ~);
+
+```{r}
+df_ibov <- yfR::yf_collection_get("IBOV",
+                                  Sys.Date()-5*365)
+
+df_perf <- df_ibov |>
+  dplyr::group_by(ticker) |>
+  dplyr::summarise(ret_total = dplyr::last(cumret_adjusted_prices)) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(dplyr::desc(ret_total))
+
+df_perf
+
+best_5 <- df_perf$ticker[1:5]
+worst_5 <- df_perf$ticker[(nrow(df_perf)-4):nrow(df_perf)]
+
+df_best_worst <- df_ibov |>
+  dplyr::filter(ticker %in% c(best_5, worst_5) ) |>
+  dplyr::mutate(cumret_adjusted_prices = cumret_adjusted_prices -1 )
+
+p <- ggplot(df_best_worst, 
+            aes(x = ref_date,
+                y = cumret_adjusted_prices,
+                color = ticker)) + 
+  geom_line() + 
+  labs(title = "Melhores e Piores da B3",
+       subtitle = "Dados de 2018 até 2023",
+       caption = paste0("Dados do YF, capturados em ", Sys.time()),
+       x = "Tempo",
+       y = "Valor Acumulado"
+  ) + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme_light()
+
+p 
+
+f_png <- "~/fig-ibov-10-ações.png"
+ggsave(f_png, p, 
+       height = 10,
+       width = 15,
+       units = "cm")
+```
+
