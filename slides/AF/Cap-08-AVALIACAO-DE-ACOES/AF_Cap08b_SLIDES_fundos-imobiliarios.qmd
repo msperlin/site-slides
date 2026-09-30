@@ -33,7 +33,7 @@ eodhdR2::set_token(classtools::get_eodhd_token())
 # ---------------------------------------------------------------------------
 # Dados baixados uma única vez por render (evita chamadas repetidas à API)
 # ---------------------------------------------------------------------------
-fii_tickers <- c("XPML11", "HGLG11", "HGCR11", "VINO11")
+fii_tickers <- c("XPML11", "HGLG11", "HGCR11", "VINO11", "GGRC11", "HGBS11")
 fii_first_date <- Sys.Date() - 5 * 365
 fii_last_date <- Sys.Date()
 
@@ -141,20 +141,6 @@ get_fii_screener <- function() {
 
 # Introdução
 
-## Objetivos de aprendizagem
-
-::: {.incremental}
-- Entender **o que é um FII** e por que ele se tornou uma das principais portas de entrada para a renda variável no Brasil
-
-- Diferenciar os segmentos (**tijolo** e **papel**) e os riscos típicos de cada um
-
-- Conhecer os indicadores de análise (**DY, P/VP, vacância e CAGR**) e as suas armadilhas
-
-- Aplicar esses conceitos em FIIs reais negociados na B3
-:::
-
-Referência principal: [@ross], capítulo 08.
-
 ## O que são FIIs?
 
 > Fundos de Investimento Imobiliário (FIIs) são contratos típicos do mercado de renda variável, onde existe uma comunhão de recursos destinados à aplicação em empreendimentos imobiliários.
@@ -179,11 +165,6 @@ Referência principal: [@ross], capítulo 08.
 
 ![Performance de REITs nos EUA - fonte: [globalxetfs](https://www.globalxetfs.com/articles/reits-a-key-portfolio-building-block)](figs/Historical-Performance-Global-REITs-image-5.png)
 
-::: {.incremental}
-- REITs são o equivalente internacional dos FIIs, mas seguem regras próprias (nos EUA, a distribuição de ~90% do lucro tributável é obrigatória)
-- No longo prazo, o retorno total do imobiliário listado é competitivo com o de ações, com menor volatilidade
-- Essa evidência reforça o papel de imóveis listados em uma carteira de longo prazo
-:::
 
 ## Como funciona a Distribuição de Rendimentos?
 
@@ -202,7 +183,7 @@ Referência principal: [@ross], capítulo 08.
   - as cotas sejam negociadas **exclusivamente em bolsa** (ou balcão organizado);
   - o cotista pessoa física **não** detenha **10% ou mais** das cotas do fundo.
 - **Ganho de capital na venda das cotas:** IR de **20%**, **sem** a isenção de R$ 20 mil/mês válida para ações ([Lei 8.668/93, art. 18](https://www.planalto.gov.br/ccivil_03/leis/l8668.htm))
-- FIIs **não** estão sujeitos ao *come-cotas*; para pessoa jurídica, os rendimentos são tributados
+- FIIs **não** estão sujeitos ao *come-cotas* e, para pessoa jurídica, os rendimentos são tributados
 :::
 
 # Segmentos e Tipos de FIIs
@@ -239,7 +220,6 @@ Referência principal: [@ross], capítulo 08.
 
 ::::
 
-Além de tijolo e papel, existem **fundos de fundos (FoF)**, **híbridos** e os **Fiagro** (agronegócio).
 
 ## Fundos de Tijolo: Shopping Centers
 
@@ -259,15 +239,6 @@ Além de tijolo e papel, existem **fundos de fundos (FoF)**, **híbridos** e os 
 - **Risco de Vacância:** Embora o tempo de vacância de um galpão possa ser maior, os contratos longos com pesadas multas rescisórias mitigam esse risco no curto prazo.
 :::
 
-## Riscos específicos dos Fundos de Papel
-
-::: {.incremental}
-- **Risco de crédito:** o devedor do CRI pode atrasar ou deixar de pagar, reduzindo o rendimento distribuído
-- **Subordinação:** as séries subordinadas absorvem as primeiras perdas do lastro — a estrutura da operação importa
-- **Indexador:** CDI ou IPCA — muda o comportamento do fundo em cenários de juros e inflação
-- **Marcação a mercado:** vender o CRI antes do vencimento pode gerar perdas relevantes
-- **Pré-pagamento:** a antecipação do pagamento pelos devedores reduz o rendimento futuro
-:::
 
 # Como avaliar um FII e os seus riscos?
 
@@ -349,25 +320,6 @@ p_screener
 - **Risco Ambiental:** Risco de desvalorização do imóvel por questões ambientais (ex: enchentes, deslizamentos, etc).
 :::
 
-## O custo de oportunidade: FIIs vs. renda fixa
-
-```{r}
-p_dy <- df_liq |>
-  ggplot(aes(x = dividend_yield)) +
-  geom_histogram(bins = 30, fill = "#1667c4", color = "white") +
-  geom_vline(xintercept = selic, color = "red", linetype = "dashed", linewidth = 1) +
-  scale_x_continuous(labels = scales::percent) +
-  labs(
-    title = "Distribuição do Dividend Yield dos FIIs líquidos",
-    subtitle = paste0("Linha vermelha: Selic = ", classtools::format_percent(selic)),
-    x = "Dividend Yield (últimos 12 meses)",
-    y = "Número de fundos",
-    caption = "Fonte: Fundamentus. Fundos com liquidez diária acima de R$ 300 mil."
-  ) +
-  theme_light()
-
-p_dy
-```
 
 # FIIs na Prática
 
@@ -386,7 +338,6 @@ fii_sum <- get_fii_summary(ticker)
 - Dividend Yield (DY) de `r classtools::format_percent(fii_sum$dy)`
 :::
 
-*Valores de portfólio conforme o último relatório gerencial disponível.*
 
 ## `r ticker`: Fluxos de caixa 
 
