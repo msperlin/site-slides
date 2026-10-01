@@ -71,7 +71,7 @@ knitr::include_graphics('figs/Consular-District-Map-Brazil-No-BH.jpg')
 ## Exemplo `geobr` (1)
 
 ```{r}
-#| output-location: column-fragment
+#| code-fold: true
 #| echo: true
 #| code-line-numbers: "4-7"
 library(dplyr)
@@ -90,7 +90,7 @@ dplyr::glimpse(br)
 ```{r}
 #| label: br
 #| fig-cap: "Mapa do Brasil"
-#| output-location: column-fragment
+#| code-fold: true
 #| code-line-numbers: "4"
 library(ggplot2)
 
@@ -106,7 +106,7 @@ p0
 ```{r}
 #| label: br2
 #| fig-cap: "Mapa de cidades e capitais do Brasil"
-#| output-location: column-fragment
+#| code-fold: true
 #| code-line-numbers: "6-10"
 df_cities <- vdr::data_import(
   "Chapter07-latlong-cities-brazil.csv"
@@ -135,7 +135,8 @@ p1
 
 ```{r}
 #| label: map-ibge
-#| output-location: column-fragment
+#| code-fold: true
+
 df_ibge <- vdr::data_import(
   "Chapter07-data-ibge.csv"
 )

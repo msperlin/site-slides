@@ -101,6 +101,10 @@ Nota-se os seguintes pontos e decisões dos autores:
 
 ![Safe withdraw rates](figs/withdraw-rate.png)
 
+## _The Economic Rewards of Generative AI Writing in Science_
+
+![AI usage by Field](figs/ai_words_abstracts_by_field_detail.png)
+
 
 # Princípios de Visualização de Dados {#principios}
 
@@ -625,11 +629,6 @@ p <- ggplot(df_yf_filtered,
 
 p
 ```
-
-
-## Exercício rápido
-
-> Usando o _dataframe_ `df_yf_filtered`, crie um gráfico com `facet_wrap()` apenas para o ano de 2020 e compare o resultado com o de `facet_grid()`.
 
 
 # Exportando figuras 
