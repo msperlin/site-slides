@@ -25,9 +25,9 @@ toc-title: "Sumário"
 classtools::setup_quarto_slides("content")
 
 # parameters
-l_info <- classtools::get_class_info("ADFER", 202602)
+course <- classtools::Course$new("ADFER", "202602")
 
-link_plano <- l_info$info$gdrive_schedule
+link_plano <- course$info$info$gdrive_schedule
 ```
 
 {{< include includes/01_sobre-o-professor.qmd >}}
