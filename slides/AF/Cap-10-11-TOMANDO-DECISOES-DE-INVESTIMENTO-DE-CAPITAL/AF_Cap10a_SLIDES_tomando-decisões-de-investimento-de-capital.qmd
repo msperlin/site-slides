@@ -38,12 +38,14 @@ link_gsheets <- "https://docs.google.com/spreadsheets/d/1IhoE36u2oxeHkt5aEq88KfT
 
 ## Orçamento de Capital: A Base das Decisões Estratégicas
 
+::: {.incremental}
 * **Definição:** Processo de planejamento e gestão dos investimentos de longo prazo de uma empresa.
 * **Objetivo Principal:** Identificar e selecionar projetos que agreguem valor à empresa, ou seja, aqueles com **Valor Presente Líquido (VPL) positivo**.
 * **Importância:** 
   - Decisões de investimento definem a capacidade produtiva e a estratégia futura.
   - Costumam envolver volumes expressivos de recursos financeiros.
   - São decisões de **difícil reversibilidade** sem perdas financeiras substanciais.
+:::
 
 ## Tipos Comuns de Projetos de Investimento
 
@@ -51,16 +53,20 @@ link_gsheets <- "https://docs.google.com/spreadsheets/d/1IhoE36u2oxeHkt5aEq88KfT
 
 ::: {.column width="50%"}
 ### Quanto à Finalidade
+::: {.incremental}
 - **Novos Produtos / Expansão:** aumento de capacidade de produção ou entrada em novos mercados.
 - **Redução de Custos / Eficiência:** substituição de maquinário antigo por tecnologia mais eficiente.
 - **Obrigações Regulatórias:** adequação ambiental ou de segurança.
 :::
+:::
 
 ::: {.column width="50%"}
 ### Quanto à Dependência
+::: {.incremental}
 - **Projetos Independentes:** a aceitação de um não impede a do outro.
 - **Mutuamente Excludentes:** a escolha de uma alternativa elimina as demais (ex: escolher entre o fornecedor A ou B).
 - **Projetos Contingentes:** a execução de um depende do sucesso de outro.
+:::
 :::
 
 ::::
@@ -97,10 +103,12 @@ Interessa quando o dinheiro **entra ou sai da conta**, e não o regime contábil
 ::: {.callout-note}
 ### ✅ Entram no Cálculo
 
+::: {.incremental}
 * **Custos de Oportunidade:** benefícios renunciados ao alocar um ativo no projeto (ex: imóvel próprio que poderia ser alugado).
 * **Efeitos Colaterais (Erosão/Canibalismo):** impacto nas vendas de outros produtos já existentes da empresa.
 * **Necessidade de Capital de Giro Líquido (CGL):** caixas, estoques e contas a receber adicionais.
 * **Benefício Fiscal da Depreciação:** economia real de imposto gerada pela depreciação.
+:::
 :::
 :::
 
@@ -108,9 +116,11 @@ Interessa quando o dinheiro **entra ou sai da conta**, e não o regime contábil
 ::: {.callout-important}
 ### ❌ NÃO Entram no Cálculo
 
+::: {.incremental}
 * **Custos Irrecuperáveis (*Sunk Costs*):** gastos passados já incorridos que não mudam com a decisão (ex: estudo de mercado já pago).
 * **Custos de Financiamento:** juros, despesas financeiras e amortizações.
   - *Motivo:* o custo do capital já está refletido na **taxa de desconto ($r$)**. Incluí-los no fluxo geraria dupla contagem!
+:::
 :::
 :::
 
@@ -125,10 +135,12 @@ Interessa quando o dinheiro **entra ou sai da conta**, e não o regime contábil
 
 . . .
 
+:::{.incremental}
 - **Risco de Previsão (ou de Modelo):** A possibilidade de tomar uma má decisão por conta de erros nas projeções de fluxo de caixa.
 - **Fontes de Vantagem Competitiva:**
   - Todo VPL positivo decorre de alguma vantagem competitiva econômica (menores custos, marca, patentes, barreiras à entrada).
   - Em mercados perfeitamente competitivos, o VPL de novos investimentos tende a zero no longo prazo.
+:::
 
 ## Análise de Cenários vs. Análise de Sensibilidade
 
@@ -227,10 +239,6 @@ knitr::include_graphics('figs/tcc_02.png')
 
 ## Investimento Inicial e Custos Operacionais
 
-::: {.callout-note}
-Note a inclusão do **Capital de Giro (R$ 13.000,00)** compondo o investimento inicial total de R$ 48.641,00:
-:::
-
 ```{r}
 #| fig-align: center
 knitr::include_graphics('figs/tcc_03.png')
@@ -260,15 +268,6 @@ knitr::include_graphics('figs/tcc_05.png')
 - A grande dispersão do VPL (de **-R$ 172 mil** a **+R$ 202 mil**) evidencia o alto risco de previsão inerente a novos empreendimentos.
 :::
 
-## Resumo e Boas Práticas em Orçamento de Capital
-
-::: {.incremental}
-1. **Pense em termos de caixa incremental:** Foque apenas no que muda com o projeto.
-2. **Esqueça os custos irrecuperáveis (*Sunk Costs*):** Decisões olham para o futuro.
-3. **Não deduza despesas financeiras nos fluxos:** O custo da dívida já está em $r$.
-4. **Lembre-se sempre do Capital de Giro:** Injeção inicial e recuperação ao final.
-5. **Use análise de sensibilidade e cenários:** O VPL pontual é apenas uma estimativa; entenda onde moram os riscos.
-:::
 
 ## Referências
 
