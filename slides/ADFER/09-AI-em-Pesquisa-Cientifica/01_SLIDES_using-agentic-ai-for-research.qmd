@@ -1,6 +1,6 @@
 ---
 title: "Uso de IA Agêntica na Pesquisa Científica"
-subtitle: "Um Guia Prático para o Fluxo de Trabalho Moderno de Pesquisa"
+subtitle: "Análise de Dados Financeiros e Econômicos com o R"
 author: "Marcelo S. Perlin"
 date: last-modified
 date-format: DD/MM/YYYY
@@ -51,45 +51,41 @@ classtools::setup_quarto_slides()
 ::: {.columns}
 ::: {.column width="50%"}
 ### A forma tradicional
+::: {.incremental}
+
 - Janela de chat aberta ao lado do seu projeto.
 - Você cola o código e copia as respostas de volta.
 - Sem memória ou contexto sobre os arquivos do projeto.
 - Você atua como a "cola" manual entre a IA e o seu trabalho.
 :::
+:::
 
 ::: {.column width="50%"}
 ### A abordagem agêntica
+::: {.incremental}
+
 - A IA opera **dentro** da pasta do seu projeto.
 - Ela lê arquivos, executa código, corrige erros e itera.
 - Segue instruções armazenadas no próprio repositório.
 - Você supervisiona, avalia e aprova.
 :::
 :::
-
-## Objetivos de Aprendizagem
-
-Ao final desta aula, você será capaz de:
-
-::: {.incremental}
-- Explicar a diferença entre um **chatbot** e um **agente**.
-- Usar o **Git** para controlar versões de suas pesquisas.
-- Usar o **opencode** como um agente dentro de um repositório de pesquisa.
-- Escrever um arquivo **`AGENTS.md`** para direcionar o agente.
-- Aplicar um fluxo de trabalho agêntico seguro, reprodutível e ético.
 :::
+
 
 # Dos LLMs aos Agentes
 
 ## O Que É um Grande Modelo de Linguagem (LLM)?
 
+> Um LLM é um *motor de raciocínio e linguagem* — não uma base de dados e muito menos uma fonte absoluta da verdade.
+
 ::: {.incremental}
 - Uma rede neural treinada para **prever o próximo token** a partir de volumes massivos de texto. [@vaswani2017attention]
 - Seu conhecimento fica **congelado** na data de corte do treinamento.
 - Por si só, **não possui acesso** aos seus arquivos locais, aos seus dados ou à internet em tempo real.
-- É extremamente competente com linguagem e padrões, e muito convincente ao soar confiante mesmo quando está errado. [@bender2021dangers]
+- **É extremamente competente com linguagem e padrões, e muito convincente ao soar confiante mesmo quando está errado. [@bender2021dangers]**
 :::
 
-> Um LLM é um *motor de raciocínio e linguagem* — não uma base de dados e não uma fonte absoluta da verdade.
 
 ## Chatbot vs. Agente
 
@@ -106,19 +102,6 @@ Ao final desta aula, você será capaz de:
 
 ![](figs/fig_chat_vs_agent.png){width=92%}
 
-## O Ciclo do Agente (Agent Loop)
-
-Um agente é um LLM inserido em um **ciclo de feedback com ferramentas**. [@yao2023react]
-
-::: {.incremental}
-1. **Objetivo (Goal)** — você define o objetivo.
-2. **Plano (Plan)** — o agente propõe as etapas.
-3. **Ação (Act)** — ele aciona ferramentas: ler um arquivo, executar código, pesquisar na web.
-4. **Observação (Observe)** — ele analisa a saída ou a mensagem de erro.
-5. **Reflexão (Reflect)** — ele ajusta a estratégia e repete o processo até concluir a tarefa.
-:::
-
-**Humano no controle (Human in the loop):** você revisa, aprova e faz o commit do resultado.
 
 ## O Ciclo do Agente, Visualizado
 
@@ -126,21 +109,18 @@ Um agente é um LLM inserido em um **ciclo de feedback com ferramentas**. [@yao2
 
 ## Níveis de Autonomia
 
+> Comece no nível que você consegue supervisionar. A autonomia deve ser *conquistada* com base na confiabilidade.
+
 ::: {.incremental}
-- **Sugestão (Suggest)** — sugestões no estilo autocompletar.
+- **Sugestão (Suggestion)** — sugestões no estilo autocompletar.
 - **Chat** — respostas conversacionais às suas perguntas.
 - **Uso de ferramentas (Tool use)** — o modelo invoca ferramentas (arquivos, código, buscas). [@schick2023toolformer]
 - **Autonomia supervisionada** — tarefas em múltiplas etapas com sua aprovação a cada passo.
 - **Autonomia total** — execução de ponta a ponta. Poderosa, mas arriscada: use em ambiente isolado (sandbox). [@lu2024aiscientist]
 :::
 
-> Comece no nível que você consegue supervisionar. A autonomia deve ser *conquistada* com base na confiabilidade.
 
-## O Espectro de Autonomia
-
-![](figs/fig_autonomy.png){width=88%}
-
-## O Que Agentes Realmente Podem Fazer
+## O Que Agentes Realmente Podem Fazer com comprovada eficácia
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -149,7 +129,7 @@ Um agente é um LLM inserido em um **ciclo de feedback com ferramentas**. [@yao2
 - Executar scripts e interpretar erros
 - Limpar e reestruturar bases de dados
 - Pesquisar em arquivos e na internet
-- Gerar relatórios e apresentações de slides
+- Gerar relatórios e apresentações de slides (**CUIDADO: o texto fica robótico e repetitivo**)
 :::
 
 ::: {.column width="50%"}
@@ -179,13 +159,15 @@ Um agente é um LLM inserido em um **ciclo de feedback com ferramentas**. [@yao2
 |:---|:---|
 | **Controle de versão** | **Git**, GitHub / GitLab |
 | **Agente de código** | **opencode**, Claude Code, Codex, Copilot, Gemini CLI |
-| **Linguagens** | R, Python, Julia, SQL |
+| **Linguagens** | R, **Python**, Julia, SQL |
 | **Ambientes** | renv (R), uv / venv (Python), Docker |
 | **Escrita e relatórios** | Quarto, LaTeX, Zotero / BibTeX |
 | **Dados** | Parquet, DuckDB, DVC, Git LFS |
 | **Contexto do agente** | **`AGENTS.md`**, servidores MCP, skills |
 
 ## Git — A Espinha Dorsal da Pesquisa Reprodutível
+
+> Se não está sob controle de versão, nunca aconteceu.
 
 ::: {.incremental}
 - **Controle de versão** para código, texto e pequenos conjuntos de dados.
@@ -195,7 +177,7 @@ Um agente é um LLM inserido em um **ciclo de feedback com ferramentas**. [@yao2
 - Hospedagem remota (GitHub/GitLab) oferece backup, visibilidade e portfólio acadêmico.
 :::
 
-> Se não está sob controle de versão, nunca aconteceu.
+
 
 ## Git — Comandos Essenciais
 
@@ -283,7 +265,7 @@ _cache/
 - Edita múltiplos arquivos de forma consistente
 - Executa comandos no shell e roda testes
 - Interpreta erros e se autocorige
-- Usa o Git para exibir diffs e criar commits
+- Usa o **Git** para exibir diffs e criar commits
 :::
 
 ::: {.column width="50%"}
@@ -344,6 +326,8 @@ _cache/
 
 ## Por Que o `AGENTS.md` É Importante
 
+> Um bom `AGENTS.md` é a forma mais barata e eficaz de aumentar drasticamente a confiabilidade do agente.
+
 ::: {.incremental}
 - **Contexto persistente**: você não precisa reexplicar o projeto a cada nova sessão.
 - **Consistência**: o agente segue as mesmas diretrizes em todas as execuções.
@@ -353,7 +337,6 @@ _cache/
 - **Ativo para a equipe**: documenta a dinâmica do projeto também para colaboradores humanos.
 :::
 
-> Um bom `AGENTS.md` é a forma mais barata e eficaz de aumentar drasticamente a confiabilidade do agente.
 
 ## O Que Incluir no `AGENTS.md`
 
@@ -393,47 +376,6 @@ código em `R/`, resultados em `output/`.
 - Após qualquer alteração, execute `Rscript R/01_run_all.R` e relate eventuais erros.
 ````
 
-## `AGENTS.md` É um Protocolo de Laboratório
-
-::: {.columns}
-::: {.column width="50%"}
-### Um protocolo de laboratório
-- Ensina um novo orientando a conduzir o experimento.
-- Padroniza procedimentos operacionais.
-- Registra conhecimento tácito.
-- Reduz a incidência de falhas.
-:::
-
-::: {.column width="50%"}
-### Um arquivo `AGENTS.md`
-- Ensina um novo agente a operar o projeto.
-- Padroniza o comportamento da IA.
-- Registra suas convenções de desenvolvimento.
-- Reduz alucinações e retrabalho.
-:::
-:::
-
-> Ambos são **documentos vivos**: atualize-os conforme o projeto evolui.
-
-## Escopos: Global, Projeto e Aninhado
-
-::: {.incremental}
-- **Global** — `~/.config/opencode/AGENTS.md`: suas preferências pessoais em todos os projetos.
-- **Projeto** — `./AGENTS.md`: específico para o repositório atual (o mais importante).
-- **Aninhado** — `subpasta/AGENTS.md`: regras pontuais para um módulo de projetos maiores.
-- Os agentes combinam esses arquivos, priorizando o arquivo de escopo mais específico.
-:::
-
-::: {.callout-note}
-Mantenha-o **sucinto e atualizado**. Um `AGENTS.md` longo e desatualizado é pior do que não ter nenhum — a janela de contexto dos modelos é limitada.
-:::
-
-## Como o `AGENTS.md` Chega ao Agente
-
-![](figs/fig_agents_md.png){width=86%}
-
-# Um Fluxo de Trabalho Prático
-
 ## O Fluxo de Trabalho de Pesquisa Agêntica
 
 ::: {.incremental}
@@ -451,22 +393,6 @@ Mantenha-o **sucinto e atualizado**. Um `AGENTS.md` longo e desatualizado é pio
 
 ![](figs/fig_workflow.png){width=92%}
 
-## Disciplina com os Dados
-
-::: {.columns}
-::: {.column width="50%"}
-- `data/raw/` → **imutável**, apenas leitura.
-- `data/processed/` → gerado **exclusivamente por código**, nunca manualmente.
-- `output/` → tabelas, figuras, relatórios finais.
-- Um único comando reproduz toda a cadeia analítica.
-:::
-
-::: {.column width="50%"}
-- **Nunca** envie dados confidenciais, pessoais ou sob embargo para modelos em nuvem.
-- Adicione dados grandes ao `.gitignore`; documente como obtê-los.
-- Use **modelos locais** ou anonimização rigorosa para dados sensíveis.
-:::
-:::
 
 ## Exemplos de Tarefas para o Agente
 
@@ -501,29 +427,12 @@ Mantenha-o **sucinto e atualizado**. Um `AGENTS.md` longo e desatualizado é pio
 | **Revisar** | "Revise este script quanto a bugs e problemas de reprodutibilidade." |
 | **Escrever** | "Redija a seção de Metodologia citando exclusivamente as referências fornecidas." |
 
-# Reprodutibilidade, Integridade e Ética
 
-## Checklist de Reprodutibilidade
-
-- [ ] Código sob **controle de versão**
-- [ ] Dependências **congeladas/fixadas** (`renv`, `uv`, `requirements.txt`)
-- [ ] **Sementes aleatórias (random seeds)** fixadas
-- [ ] Dados **versionados** ou processo de obtenção documentado
-- [ ] **Um único comando** reproduz toda a análise
-- [ ] Relatório compilado **diretamente a partir do código** (Quarto)
-- [ ] Modelo de IA, prompt e data devidamente **registrados**
-
-## Proveniência: Registre o Uso da IA
-
-::: {.incremental}
-- **Qual modelo e versão**, em qual data e com qual prompt.
-- **Quais arquivos** o agente alterou — registro visível no histórico do Git.
-- Mantenha um arquivo `PROMPTS.md` ou log de sessão para etapas centrais da pesquisa.
-- **Declare** a utilização de IA conforme as diretrizes editoriais do periódico pretendido.
-- O objetivo: permitir que qualquer pesquisador reproduza a sua análise *e* o suporte prestado pela IA.
-:::
+# O lado negro das LLMs
 
 ## O Problema das Alucinações
+
+> Confie, mas verifique — e verifique novamente.
 
 ::: {.incremental}
 - LLMs **inventam** citações, DOIs, números de páginas — e, em alguns casos, até bases de dados.
@@ -531,18 +440,6 @@ Mantenha-o **sucinto e atualizado**. Um `AGENTS.md` longo e desatualizado é pio
 - **Nunca** cite uma referência bibliográfica que você não tenha aberto e lido.
 - Verifique cada citação (DOI, Crossref, Google Scholar, o PDF de fato).
 - Faça a checagem cruzada de cada valor numérico contra o código que o gerou.
-:::
-
-> Confie, mas verifique — e verifique novamente.
-
-## Privacidade e Confidencialidade de Dados
-
-::: {.incremental}
-- **Não** faça upload de dados confidenciais, informações pessoais ou dados sob sigilo em modelos na nuvem.
-- Leia atentamente as **políticas de retenção de dados e treinamento** da plataforma.
-- Dê preferência a **anonimização, agregação prévia ou modelos locais**.
-- Verifique se a aprovação no **Comitê de Ética em Pesquisa (CEP/CONEP)** contempla o uso de ferramentas de IA.
-- Um agente dotado de ferramentas pode vazar dados se você permitir — imponha restrições claras no `AGENTS.md`.
 :::
 
 ## Autoria, Declaração e Aspectos Legais
@@ -561,23 +458,6 @@ Mantenha-o **sucinto e atualizado**. Um `AGENTS.md` longo e desatualizado é pio
 :::
 :::
 
-# Considerações Finais
-
-## Dez Regras para uma Pesquisa Agêntica Segura
-
-::: {.incremental}
-1. **Git em primeiro lugar, sempre.**
-2. **Escreva o `AGENTS.md` antes de fazer prompts.**
-3. **Planeje antes de gerar código.**
-4. **Revise cada diff.**
-5. **Verifique todas as citações.**
-6. **Nunca confie em código que você não executou.**
-7. **Mantenha segredos e dados sensíveis fora do repositório.**
-8. **Commits pequenos e com mensagens claras.**
-9. **Registre modelo, prompt e data.**
-10. **Você é o pesquisador; a IA é o estagiário.**
-:::
-
 ## Armadilhas Comuns
 
 ::: {.incremental}
@@ -590,33 +470,6 @@ Mantenha-o **sucinto e atualizado**. Um `AGENTS.md` longo e desatualizado é pio
 - Inserir volumes massivos de contexto e dispersar o foco do agente.
 :::
 
-## Exercício Prático
-
-::: {.incremental}
-1. Instale o **Git** e o **opencode**.
-2. Crie um repositório e faça o seu **primeiro commit**.
-3. Escreva um arquivo **`AGENTS.md`** para um projeto simples.
-4. Peça ao agente: *"Resuma este repositório e proponha um README."*
-5. **Revise o diff** e faça commit do resultado.
-6. Execute uma tarefa real: limpe um arquivo CSV e ajuste um modelo simples.
-:::
-
-## Principais Aprendizados
-
-::: {.incremental}
-- A IA Agêntica transforma o modelo de uma **máquina de respostas** em um **colaborador de pesquisa**.
-- **Git + opencode + `AGENTS.md`** = fluxo de trabalho reprodutível, auditável e supervisionado.
-- Agentes amplificam tanto a sua **produtividade** quanto os seus **erros**.
-- Verificação, rastreabilidade (proveniência) e transparência são **inegociáveis**.
-- Comece com tarefas simples, supervisione de perto e aumente a autonomia conforme a confiabilidade se comprovar.
-:::
-
-## Obrigado!
-
-**Dúvidas ou Comentários?**
-
-- Modelo do repositório: `classtools::setup_quarto_slides()`
-- Colabore com o seu grupo de pesquisa e compartilhe seus arquivos `AGENTS.md`.
 
 ## Ferramentas e Recursos {.unlisted}
 
