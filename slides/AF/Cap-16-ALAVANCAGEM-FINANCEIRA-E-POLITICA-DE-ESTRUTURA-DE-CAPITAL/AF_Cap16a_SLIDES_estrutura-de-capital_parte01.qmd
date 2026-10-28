@@ -1,5 +1,5 @@
 ---
-title: "Alavancagem Financeira e e Política de Estrutura de Capital (parte 01)"
+title: "Alavancagem Financeira e Política de Estrutura de Capital (parte 01)"
 subtitle: "@ross, capítulo 16"
 author: "Marcelo S. Perlin"
 date: last-modified
