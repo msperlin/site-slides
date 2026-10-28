@@ -1,12 +1,18 @@
 import os
 import re
 import subprocess
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 
 from flask import Flask, render_template
 
 app = Flask(__name__)
+
+SITE_URL = os.environ.get("SITE_URL", "https://msperlin.github.io/site-slides/").rstrip("/") + "/"
+
+# Janela em dias para marcar uma apresentação como "Novo"
+NEW_WINDOW_DAYS = 45
 
 # Remove o espaço em branco deixado pelas tags de bloco do Jinja no HTML final
 app.jinja_env.trim_blocks = True
@@ -88,6 +94,13 @@ _LOWERCASE_WORDS = {
 _git_date_cache = {}
 
 
+def slugify(value):
+    """Converte um nome em um identificador seguro para âncoras HTML."""
+    normalized = unicodedata.normalize("NFKD", value)
+    ascii_value = "".join(char for char in normalized if not unicodedata.combining(char))
+    return re.sub(r"[^a-zA-Z0-9]+", "-", ascii_value).strip("-").lower()
+
+
 def prettify_title(filename):
     """Remove prefixos técnicos e devolve um título legível."""
     name = Path(filename).stem
@@ -128,9 +141,12 @@ def extract_qmd_title(qmd_path):
         return None
     try:
         content = qmd_path.read_text(encoding="utf-8")
-        match = re.search(r'^title:\s*["\']?(.*?)["\']?$', content, re.MULTILINE)
+        match = re.search(r"^title:\s*(.+?)\s*$", content, re.MULTILINE)
         if match:
-            return match.group(1).strip()
+            title = match.group(1).strip()
+            if len(title) >= 2 and title[0] == title[-1] and title[0] in "\"'":
+                title = title[1:-1].strip()
+            return title
     except Exception as exc:  # pragma: no cover - leitura defensiva
         print(f"Erro ao ler {qmd_path}: {exc}")
     return None
@@ -166,10 +182,17 @@ def index():
 
     if not SLIDES_DIR.exists():
         return render_template(
-            "index.html", classes=[], chapters=[], slides=[], total=0, year=datetime.now().year
+            "index.html",
+            classes=[],
+            chapters=[],
+            groups=[],
+            total=0,
+            year=datetime.now().year,
+            site_url=SITE_URL,
         )
 
     class_names = set()
+    build_time = datetime.now().timestamp()
 
     for path in SLIDES_DIR.rglob("*.html"):
         path_str = str(path)
@@ -220,6 +243,7 @@ def index():
                 "filename": path.name,
                 "date": date,
                 "mtime": timestamp,
+                "is_new": (build_time - timestamp) <= NEW_WINDOW_DAYS * 86400,
                 "accent_rgb": accent["rgb"],
                 "accent_rgb_dark": accent["rgb_dark"],
                 "accent_gradient": accent["gradient"],
@@ -261,6 +285,28 @@ def index():
         )
     )
 
+    # Agrupa em seções por disciplina + capítulo, preservando a ordem acima
+    groups = []
+    for slide in slides_data:
+        key = (slide["class_name"], slide["chapter_name"])
+        if not groups or groups[-1]["key"] != key:
+            accent = CLASS_ACCENTS.get(slide["class_name"], DEFAULT_ACCENT)
+            groups.append(
+                {
+                    "key": key,
+                    "slug": slugify(f'{slide["class_name"]} {slide["chapter_name"]}'),
+                    "class_name": slide["class_name"],
+                    "class_label": slide["class_label"],
+                    "chapter_name": slide["chapter_name"],
+                    "chapter_label": slide["chapter_label"],
+                    "accent_rgb": accent["rgb"],
+                    "accent_rgb_dark": accent["rgb_dark"],
+                    "accent_gradient": accent["gradient"],
+                    "slides": [],
+                }
+            )
+        groups[-1]["slides"].append(slide)
+
     return render_template(
         "index.html",
         classes=[
@@ -279,9 +325,10 @@ def index():
             }
             for name in chapter_names
         ],
-        slides=slides_data,
+        groups=groups,
         total=len(slides_data),
         year=datetime.now().year,
+        site_url=SITE_URL,
     )
 
 

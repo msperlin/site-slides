@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página não encontrada — Slides</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/png" sizes="96x96" href="https://msperlin.github.io/site-slides/static/favicon.png">
+    <link rel="stylesheet" href="https://msperlin.github.io/site-slides/static/site.css">
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('theme'); } catch (error) {}
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+        })();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Página não encontrada</h1>
+            <p class="subtitle">O endereço acessado não existe (ou foi movido).</p>
+        </header>
+        <main id="conteudo" tabindex="-1" style="text-align:center">
+            <p style="color:var(--muted);margin:0 0 22px">Volte para a lista de apresentações:</p>
+            <a class="button-link" href="https://msperlin.github.io/site-slides/">Ir para o início</a>
+        </main>
+    </div>
+</body>
+</html>

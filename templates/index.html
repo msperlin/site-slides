@@ -23,7 +23,7 @@
                     id="search"
                     class="input"
                     type="search"
-                    placeholder="Título, capítulo ou arquivo…"
+                    placeholder="Título, capítulo ou conteúdo…"
                     autocomplete="off"
                     spellcheck="false"
                 >
@@ -54,16 +54,41 @@
 
     <div class="list-header">
         <p class="result-count" id="result-count" role="status" aria-live="polite">{{ total }} apresentações</p>
-        <button type="button" class="clear-btn" id="clear-filters" hidden>Limpar filtros</button>
+        <div class="list-controls">
+            <div class="sort-control" role="group" aria-label="Ordenar apresentações">
+                <button type="button" class="sort-btn" data-sort="chapter" aria-pressed="true">Capítulos</button>
+                <button type="button" class="sort-btn" data-sort="recent" aria-pressed="false">Recentes</button>
+            </div>
+            <button type="button" class="clear-btn" id="clear-filters" hidden>Limpar filtros</button>
+        </div>
     </div>
 
     <section class="grid" id="slides-grid" aria-label="Lista de apresentações">
-        {% for slide in slides %}
+        {% for group in groups %}
+        <div
+            class="chapter-heading"
+            id="{{ group.slug }}"
+            data-group="{{ group.slug }}"
+            data-class="{{ group.class_name }}"
+            data-chapter="{{ group.chapter_name }}"
+            style="--accent-card-rgb: {{ group.accent_rgb }}; --accent-card-rgb-dark: {{ group.accent_rgb_dark }}; --accent-card-gradient: {{ group.accent_gradient }};"
+        >
+            <h2 class="chapter-title">
+                <span class="class-badge" title="{{ group.class_label }}">{{ group.class_name }}</span>
+                <span>{{ group.chapter_label }}</span>
+            </h2>
+            <span class="group-count" data-total="{{ group.slides|length }}">{{ group.slides|length }} slide{{ 's' if group.slides|length != 1 else '' }}</span>
+        </div>
+
+        {% for slide in group.slides %}
         <article
             class="slide-card"
+            data-group="{{ group.slug }}"
             data-class="{{ slide.class_name }}"
             data-chapter="{{ slide.chapter_name }}"
             data-chapter-label="{{ slide.chapter_label }}"
+            data-ts="{{ slide.mtime|int }}"
+            data-index-key="{{ slide.url }}"
             data-search="{{ slide.search_text }}"
             style="--accent-card-rgb: {{ slide.accent_rgb }}; --accent-card-rgb-dark: {{ slide.accent_rgb_dark }}; --accent-card-gradient: {{ slide.accent_gradient }};"
         >
@@ -71,11 +96,13 @@
 
             <div class="slide-info">
                 <div class="slide-badges">
+                    {% if slide.is_new %}<span class="new-badge">Novo</span>{% endif %}
                     <span class="class-badge" title="{{ slide.class_label }}">{{ slide.class_name }}</span>
                     <span class="chapter-label">{{ slide.chapter_label }}</span>
+                    <span class="content-hit" hidden>Conteúdo</span>
                 </div>
 
-                <h2 class="slide-title">{{ slide.title }}</h2>
+                <h3 class="slide-title">{{ slide.title }}</h3>
                 <p class="slide-meta">Atualizado em {{ slide.date }}</p>
             </div>
 
@@ -85,7 +112,7 @@
                     alt=""
                     width="1280"
                     height="720"
-                    loading="{{ 'eager' if loop.index0 < 4 else 'lazy' }}"
+                    loading="{{ 'eager' if loop.index0 < 2 else 'lazy' }}"
                     decoding="async"
                     onerror="this.closest('.slide-thumbnail').hidden = true"
                 >
@@ -115,6 +142,7 @@
             </div>
         </article>
         {% endfor %}
+        {% endfor %}
 
         <div class="empty-state" id="empty-state" hidden>
             <p>Nenhuma apresentação encontrada com esses filtros.</p>
@@ -127,194 +155,5 @@
     © {{ year }} Prof. Marcelo S. Perlin
 </footer>
 
-<style>
-    @media (max-width: 600px) {
-        .kbd-hint {
-            display: none;
-        }
-    }
-</style>
-
-<script>
-(function () {
-    'use strict';
-
-    var cards = Array.prototype.slice.call(document.querySelectorAll('.slide-card'));
-    var classFilter = document.getElementById('class-filter');
-    var chapterFilter = document.getElementById('chapter-filter');
-    var searchInput = document.getElementById('search');
-    var resultCount = document.getElementById('result-count');
-    var clearBtn = document.getElementById('clear-filters');
-    var emptyState = document.getElementById('empty-state');
-    var emptyClear = document.getElementById('empty-clear');
-    var total = cards.length;
-    var debounceTimer = null;
-
-    if (!cards.length) return;
-
-    function normalize(value) {
-        return (value || '')
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase()
-            .trim();
-    }
-
-    // Pré-computa os textos de busca e os rótulos dos capítulos
-    var chapterLabels = {};
-    cards.forEach(function (card) {
-        card.searchIndex = normalize(card.getAttribute('data-search'));
-        chapterLabels[card.getAttribute('data-chapter')] = card.getAttribute('data-chapter-label');
-    });
-
-    function chaptersFor(classValue) {
-        var seen = Object.create(null);
-        var chapters = [];
-        cards.forEach(function (card) {
-            if (classValue !== 'all' && card.getAttribute('data-class') !== classValue) return;
-            var chapter = card.getAttribute('data-chapter');
-            if (!seen[chapter]) {
-                seen[chapter] = true;
-                chapters.push(chapter);
-            }
-        });
-        return chapters.sort(function (a, b) {
-            return a.localeCompare(b, 'pt-BR', { numeric: true, sensitivity: 'base' });
-        });
-    }
-
-    function buildChapterOptions(preserveSelection) {
-        var previous = preserveSelection ? chapterFilter.value : 'all';
-        var options = chaptersFor(classFilter.value);
-        var fragment = document.createDocumentFragment();
-        var all = document.createElement('option');
-        all.value = 'all';
-        all.textContent = 'Todos';
-        fragment.appendChild(all);
-
-        options.forEach(function (chapter) {
-            var option = document.createElement('option');
-            option.value = chapter;
-            option.textContent = chapterLabels[chapter] || chapter;
-            fragment.appendChild(option);
-        });
-
-        chapterFilter.innerHTML = '';
-        chapterFilter.appendChild(fragment);
-        chapterFilter.value = options.indexOf(previous) !== -1 ? previous : 'all';
-    }
-
-    function syncURL() {
-        var params = new URLSearchParams();
-        if (classFilter.value !== 'all') params.set('disciplina', classFilter.value);
-        if (chapterFilter.value !== 'all') params.set('capitulo', chapterFilter.value);
-        if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
-
-        var query = params.toString();
-        var url = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
-        try {
-            window.history.replaceState(null, '', url);
-        } catch (error) {
-            // Ambientes sem History API (ex.: file://) seguem funcionando sem URL sincronizada
-        }
-    }
-
-    function applyFilters() {
-        var classValue = classFilter.value;
-        var chapterValue = chapterFilter.value;
-        var query = normalize(searchInput.value);
-        var visible = 0;
-
-        cards.forEach(function (card) {
-            var matches =
-                (classValue === 'all' || card.getAttribute('data-class') === classValue) &&
-                (chapterValue === 'all' || card.getAttribute('data-chapter') === chapterValue) &&
-                (!query || card.searchIndex.indexOf(query) !== -1);
-
-            card.hidden = !matches;
-            if (matches) visible += 1;
-        });
-
-        emptyState.hidden = visible !== 0;
-        resultCount.textContent = visible === total
-            ? total + ' apresentações'
-            : visible + ' de ' + total + ' apresentações';
-
-        // O estado vazio já oferece "Limpar filtros"; evita ação duplicada
-        clearBtn.hidden =
-            visible === 0 ||
-            (classValue === 'all' && chapterValue === 'all' && !searchInput.value.trim());
-        syncURL();
-    }
-
-    function resetFilters() {
-        classFilter.value = 'all';
-        buildChapterOptions(false);
-        searchInput.value = '';
-        applyFilters();
-        searchInput.focus();
-    }
-
-    classFilter.addEventListener('change', function () {
-        buildChapterOptions(false);
-        applyFilters();
-    });
-
-    chapterFilter.addEventListener('change', applyFilters);
-
-    searchInput.addEventListener('input', function () {
-        window.clearTimeout(debounceTimer);
-        debounceTimer = window.setTimeout(applyFilters, 120);
-    });
-
-    searchInput.addEventListener('search', function () {
-        // Botão "limpar" nativo do input type=search
-        if (!searchInput.value) applyFilters();
-    });
-
-    clearBtn.addEventListener('click', resetFilters);
-    emptyClear.addEventListener('click', resetFilters);
-
-    document.addEventListener('keydown', function (event) {
-        var target = event.target;
-        var typing = target && (
-            target.tagName === 'INPUT' ||
-            target.tagName === 'TEXTAREA' ||
-            target.tagName === 'SELECT' ||
-            target.isContentEditable
-        );
-
-        if (!typing && event.key === '/') {
-            event.preventDefault();
-            searchInput.focus();
-        }
-
-        if (!typing && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
-            event.preventDefault();
-            searchInput.focus();
-        }
-    });
-
-    // Restaura filtros a partir da URL (permite compartilhar uma visão)
-    var params = new URLSearchParams(window.location.search);
-    var initialClass = params.get('disciplina');
-    if (initialClass && Array.prototype.some.call(classFilter.options, function (option) {
-        return option.value === initialClass;
-    })) {
-        classFilter.value = initialClass;
-    }
-
-    buildChapterOptions(false);
-
-    var initialChapter = params.get('capitulo');
-    if (initialChapter && Array.prototype.some.call(chapterFilter.options, function (option) {
-        return option.value === initialChapter;
-    })) {
-        chapterFilter.value = initialChapter;
-    }
-
-    searchInput.value = params.get('q') || '';
-    applyFilters();
-})();
-</script>
+<script src="static/slides.js" defer></script>
 {% endblock %}
