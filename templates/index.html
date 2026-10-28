@@ -1,572 +1,320 @@
 {% extends "base.html" %}
 
+{% block title %}Slides — Prof. Marcelo S. Perlin{% endblock %}
+
 {% block content %}
+<header>
+    <h1>Repositório de Slides</h1>
+    <p class="subtitle">Prof. Marcelo S. Perlin · EA/UFRGS</p>
+    <p class="stats">
+        {{ total }} apresentações · {{ classes|length }} disciplinas · {{ chapters|length }} capítulos
+    </p>
+</header>
+
+<main id="conteudo" tabindex="-1">
+    <section class="toolbar" aria-label="Buscar e filtrar apresentações">
+        <div class="field field-search">
+            <label for="search">Buscar</label>
+            <div class="search-wrap">
+                <svg class="search-icon" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                </svg>
+                <input
+                    id="search"
+                    class="input"
+                    type="search"
+                    placeholder="Título, capítulo ou arquivo…"
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <kbd class="kbd-hint" aria-hidden="true">/</kbd>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="class-filter">Disciplina</label>
+            <select id="class-filter" class="select">
+                <option value="all">Todas</option>
+                {% for item in classes %}
+                <option value="{{ item.id }}">{{ item.label }} ({{ item.count }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="chapter-filter">Capítulo</label>
+            <select id="chapter-filter" class="select">
+                <option value="all">Todos</option>
+                {% for item in chapters %}
+                <option value="{{ item.id }}">{{ item.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </section>
+
+    <div class="list-header">
+        <p class="result-count" id="result-count" role="status" aria-live="polite">{{ total }} apresentações</p>
+        <button type="button" class="clear-btn" id="clear-filters" hidden>Limpar filtros</button>
+    </div>
+
+    <section class="grid" id="slides-grid" aria-label="Lista de apresentações">
+        {% for slide in slides %}
+        <article
+            class="slide-card"
+            data-class="{{ slide.class_name }}"
+            data-chapter="{{ slide.chapter_name }}"
+            data-chapter-label="{{ slide.chapter_label }}"
+            data-search="{{ slide.search_text }}"
+            style="--accent-card-rgb: {{ slide.accent_rgb }}; --accent-card-rgb-dark: {{ slide.accent_rgb_dark }}; --accent-card-gradient: {{ slide.accent_gradient }};"
+        >
+            <a class="card-main-link" href="{{ slide.url }}" aria-label="Abrir apresentação: {{ slide.title }}"></a>
+
+            <div class="slide-info">
+                <div class="slide-badges">
+                    <span class="class-badge" title="{{ slide.class_label }}">{{ slide.class_name }}</span>
+                    <span class="chapter-label">{{ slide.chapter_label }}</span>
+                </div>
+
+                <h2 class="slide-title">{{ slide.title }}</h2>
+                <p class="slide-meta">Atualizado em {{ slide.date }}</p>
+            </div>
+
+            <div class="slide-thumbnail">
+                <img
+                    src="{{ slide.thumbnail_url }}"
+                    alt=""
+                    width="1280"
+                    height="720"
+                    loading="{{ 'eager' if loop.index0 < 4 else 'lazy' }}"
+                    decoding="async"
+                    onerror="this.closest('.slide-thumbnail').hidden = true"
+                >
+            </div>
+
+            <div class="slide-actions">
+                {% if slide.pdf_url %}
+                <a
+                    class="pdf-download-btn"
+                    href="{{ slide.pdf_url }}"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Abrir PDF: {{ slide.title }}"
+                >
+                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>PDF</span>
+                </a>
+                {% endif %}
+                <span class="open-hint" aria-hidden="true">
+                    Abrir
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6l6 6-6 6" />
+                    </svg>
+                </span>
+            </div>
+        </article>
+        {% endfor %}
+
+        <div class="empty-state" id="empty-state" hidden>
+            <p>Nenhuma apresentação encontrada com esses filtros.</p>
+            <button type="button" class="clear-btn" id="empty-clear">Limpar filtros</button>
+        </div>
+    </section>
+</main>
+
+<footer>
+    © {{ year }} Prof. Marcelo S. Perlin
+</footer>
+
 <style>
-    /* Carousel Styling */
-    .carousel-container {
-        margin-top: 40px;
-        margin-bottom: 45px;
-        position: relative;
-    }
-    
-    .carousel-title {
-        font-family: 'Outfit', sans-serif;
-        font-size: 1.4rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--text-main);
-    }
-    
-    .carousel-title::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 22px;
-        background: linear-gradient(180deg, #3b82f6, #8b5cf6);
-        border-radius: 4px;
-    }
-    
-    .carousel-track {
-        display: flex;
-        gap: 20px;
-        overflow-x: auto;
-        padding: 4px 4px 18px 4px;
-        scroll-behavior: smooth;
-        scrollbar-width: thin;
-        scrollbar-color: var(--card-border) transparent;
-    }
-    
-    .carousel-track::-webkit-scrollbar {
-        height: 6px;
-    }
-    
-    .carousel-track::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    
-    .carousel-track::-webkit-scrollbar-thumb {
-        background-color: var(--card-border);
-        border-radius: 20px;
-    }
-    
-    .carousel-card {
-        min-width: 260px;
-        width: 260px;
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: var(--border-radius);
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        text-decoration: none;
-        color: inherit;
-        transition: var(--transition);
-        box-shadow: var(--shadow);
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        
-        --accent-card-rgb: 37, 99, 235;
-        --accent-card-gradient: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    }
-    
-    .carousel-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: var(--accent-card-gradient);
-        opacity: 0.8;
-    }
-    
-    .carousel-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(var(--accent-card-rgb), 0.4);
-        box-shadow: var(--shadow-hover);
-    }
-    
-    .carousel-card-badge {
-        align-self: flex-start;
-        background-color: rgba(var(--accent-card-rgb), 0.1);
-        color: rgb(var(--accent-card-rgb));
-        padding: 3px 10px;
-        border-radius: 12px;
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border: 1px solid rgba(var(--accent-card-rgb), 0.12);
-    }
-    
-    [data-theme="dark"] .carousel-card-badge {
-        background-color: rgba(var(--accent-card-rgb), 0.2);
-        color: #ffffff;
-        border-color: rgba(var(--accent-card-rgb), 0.25);
-    }
-    
-    .carousel-card-title {
-        font-family: 'Outfit', sans-serif;
-        font-size: 0.95rem;
-        font-weight: 600;
-        margin: 12px 0 10px 0;
-        line-height: 1.4;
-        color: var(--text-main);
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .carousel-card-date {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin-top: auto;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    /* Metrics grid */
-    .metrics-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        margin-bottom: 45px;
-    }
-    
-    @media (min-width: 768px) {
-        .metrics-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+    @media (max-width: 600px) {
+        .kbd-hint {
+            display: none;
         }
-    }
-    
-    .metric-card {
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--border-radius);
-        padding: 16px;
-        text-align: center;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        transition: var(--transition);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .metric-card:hover {
-        transform: translateY(-2px);
-        border-color: var(--accent);
-        box-shadow: 0 10px 20px -10px rgba(var(--accent-rgb), 0.15);
-    }
-    
-    .metric-value {
-        font-family: 'Outfit', sans-serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--text-main);
-        margin-bottom: 3px;
-        line-height: 1.2;
-    }
-    
-    .metric-label {
-        font-size: 0.72rem;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    
-    /* Search Box Styling */
-    .search-container {
-        position: relative;
-        max-width: 500px;
-        margin: 0 auto 30px auto;
-        width: 100%;
-    }
-    
-    .search-input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-    
-    .search-input {
-        width: 100%;
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        padding: 13px 44px 13px 44px;
-        border-radius: 12px;
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: var(--text-main);
-        outline: none;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-        font-family: 'Inter', sans-serif;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
-    
-    .search-input:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
-        background: var(--glass-bg);
-    }
-    
-    .search-icon-left {
-        position: absolute;
-        left: 15px;
-        width: 18px;
-        height: 18px;
-        color: var(--text-muted);
-        pointer-events: none;
-    }
-    
-    .search-kbd-hint {
-        position: absolute;
-        right: 15px;
-        background: var(--card-border);
-        color: var(--text-muted);
-        padding: 3px 7px;
-        border-radius: 6px;
-        font-size: 0.7rem;
-        font-family: monospace;
-        font-weight: 700;
-        pointer-events: none;
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    
-    /* Grid Thumbnails Styling */
-    .slide-thumbnail {
-        width: 100%;
-        height: 150px;
-        flex-shrink: 0;
-        background-color: var(--glass-bg);
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid var(--card-border);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        align-self: center;
-        transition: var(--transition);
-    }
-    
-    .slide-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: var(--transition);
-    }
-    
-    .slide-card:hover .slide-thumbnail img {
-        transform: scale(1.04);
-    }
-    
-    @media (min-width: 640px) {
-        .slide-thumbnail {
-            width: 240px;
-            min-width: 240px;
-            height: 135px;
-        }
-    }
-    
-    /* Modernized Controls & Select Pickers */
-    .controls-wrapper {
-        max-width: 700px;
-        margin: 0 auto 40px auto;
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: var(--border-radius);
-        padding: 24px;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        transition: var(--transition);
-    }
-    
-    .controls-wrapper:hover {
-        border-color: rgba(var(--accent-rgb), 0.25);
-        box-shadow: var(--shadow-hover);
-    }
-    
-    .controls-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-        align-items: start;
-    }
-    
-    @media (min-width: 640px) {
-        .controls-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
-    }
-    
-    .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        transition: var(--transition);
-    }
-    
-    .filter-label {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.75px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: var(--transition);
-    }
-    
-    .filter-group:focus-within .filter-label {
-        color: var(--accent);
-    }
-    
-    .filter-select {
-        width: 100%;
-        background-color: var(--card-bg);
-        color: var(--text-main);
-        border: 1px solid var(--card-border);
-        padding: 14px 44px 14px 18px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border-radius: 12px;
-        cursor: pointer;
-        outline: none;
-        transition: var(--transition);
-        font-family: 'Inter', sans-serif;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233b82f6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 16px center;
-        background-size: 16px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    
-    [data-theme="dark"] .filter-select {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2360a5fa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    }
-    
-    .filter-select:hover {
-        border-color: var(--accent);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.08);
-    }
-    
-    .filter-select:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
-        background-color: var(--glass-bg);
-    }
-    
-    #chapter-filter-container {
-        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
-    }
-    
-    .filter-disabled {
-        opacity: 0.4;
-        pointer-events: none;
-        filter: grayscale(80%);
-        transform: translateY(2px);
     }
 </style>
 
-<header>
-    <h1>Repositório de Slides - Prof. Marcelo S. Perlin</h1>
-    <div class="subtitle">Acesso a slides e recursos de cursos</div>
-</header>
-
-
-
-<!-- Controls Dropdown -->
-<div class="controls-wrapper">
-    <div class="controls-grid">
-        
-        <!-- Class Filter -->
-        <div class="filter-group">
-            <label for="class-filter" class="filter-label">
-                <svg style="width: 14px; height: 14px; color: var(--accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                Filtrar por Disciplina
-            </label>
-            <select id="class-filter" onchange="filterByClass()" class="filter-select">
-                <option value="all">Todas disciplinas</option>
-                {% for class_name in classes %}
-                    <option value="{{ class_name }}" {% if class_name == 'AF' %}selected{% endif %}>{{ class_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <!-- Chapter Filter -->
-        <div id="chapter-filter-container" class="filter-group filter-disabled">
-            <label for="chapter-filter" class="filter-label">
-                <svg style="width: 14px; height: 14px; color: var(--accent);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-                </svg>
-                Filtrar por Capítulo
-            </label>
-            <select id="chapter-filter" onchange="filterSlides()" class="filter-select">
-                <option value="all">Todos capítulos</option>
-                {% for chapter_name in chapters %}
-                    <option value="{{ chapter_name }}">{{ chapter_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-    </div>
-</div>
-
-<!-- Grid List of Slides -->
-<div class="grid" id="slides-grid">
-    {% for slide in slides %}
-        <div class="slide-card card-clickable-container" data-class="{{ slide.class_name }}" data-chapter="{{ slide.chapter_name }}">
-            <!-- Absolute Main Link Overlay -->
-            <a href="{{ slide.url }}" class="card-main-link" aria-label="Abrir slides de {{ slide.title }}"></a>
-            
-            <div class="slide-info" style="flex: 1; display: flex; flex-direction: column;">
-                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; gap: 10px;">
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span class="class-badge" style="margin-bottom: 0;">{{ slide.class_name }}</span>
-                        {% if slide.chapter_name != 'General' %}
-                        <span class="class-badge" style="background-color: var(--card-border); color: var(--text-muted); border-color: var(--glass-border); margin-bottom: 0;">{{ slide.chapter_name }}</span>
-                        {% endif %}
-                    </div>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <a href="{{ slide.url }}" target="_blank" class="html-link-btn" aria-label="Abrir slides em HTML">
-                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                            <span>HTML</span>
-                        </a>
-                        {% if slide.pdf_url %}
-                        <a href="{{ slide.pdf_url }}" target="_blank" class="pdf-download-btn" aria-label="Abrir PDF em nova aba">
-                            <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span>PDF</span>
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-                <h3 class="slide-title" style="position: relative; z-index: 2;">{{ slide.title }}</h3>
-                <div class="slide-filename" style="position: relative; z-index: 2;">
-                    <span>{{ slide.filename }}</span>
-                    <span style="display: block; margin-top: 5px; font-weight: 500; opacity: 0.9;">Atualizado em: {{ slide.date }}</span>
-                </div>
-            </div>
-            <div class="slide-thumbnail" style="position: relative; z-index: 2;">
-                <img src="{{ slide.thumbnail_url }}" alt="Slide Thumbnail" onerror="this.style.display='none'; this.parentElement.style.display='none';">
-            </div>
-        </div>
-    {% endfor %}
-    <div class="empty-state" id="empty-state">
-        Nenhum slide encontrado correspondente aos critérios de busca.
-    </div>
-</div>
-
-
-<footer>
-    &copy; {{ classes|length }} Disciplinas, {{ chapters|length }} Capítulos Disponíveis
-</footer>
-
 <script>
-    function filterByClass() {
-        const classFilter = document.getElementById('class-filter').value;
-        const container = document.getElementById('chapter-filter-container');
+(function () {
+    'use strict';
 
-        if (classFilter === 'all') {
-            container.classList.add('filter-disabled');
-            document.getElementById('chapter-filter').value = 'all';
-        } else {
-            container.classList.remove('filter-disabled');
-        }
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.slide-card'));
+    var classFilter = document.getElementById('class-filter');
+    var chapterFilter = document.getElementById('chapter-filter');
+    var searchInput = document.getElementById('search');
+    var resultCount = document.getElementById('result-count');
+    var clearBtn = document.getElementById('clear-filters');
+    var emptyState = document.getElementById('empty-state');
+    var emptyClear = document.getElementById('empty-clear');
+    var total = cards.length;
+    var debounceTimer = null;
 
-        updateChapterOptions();
-        filterSlides();
+    if (!cards.length) return;
+
+    function normalize(value) {
+        return (value || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim();
     }
 
-    function updateChapterOptions() {
-        const classFilter = document.getElementById('class-filter').value;
-        const chapterSelect = document.getElementById('chapter-filter');
-        const currentChapter = chapterSelect.value;
-        const slides = document.querySelectorAll('.slide-card');
-        
-        const availableChapters = new Set();
-        slides.forEach(slide => {
-            if (classFilter === 'all' || slide.getAttribute('data-class') === classFilter) {
-                availableChapters.add(slide.getAttribute('data-chapter'));
-            }
-        });
-
-        chapterSelect.innerHTML = '<option value="all">Todos capítulos</option>';
-        Array.from(availableChapters).sort().forEach(chapter => {
-            const option = document.createElement('option');
-            option.value = chapter;
-            option.textContent = chapter;
-            chapterSelect.appendChild(option);
-        });
-
-        if (availableChapters.has(currentChapter)) {
-            chapterSelect.value = currentChapter;
-        } else {
-            chapterSelect.value = 'all';
-        }
-    }
-
-    function filterSlides() {
-        const classFilter = document.getElementById('class-filter').value;
-        const chapterFilter = document.getElementById('chapter-filter').value;
-        const slides = document.querySelectorAll('.slide-card');
-        const emptyState = document.getElementById('empty-state');
-        let visibleCount = 0;
-
-        slides.forEach(slide => {
-            const slideClass = slide.getAttribute('data-class');
-            const slideChapter = slide.getAttribute('data-chapter');
-
-            const classMatch = classFilter === 'all' || slideClass === classFilter;
-            const chapterMatch = chapterFilter === 'all' || slideChapter === chapterFilter;
-            
-            if (classMatch && chapterMatch) {
-                slide.style.display = 'flex';
-                // Trigger a smooth transition
-                slide.style.opacity = '0';
-                setTimeout(() => { slide.style.opacity = '1'; }, 10);
-                visibleCount++;
-            } else {
-                slide.style.display = 'none';
-            }
-        });
-
-        if (visibleCount === 0) {
-            emptyState.style.display = 'block';
-        } else {
-            emptyState.style.display = 'none';
-        }
-    }
-
-    // Trigger initial filter on page load to apply default selection
-    document.addEventListener('DOMContentLoaded', () => {
-        filterByClass();
+    // Pré-computa os textos de busca e os rótulos dos capítulos
+    var chapterLabels = {};
+    cards.forEach(function (card) {
+        card.searchIndex = normalize(card.getAttribute('data-search'));
+        chapterLabels[card.getAttribute('data-chapter')] = card.getAttribute('data-chapter-label');
     });
+
+    function chaptersFor(classValue) {
+        var seen = Object.create(null);
+        var chapters = [];
+        cards.forEach(function (card) {
+            if (classValue !== 'all' && card.getAttribute('data-class') !== classValue) return;
+            var chapter = card.getAttribute('data-chapter');
+            if (!seen[chapter]) {
+                seen[chapter] = true;
+                chapters.push(chapter);
+            }
+        });
+        return chapters.sort(function (a, b) {
+            return a.localeCompare(b, 'pt-BR', { numeric: true, sensitivity: 'base' });
+        });
+    }
+
+    function buildChapterOptions(preserveSelection) {
+        var previous = preserveSelection ? chapterFilter.value : 'all';
+        var options = chaptersFor(classFilter.value);
+        var fragment = document.createDocumentFragment();
+        var all = document.createElement('option');
+        all.value = 'all';
+        all.textContent = 'Todos';
+        fragment.appendChild(all);
+
+        options.forEach(function (chapter) {
+            var option = document.createElement('option');
+            option.value = chapter;
+            option.textContent = chapterLabels[chapter] || chapter;
+            fragment.appendChild(option);
+        });
+
+        chapterFilter.innerHTML = '';
+        chapterFilter.appendChild(fragment);
+        chapterFilter.value = options.indexOf(previous) !== -1 ? previous : 'all';
+    }
+
+    function syncURL() {
+        var params = new URLSearchParams();
+        if (classFilter.value !== 'all') params.set('disciplina', classFilter.value);
+        if (chapterFilter.value !== 'all') params.set('capitulo', chapterFilter.value);
+        if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
+
+        var query = params.toString();
+        var url = window.location.pathname + (query ? '?' + query : '') + window.location.hash;
+        try {
+            window.history.replaceState(null, '', url);
+        } catch (error) {
+            // Ambientes sem History API (ex.: file://) seguem funcionando sem URL sincronizada
+        }
+    }
+
+    function applyFilters() {
+        var classValue = classFilter.value;
+        var chapterValue = chapterFilter.value;
+        var query = normalize(searchInput.value);
+        var visible = 0;
+
+        cards.forEach(function (card) {
+            var matches =
+                (classValue === 'all' || card.getAttribute('data-class') === classValue) &&
+                (chapterValue === 'all' || card.getAttribute('data-chapter') === chapterValue) &&
+                (!query || card.searchIndex.indexOf(query) !== -1);
+
+            card.hidden = !matches;
+            if (matches) visible += 1;
+        });
+
+        emptyState.hidden = visible !== 0;
+        resultCount.textContent = visible === total
+            ? total + ' apresentações'
+            : visible + ' de ' + total + ' apresentações';
+
+        // O estado vazio já oferece "Limpar filtros"; evita ação duplicada
+        clearBtn.hidden =
+            visible === 0 ||
+            (classValue === 'all' && chapterValue === 'all' && !searchInput.value.trim());
+        syncURL();
+    }
+
+    function resetFilters() {
+        classFilter.value = 'all';
+        buildChapterOptions(false);
+        searchInput.value = '';
+        applyFilters();
+        searchInput.focus();
+    }
+
+    classFilter.addEventListener('change', function () {
+        buildChapterOptions(false);
+        applyFilters();
+    });
+
+    chapterFilter.addEventListener('change', applyFilters);
+
+    searchInput.addEventListener('input', function () {
+        window.clearTimeout(debounceTimer);
+        debounceTimer = window.setTimeout(applyFilters, 120);
+    });
+
+    searchInput.addEventListener('search', function () {
+        // Botão "limpar" nativo do input type=search
+        if (!searchInput.value) applyFilters();
+    });
+
+    clearBtn.addEventListener('click', resetFilters);
+    emptyClear.addEventListener('click', resetFilters);
+
+    document.addEventListener('keydown', function (event) {
+        var target = event.target;
+        var typing = target && (
+            target.tagName === 'INPUT' ||
+            target.tagName === 'TEXTAREA' ||
+            target.tagName === 'SELECT' ||
+            target.isContentEditable
+        );
+
+        if (!typing && event.key === '/') {
+            event.preventDefault();
+            searchInput.focus();
+        }
+
+        if (!typing && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+            event.preventDefault();
+            searchInput.focus();
+        }
+    });
+
+    // Restaura filtros a partir da URL (permite compartilhar uma visão)
+    var params = new URLSearchParams(window.location.search);
+    var initialClass = params.get('disciplina');
+    if (initialClass && Array.prototype.some.call(classFilter.options, function (option) {
+        return option.value === initialClass;
+    })) {
+        classFilter.value = initialClass;
+    }
+
+    buildChapterOptions(false);
+
+    var initialChapter = params.get('capitulo');
+    if (initialChapter && Array.prototype.some.call(chapterFilter.options, function (option) {
+        return option.value === initialChapter;
+    })) {
+        chapterFilter.value = initialChapter;
+    }
+
+    searchInput.value = params.get('q') || '';
+    applyFilters();
+})();
 </script>
 {% endblock %}

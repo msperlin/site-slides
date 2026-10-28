@@ -7,6 +7,7 @@ This project uses a lightweight Flask application to dynamically discover HTML p
 ## Features
 - **Automatic Discovery:** Automatically scans the `slides/` directory for HTML presentations.
 - **Organization:** Groups slides intuitively by Class and Chapter.
+- **Search & Filters:** Instant search plus class/chapter filters, with the current view stored in the URL so it can be shared.
 - **Auto-Generated Thumbnails:** Automatically creates image thumbnails (`.png`) for each presentation using headless Chromium.
 - **Static Site Generation:** Compiles the dynamic Flask app into a single, static `index.html`.
 - **CI/CD Pipeline:** GitHub Actions automatically generate thumbnails, build the site, and push the generated files back to the repository whenever changes are pushed to `main`.
