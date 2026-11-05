@@ -1,0 +1,529 @@
+---
+title: "Simulação com o R"
+subtitle: "Análise de Dados Financeiros e Econômicos com o R"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "content/theme-msperlin.scss"
+    scrollable: true
+    slide-number: true
+    transition: fade
+    background-transition: fade
+    code-overflow: wrap
+    favicon: figs/R_logo.svg.png
+logo: figs/ufrgs3.jpg
+footer: 'ADFER - UFRGS'
+self-contained: true
+execute: 
+  echo: false
+  cache: false
+bibliography: "content/bibfile_ADFER.bib"  
+title-block-banner: true
+toc: true
+toc-depth: 1
+toc-title: "Sumário"
+---
+
+
+```{r, include=FALSE}
+classtools::setup_quarto_slides('content')
+```
+
+
+```{r, echo=FALSE}
+i_exerc <- 0
+```
+
+
+```{r setup, echo=FALSE}
+exerc.name <- 'ADFER-Exercicio-Aula-10-Simulação_'
+
+library(ggplot2)
+library(dplyr)
+
+N <- 100000  # number of draws used in the sampling examples
+
+knitr::opts_chunk$set(fig.align = 'center',
+                      prompt = FALSE,
+                      warning = FALSE,
+                      tidy = FALSE,
+                      message = FALSE)
+
+```
+
+# Concepts
+
+## Introduction
+
+> Simulation is the act of creating, artificially, possible paths (behavior) of a system subject to uncertainty [@brooks2014introductory].
+
+. . .
+
+- Any system of stochastic (random) equations can be simulated with code (and R)
+
+. . .
+
+- Applications of simulation in empirical problems (including Finance) are widespread
+
+## Calculating pi
+
+Estimating a deterministic quantity with random draws (Monte Carlo):
+
+$$P(\text{point inside the circle}) = \frac{\pi}{4} \quad \Rightarrow \quad \hat{\pi} = 4 \times \frac{\text{hits}}{M}$$
+
+{{< video https://www.youtube.com/embed/ELetCV_wX_c?si=xXHg7oHbFxMXM0h3 aspect-ratio="4x3" width="700" title='Approximating PI (Monte Carlo Integration)' >}}
+
+
+## Simulating behavior in nature
+
+{{< video https://www.youtube.com/embed/0ZGbIKd0XrM?si=C_T7mXLqv_aq4AfP aspect-ratio="4x3" width="700" >}}
+
+
+## AI learning from Simulations
+
+```{r}
+#| echo: false
+#| label: starcraft
+#| fig-cap: Source [report](https://deepmind.google/discover/blog/alphastar-grandmaster-level-in-starcraft-ii-using-multi-agent-reinforcement-learning/) from Google Deepmind
+
+knitr::include_graphics("figs/starcraft.png")
+```
+
+
+## Applications in Finance:
+
+- Pricing derivative contracts (options, swaps, ...)
+
+. . .
+
+- Finding moments and probabilities of complex systems of equations (e.g. payments system)
+
+. . .
+
+- Project analysis (NPV & IRR) under uncertainty
+
+. . .
+
+- Econometrics (bootstrap and pricing models)
+
+. . .
+
+- Performance analysis of a trading strategy
+
+
+## A (biased) set of examples in applied research
+
+- Simulation of an operational failure in UK's payments system -- [System-Wide liquidity risk in the UK’s large-value payment system: an empirical analysis](https://www.bankofengland.co.uk/-/media/boe/files/working-paper/2011/system-wide-liquidity-risk-in-the-uks-large-value-payment-system-an-empirical-analysis.pdf)
+- Simulating Ibovespa recovery after Covid -- [A GARCH Tutorial with R](https://rac.anpad.org.br/index.php/rac/article/view/1420/1517)
+- Simulating financial markets and a retirement portfolio --  [What is the sustainable withdraw rate for Brazil?](https://periodicos.fgv.br/rbfin/article/view/89040)
+- Randomized sampling for comparable peers -- [The determinants and impact of research grants: The case of Brazilian productivity scholarships](https://www.sciencedirect.com/science/article/pii/S1751157724000762?via%3Dihub#se0040)
+
+See also the material of the course book [@afedr].
+
+
+## Steps for a simulation
+
+1. Define or estimate a mathematical structure of the data generating process;
+
+. . .
+
+2. Simulate the system of equations a reasonable amount of times and save the measure of interest at the end of each simulation;
+
+. . .
+
+3. Repeat steps 1 and 2 many times;
+
+
+# Simulating with R
+
+## Random sampling in R
+
+
+We always assume that the distribution of the random variables is known (or approximated by):
+		
+- Symmetric: Uniform, Normal, Student's t, Beta, etc
+- Positive: exponential, Gamma, Weibull, etc
+- Many more
+
+In R, every distribution has a `r` function: `rnorm()`, `runif()`, `rgamma()`, `rbeta()`, ...
+
+
+## Random sampling in R - Examples {.scrollable}
+
+::: {.panel-tabset}
+
+### Normal Distribution
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4
+# Normal variable
+X <- rnorm(n = N, mean = 0, sd = 1)
+
+ggplot(data.frame(X), aes(x = X)) + geom_histogram() + 
+  labs(title = 'Normal Distribution') + 
+  theme_light()
+
+```
+
+### Gamma
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4
+# Gamma variable
+X <- rgamma(n = N, shape = 1)
+
+ggplot(data.frame(X), aes(x = X)) + 
+        geom_histogram() + labs(title = 'Gamma') + 
+  theme_light()
+
+```
+
+### Uniform
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4
+# Uniform variable
+X <- runif(n = N)
+
+ggplot(data.frame(X), aes(x = X)) + 
+        geom_histogram() + labs(title = 'Uniform') + 
+  theme_light()
+```
+
+### Beta
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4
+# Beta variable
+X <- rbeta(n = N, shape1 = 0.5, shape2 = 0.5)
+
+ggplot(data.frame(X), aes(x = X)) + 
+        geom_histogram() + labs(title = 'Beta') + 
+  theme_light()
+```
+
+:::
+
+
+## How many simulations are enough?
+
+Each simulation result is an **estimate**: it changes if you change the seed. Its precision is measured by the **Monte Carlo standard error**:
+
+$$SE(\hat{\theta}) = \frac{SD\left(\hat{\theta}_i\right)}{\sqrt{M}}$$
+
+. . .
+
+- Quadrupling `M` only halves the error: accuracy is expensive
+- The estimate is ~95% within $\pm 1.96 \times SE$ of the true value
+- Always report the estimate **and** its Monte Carlo error
+
+
+## Convergence in practice
+
+```{r}
+#| echo: false
+#| fig-width: 9
+#| fig-height: 4.5
+#| fig-cap: "Estimate: 3.129 | Monte Carlo error: 0.023 | True value: 3.1416"
+set.seed(1)
+M <- 5000
+
+# share of random points inside the unit circle, times 4
+u1 <- runif(M)
+u2 <- runif(M)
+hit <- 4 * (u1^2 + u2^2 <= 1)
+
+# running estimate and its standard error
+est <- cumsum(hit) / seq_len(M)
+se <- sqrt(cumsum((hit - est)^2) / (seq_len(M) - 1)) / sqrt(seq_len(M))
+
+ggplot(data.frame(x = seq_len(M), est, se), aes(x = x, y = est)) +
+  geom_ribbon(aes(ymin = est - 1.96*se, ymax = est + 1.96*se), alpha = 0.25) +
+  geom_line() +
+  geom_hline(yintercept = pi, linetype = "dashed") +
+  coord_cartesian(ylim = c(2.6, 3.7)) +
+  theme_light() +
+  labs(title = "Monte Carlo estimate of pi",
+       subtitle = "dashed line = true value (3.1416)",
+       x = "Number of simulations (M)", y = "Estimate")
+```
+
+
+## A simple regression model
+
+$y _i = \alpha + \beta x_i + \epsilon _i$
+
+. . . 
+
+```{r}
+#| echo: false
+#| fig-width: 9
+#| fig-height: 4.5
+#| fig-cap: "Simulated data (points) and the fitted regression line"
+N <- 100
+alpha <- 10
+beta <- 0.2
+
+x <- rnorm(N, 100, 15)
+eps <- rnorm(N, 0, 3)
+y <- alpha + beta*x + eps
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm") +
+  theme_light() +
+  labs(x = "Regressor (x)", y = "Dependent (y)")
+```
+
+
+## A simple stochastic process in Finance
+	
+The discrete _Random Walk_ Model
+
+\begin{eqnarray}
+P_t&=&P_{t-1} \exp (R_t) \\
+R_t &=& C + \epsilon _t \\
+\epsilon _t &\sim& N\left(0,\sigma ^2 \right) 
+\end{eqnarray}
+
+where $P_t$ is the price of the contract, $R_t$ is the return (daily, monthly, ..)
+		
+A bit of math shows that:
+
+- Since $E(R_t)=C$, you cannot predict $P_{t+1}$
+- Since $\sigma(R_t)=\sigma(\epsilon _t)$, variance (uncertainty) per period is constant and increases with forecasting horizon
+
+
+```{r, echo=FALSE}
+i_exerc <- 1
+```
+
+## Exercise `r i_exerc` - Creating a Random Walk
+
+1. Using a loop, create script `r paste0(exerc.name, i_exerc,'.R')`
+
+2. Within the script, simulate 100 prices of the following random walk model (use `set.seed(1)`). Note that `P_0 = 100` is the first element of the vector, so you only need to simulate 99 returns:
+		
+\begin{eqnarray}
+R_t &=& 0.005 + \epsilon _t \\
+\epsilon _t &\sim& N \left(0, \sigma ^2 \right) \\
+P_t&=&P_{t-1} \exp (R_t) \\
+P_0 &=& 100 \\
+\sigma &=& 0.015
+\end{eqnarray}
+			
+3. With `ggplot2`, create a figure to represent the path of prices over time (use a sequence of dates as the x axis)
+
+
+```{r, echo=FALSE}
+i_exerc <- i_exerc + 1
+```
+## Exercise `r i_exerc` - Simulating many random walks
+
+1. Based on previous exercise, create 1000 vectors of prices with the same random walk model with 100 time periods and save it in a `tibble` in the long format.
+
+2. Using `ggplot2`, create a single figure with the prices of all stocks
+
+
+# Applications
+
+## Pricing European Options with Simulation
+	
+A call option of the European type is a financial contract where the payoff is a function of the spot price:
+
+\begin{equation}
+Payoff^C _T = \max(0 , P_T - K) 
+\end{equation}
+	
+$Payoff^C _T$ - Payoff (payment) of call option
+
+$P_T$ - Price of underlying asset in maturity ($T$)
+
+$K$ - Strike price of contract
+
+## Pricing the option with simulation
+
+We can calculate the price (Expected payoff) of this call option by simulating stock prices and calculating the simulated payoff at the expiration date
+
+$$C = \frac{E\left[Payoff_T\right]}{(1+r)^T}$$
+
+where $r$ is the discount rate per period. With continuous compounding, $C = e^{-rT} E\left[Payoff_T\right]$.
+
+::: {.callout-note}
+The simulated prices use a zero drift ($C = 0$), i.e. we are assuming the risk-neutral measure.
+:::
+
+```{r, echo=FALSE}
+i_exerc <- i_exerc + 1
+```
+## Exercise `r i_exerc` - Pricing a Call option {.scrollable}
+
+Consider the following RW model
+
+\begin{eqnarray}
+R_t &=& 0 +  \epsilon _t \\
+\epsilon _t &\sim& N\left(0, \sigma ^2 \right) \\
+P_t&=&P_{t-1} \exp (R_t) \\
+P_0 &=& 100 \\
+\sigma &=& 0.015
+\end{eqnarray}
+
+1. Calculate the price of the call option with maturity in 100 periods, strike price equal to 110, yield rate equal to 5% for the whole time period. Use `set.seed(10)` and 1000 simulations
+		
+2. Price an European put option that matures in 100 periods, strike price equal to 90, with 1000 simulations and `set.seed(15)`
+		
+
+## Solution - Pricing the call option {.scrollable}
+
+```{r}
+#| echo: true
+set.seed(10)
+
+M <- 1000; nT <- 100
+P_0 <- 100; sigma <- 0.015
+K <- 110; r <- 0.05
+
+R <- matrix(rnorm(M*nT, 0, sigma), M, nT)
+P_T <- P_0 * exp(rowSums(R))
+C <- mean(pmax(P_T - K, 0))/(1 + r)
+C
+```
+
+The result is deterministic given the seed. Change the seed (or `M`) and the last digits will change.
+
+
+```{r, echo=FALSE}
+i_exerc <- i_exerc + 1
+```
+## Exercise `r i_exerc` - Simulating Ibovespa {.scrollable}
+
+Consider the following RW model:
+		
+\begin{eqnarray}
+R_t &=& C +  \epsilon _t \\
+\epsilon _t &\sim& N\left(0, \sigma^2 \right) \\
+P_t&=&P_{t-1} \exp (R_t) \\
+\end{eqnarray}
+		
+1. Use package `yfR` [@R-yfR] to download daily data for Ibovespa (`^BVSP`) in the last 3 years (`Sys.Date() - 365*3`), e.g. with `yfR::yf_get(tickers = "^BVSP", first_date = Sys.Date() - 365*3)`
+
+2. Estimate parameters $C$ and $\sigma$ for the Ibovespa index as:
+		
+\begin{eqnarray}
+R_t &=& log(\frac{P_t}{P_{t-1}}) \\
+C &=& E(R_t) \\
+\sigma &=& SD(R_T)
+\end{eqnarray}
+	
+3. Using the parameters from the estimation, simulate the prices of Ibovespa for the next 100 days. TIP: Use the last available price as $P_0$.
+
+4. Create a figure with `ggplot2`, showing all possible paths of the simulation.
+
+
+## Performance Analysis with Simulation (monkey trading) {visibility="hidden"}
+
+![The help desk that trades for you](figs/sasktel_help_desk.jpg)	
+
+Consider a trading strategy of any kind, using past prices or other information to create a trading signal, buy or sell. 
+	
+After implementing the strategy in the data, it will generate a total return at the end of the trading period
+	
+**One way** of testing if a trading strategy has potential is to compare it to random portfolios created by sampling trading signals randomly. That is, we use random signals to trade and check whether that approach can result in similar return to our strategy or not
+
+
+## Exercise - Simulating random portfolios {visibility="hidden"}
+
+1. Using package `afedR3`, read the data from file `EX_SP500-stocks-wide.csv` (`afedR3::data_path('EX_SP500-stocks-wide.csv')`) and calculate the log return of each stock. Notice that the data is in the WIDE format. This will help future calculations.
+		
+2. Calculate the accumulated return of 1000 portfolios with random weights. The weights must always sum to one. A simple transformation of a random vector can reach this result:
+		
+\begin{equation}
+w^*_i = \frac{w_i}{\sum_{i=1}^{N} w_i}
+\end{equation}
+		
+where $w_i$ is a random variable between 0 and 1 (function `runif()`)
+
+3. Present the result with a histogram of the accumulated return for all 1000 random portfolios
+
+
+# Bootstrap
+
+## Bootstrapping standard errors
+
+One of the outputs of a linear regression is the standard error of each coefficient.
+
+Consider a scenario where we are interested in a transformation of the parameters, such as:
+
+\begin{eqnarray}
+y_t &=&  \alpha + \beta _1 x_{1,t} + \beta _2 x_{2,t} + \epsilon _t \\
+\Theta &=& \frac{\beta _1 - \beta _2}{\alpha} 
+\end{eqnarray}		
+		
+		
+**How to find the standard error of $\Theta$?**
+				
+## Bootstrapping standard errors
+	
+1. Estimate the original model and save the created (conditional mean,  $\hat{y}_t$) and the vector of residuals, $\hat{\epsilon}_t$
+		
+2. Create a second variable $y^*$ given by:
+		
+\begin{equation}
+y^*_t = \hat{y}_t + \epsilon ^* _t
+\end{equation}
+		
+where $\epsilon ^* _t$ is a resampled vector of $\hat{\epsilon}_t$ (same size, with replacement: `sample(res, replace = TRUE)`)
+
+---
+
+3. Estimate the econometric model:
+
+$$y ^* _t =  \alpha ^* + \beta ^* _1 x_{1,t} + \beta ^* _2 x_{2,t} + \epsilon _t $$
+		
+4. Calculate: 
+
+$$\Theta ^* = \frac{\beta ^* _1 - \beta ^*  _2}{\alpha ^*} $$
+		
+5. Repeat steps 2, 3 and 4 `M` times, saving $\Theta ^*$ in each case
+		
+6. The final result will be a vector of $\Theta ^*$. Its standard error is simply the standard deviation of the vector
+
+
+```{r, echo=FALSE}
+i_exerc <- i_exerc + 1
+```
+## Exercise `r i_exerc` - Bootstrapping standard errors
+
+1. With package `afedR3`, load the data from file `EX_Ibov_PETR4.csv` (`afedR3::data_path('EX_Ibov_PETR4.csv')`)
+		
+2. Estimate the market model for `PETR4`:
+		
+\begin{equation}
+R_t = \alpha + \beta R_{t,M} + \epsilon _t
+\end{equation}		
+		
+where $R_{t,M}$ is the return of Ibovespa
+		
+3. Using the bootstrap procedure described earlier, calculate the standard error of $\frac{\alpha}{\beta}$ with 1000 simulations
+		
+
+# Wrapping up
+
+## What we covered
+
+::: {.incremental}
+- Simulation is the act of creating artificial paths of a stochastic system; it is used to price contracts, to build standard errors and to test trading strategies.
+- R has ready-made samplers (`rnorm`, `rgamma`, `runif`, `rbeta`, ...); always use `set.seed()` so your results are reproducible.
+- The random walk in logs is the workhorse model for prices: $P_t = P_{t-1} \exp(R_t)$.
+- Option prices are discounted expected payoffs: simulation returns an estimate **plus** its Monte Carlo error ($SE = SD/\sqrt{M}$).
+- Bootstrap: resample the residuals, re-estimate the model, and use the standard deviation of the estimates as the standard error.
+:::
+
+# Referências {.unlisted}
