@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://msperlin.github.io/site-slides/</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -57,6 +57,12 @@
   <url>
     <loc>https://msperlin.github.io/site-slides/slides/ADFER/09-AI-em-Pesquisa-Cientifica/01_SLIDES_using-agentic-ai-for-research.html</loc>
     <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://msperlin.github.io/site-slides/slides/ADFER/10_Simula%C3%A7%C3%A3o-com-o-R/ADFER_10_SLIDES_simula%C3%A7%C3%A3o-com-o-r.html</loc>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
