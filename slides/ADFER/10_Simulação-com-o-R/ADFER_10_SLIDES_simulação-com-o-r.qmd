@@ -77,6 +77,92 @@ $$P(\text{point inside the circle}) = \frac{\pi}{4} \quad \Rightarrow \quad \hat
 {{< video https://www.youtube.com/embed/ELetCV_wX_c?si=xXHg7oHbFxMXM0h3 aspect-ratio="4x3" width="700" title='Approximating PI (Monte Carlo Integration)' >}}
 
 
+## Calculating pi - animation
+
+```{r}
+#| echo: false
+#| label: pi-anim
+#| fig-cap: "Each dot is one random draw; the estimate is 4 × (dots inside the circle) / total."
+#| fig-width: 8
+#| fig-height: 5.5
+#| fig-dpi: 110
+
+gif_file <- "figs/pi_animation.gif"
+
+if (!file.exists(gif_file)) {
+  local({
+    suppressPackageStartupMessages({
+      library(gganimate)
+      library(dplyr)
+    })
+
+    set.seed(172)
+    N <- 4000      # total number of random draws
+    per <- 50      # new draws per animation frame
+    fps <- 12
+
+    draws <- data.frame(i = 1:N,
+                        x = runif(N, -1, 1),
+                        y = runif(N, -1, 1))
+    draws$inside <- factor(ifelse(draws$x^2 + draws$y^2 <= 1, "Dentro", "Fora"),
+                           levels = c("Dentro", "Fora"))
+    draws$est <- 4 * cumsum(draws$inside == "Dentro") / draws$i
+    draws$frame <- ceiling(draws$i / per)
+
+    frames <- unique(draws$frame)
+
+    # one row per frame: the running estimate shown in the text box
+    lab <- data.frame(frame = frames, i = frames * per) |>
+      mutate(est = draws$est[i],
+             txt = sprintf("n = %s\n\u03c0\u0302 \u2248 %s",
+                           format(i, big.mark = ".", decimal.mark = ","),
+                           format(round(est, 4), nsmall = 4, decimal.mark = ",")))
+
+    # frame-stacked data: everything drawn up to each frame
+    df <- bind_rows(lapply(frames, function(f) {
+      d <- draws[draws$frame <= f, c("i", "x", "y", "inside")]
+      d$frame <- f
+      d
+    }))
+
+    p <- ggplot(df, aes(x, y)) +
+      annotate("rect", xmin = -1, xmax = 1, ymin = -1, ymax = 1,
+               fill = "grey97", color = "grey40") +
+      annotate("path",
+               x = cos(seq(0, 2*pi, length.out = 400)),
+               y = sin(seq(0, 2*pi, length.out = 400)),
+               color = "grey20", linewidth = .8) +
+      geom_point(aes(color = inside), size = 1.1, alpha = .7, stroke = 0) +
+      geom_label(data = lab, aes(x = -0.94, y = 0.95, label = txt),
+                 inherit.aes = FALSE, hjust = 0, vjust = 1,
+                 fill = "white", color = "grey20", linewidth = .25,
+                 label.r = unit(.15, "lines"), family = "mono",
+                 fontface = "bold", size = 4.2, lineheight = .95) +
+      scale_color_manual(values = c("Dentro" = "#1667c4", "Fora" = "grey60"),
+                         name = NULL) +
+      guides(color = guide_legend(override.aes = list(size = 3.5, alpha = 1))) +
+      coord_fixed(xlim = c(-1, 1), ylim = c(-1, 1), expand = FALSE) +
+      theme_minimal(base_size = 15) +
+      theme(panel.grid = element_blank(),
+            axis.text = element_blank(),
+            axis.title = element_blank(),
+            legend.position = "bottom",
+            legend.key.size = unit(.9, "lines"),
+            plot.title = element_text(face = "bold"),
+            plot.title.position = "plot",
+            plot.background = element_rect(fill = "white", color = NA)) +
+      labs(title = "Estimando \u03c0 com sorteios aleat\u00f3rios") +
+      transition_manual(frame)
+
+    anim_save(gif_file, p, nframes = length(frames), fps = fps,
+              renderer = gifski_renderer())
+  })
+}
+
+knitr::include_graphics(gif_file)
+```
+
+
 ## Simulating behavior in nature
 
 {{< video https://www.youtube.com/embed/0ZGbIKd0XrM?si=C_T7mXLqv_aq4AfP aspect-ratio="4x3" width="700" >}}
