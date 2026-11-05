@@ -207,8 +207,6 @@ knitr::include_graphics("figs/starcraft.png")
 - Simulating financial markets and a retirement portfolio --  [What is the sustainable withdraw rate for Brazil?](https://periodicos.fgv.br/rbfin/article/view/89040)
 - Randomized sampling for comparable peers -- [The determinants and impact of research grants: The case of Brazilian productivity scholarships](https://www.sciencedirect.com/science/article/pii/S1751157724000762?via%3Dihub#se0040)
 
-See also the material of the course book [@afedr].
-
 
 ## Steps for a simulation
 
@@ -599,17 +597,5 @@ where $R_{t,M}$ is the return of Ibovespa
 		
 3. Using the bootstrap procedure described earlier, calculate the standard error of $\frac{\alpha}{\beta}$ with 1000 simulations
 		
-
-# Wrapping up
-
-## What we covered
-
-::: {.incremental}
-- Simulation is the act of creating artificial paths of a stochastic system; it is used to price contracts, to build standard errors and to test trading strategies.
-- R has ready-made samplers (`rnorm`, `rgamma`, `runif`, `rbeta`, ...); always use `set.seed()` so your results are reproducible.
-- The random walk in logs is the workhorse model for prices: $P_t = P_{t-1} \exp(R_t)$.
-- Option prices are discounted expected payoffs: simulation returns an estimate **plus** its Monte Carlo error ($SE = SD/\sqrt{M}$).
-- Bootstrap: resample the residuals, re-estimate the model, and use the standard deviation of the estimates as the standard error.
-:::
 
 # Referências {.unlisted}
