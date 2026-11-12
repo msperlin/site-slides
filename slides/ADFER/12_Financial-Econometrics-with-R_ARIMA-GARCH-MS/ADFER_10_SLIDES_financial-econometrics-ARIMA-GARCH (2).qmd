@@ -1,0 +1,436 @@
+---
+title: "Análise de Dados Financeiros e Econômicos com o R"
+subtitle: "Aula 11 - Econometria Financeira, parte 02 [@adfer, cap 11]"
+author: "Marcelo S. Perlin"
+date: last-modified
+date-format: DD/MM/YYYY
+institute: EA-UFRGS
+format:
+  revealjs: 
+    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.4/classtools/extdata/templates/theme-msperlin.scss"
+    scrollable: true
+    favicon: figs/R_logo.svg.png
+footer: 'ADFER - UFRGS'
+self-contained: true
+execute: 
+  echo: true
+  cache: false
+bibliography: ["/home/msperlin/R/x86_64-pc-linux-gnu-library/4.4/classtools/extdata/templates/bibfile_ADFER.bib",
+                "bib/pkgs_bib.bib"]
+title-block-banner: true
+toc: true
+toc-depth: 1
+toc-title: "Sumário"
+---
+
+
+```{r, echo=FALSE}
+i.exercise <- 0 
+options(scipen = 999)
+```
+
+
+```{r, echo=FALSE}
+exerc.name <- 'ADFER-Exercicio-Modelos-parte02'
+knitr::opts_chunk$set(cache= FALSE,
+                      echo = TRUE,
+                      prompt = FALSE, 
+                      warning=FALSE, 
+                      tidy=FALSE, 
+                      message = FALSE
+)
+
+```
+
+
+```{r, echo=FALSE, purl=FALSE}
+knitr::opts_chunk$set(prompt = FALSE, 
+                      message = FALSE,
+                      cache = FALSE, 
+                      tidy = FALSE)
+```
+
+# Introduction
+
+## Most popular models:
+
+- ~~Linear models (OLS)~~ 
+- ~~Generalized linear models (GLS)~~
+- ~~Panel data models~~
+- Arima models (Integrated Autoregressive Moving Averages)
+- Garch models (generalized autoregressive conditional heteroskedasticity)
+- ~~Regime switching models~~
+
+## Please read the references!
+
+- The econometrics of financial markets [@campbell1997econometrics]
+
+- Introductory econometrics for finance [@brooks2014introductory]
+
+- Time series analysis [@hamilton1994time]
+
+- Econometric analysis [@greene2003econometric] 
+
+# Arima Models 
+
+## Introduction to Arima Models {.smaller}
+
+> Arima is a special type of model that uses the past to explain its own future. 
+
+Example of a ARIMA(AR = 1, D = 0, MA = 1):
+
+$$y _t = 0.5 y_{t-1} - 0.2 \epsilon _{t-1} + \epsilon _t$$
+
+. . .
+
+- _AR_ indicates the maximum _lag_ used in $y_t$ in the right hand side of the equation. 
+
+. . .
+
+- D indicates the level of differentiation of the time series [@hamilton1994time]
+
+. . .
+
+- _MA_ defines the maximum _lag_ used for the error of the model. 
+
+
+## Interesting properties {.smaller}
+
+- A AR(1) is simply a ARIMA(1, 0, 0) model
+
+$$y _t = 0.15 y_{t-1} + \epsilon _t$$
+
+. . .
+
+- if $\theta = 1$ in a AR(1) model, then we have the simplest case of a Random walk model: $y_t = y_{t-1} + \epsilon _t$
+
+. . .
+
+- if $abs(\theta) > 1$, the stochastic process is explosive:
+
+$$y_t = 1.5y_{t-1} + \epsilon _t$$
+
+. . .
+
+- A ARMA model is a parsimonious representation of a AR model with infinite lags $AR(\infty)$
+
+
+## Simulating Arima Models
+
+```{r}
+#| output-location: column
+
+library(ggplot2)
+
+set.seed(1)
+
+# set number of observations
+n_T <- 500
+
+# set model's parameters
+arima_param <- list(ar = 0.5, 
+                    ma = -0.1)
+my_sd <- 1
+
+# simulate model
+my_ts <- stats::arima.sim(
+  n = n_T, 
+  model = arima_param, 
+  sd = my_sd
+)
+
+# set df
+temp_df <- dplyr::tibble(
+  y = unclass(my_ts), 
+  date = Sys.Date() + 1:n_T
+)
+
+p <- ggplot(temp_df, aes(x = date, y = y)) + 
+  geom_line(size=0.5)
+
+print(p)                 
+```
+
+
+## Estimating Arima Models
+
+```{r}
+my_arima <- stats::arima(
+  my_ts, 
+  order = c(1,0,1))
+```
+
+. . .
+
+:::: {.columns}
+
+::: {.column width="50%"}
+Simulated Model: 
+
+$$y _t = `r arima_param$ar` y_{t-1} +  `r arima_param$ma` \epsilon_{t-1} \\ + \epsilon_{t}$$
+
+:::
+
+::: {.column width="50%"}
+Estimated values
+
+```{r}
+#| echo=FALSE
+
+my_arima
+```
+
+:::
+
+::::
+
+## Estimating ARIMA for real data
+
+1. make sure data is stationary (dick fuller test) and whether it needs differentiation
+1. differentiate the time series (or not) -- this sets parameter D
+1. estimate ARMA model on resulting series
+1. make predictions and applications
+
+---
+
+## Example for SP500
+
+```{r}
+#| cache: true
+df_SP500 <- yfR::yf_get(
+  "^GSPC", 
+  "2015-01-01") |>
+  na.omit()
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+Dickey-Fuller for Returns:
+
+```{r}
+tseries::adf.test(df_SP500$ret_adjusted_prices)
+```
+
+:::
+
+::: {.column width="50%"}
+
+Dickey-Fuller for Prices:
+
+```{r}
+tseries::adf.test(df_SP500$price_adjusted)
+```
+
+:::
+
+::::
+
+## The lazy man approach -- Auto-ARIMA 
+
+> We can use computer power to find and estimate the best ARIMA model for the current data. It uses a fitting criteria to select models
+
+```{r}
+# estimate arima model with automatic identification
+my_autoarima <- forecast::auto.arima(
+  x = df_SP500$ret_adjusted_prices)
+
+my_autoarima
+```
+
+
+## Forecasting Arima Models
+
+```{r}
+# forecast model
+forecast::forecast(my_autoarima, h = 5)
+```
+
+
+## An empirical application of ARIMA Models
+
+> "Can We Predict the Financial Markets Based on Google’s
+Search Queries?" -- [Journal of Forecasting](https://onlinelibrary.wiley.com/doi/full/10.1002/for.2446)
+
+
+
+# Garch Models
+
+## Introduction
+
+> Garch models relate to the seminal work of @engle1982autoregressive and  @bollerslev1986generalized. The main innovation in this class of models is that the variance (uncertainty) of the residual can change over time.
+
+**Benefits:**
+
+- directly models the clustering of volatility, allowing for a better representation of the data generating process
+
+- allows for the forecast of future volatility
+
+- main R libraries: `r classtools::cite_pkg("fGarch")`, `r classtools::cite_pkg("rugarch")`
+
+
+## A simple GARCH model
+
+> A GARCH model is modular. We have a process that sets the conditional mean, and another that defines the variance of the error. 
+
+Example for AR(1)-GARCH(1, 1):
+
+$$
+\begin{aligned}
+y _t &= \mu + \theta y_{t-1} + \epsilon _t \\
+\epsilon _t &\sim N \left(0, h _t \right ) \\
+h _t &= \omega + \alpha \epsilon ^2 _{t-1}+ \beta h_{t-1} 
+\end{aligned} 
+$$
+
+
+## Simulating Garch Models
+
+$$
+\begin{aligned}
+y _t &=  0.02 + 0.1 y_{t-1} + \epsilon _t \\
+\epsilon _t &\sim N \left(0, h _t \right ) \\
+h _t &= 0.001 + 0.15 \epsilon ^2 _{t-1}+ 0.8 h_{t-1} 
+\end{aligned}
+$$
+
+---
+
+Step 01: Set up model's specifications
+
+```{r, tidy=FALSE, message=FALSE}
+#| output-location: column-fragment
+# set list with model spec
+my_sim_garch = list(
+  omega=0.001, 
+  alpha=0.15, 
+  beta=0.8, 
+  mu=0.02, 
+  ar = 0.1)
+
+# set garch spec				
+spec = fGarch::garchSpec(
+  model = my_sim_garch
+)
+
+# print it
+print(spec)
+```
+
+---
+
+Step 02: Simulate it!
+
+```{r}
+#| output-location: column-fragment
+set.seed(20)
+
+# simulate garch model
+n_T <- 1000
+sim_garch = fGarch::garchSim(spec, n = n_T)
+
+# set df for ggplot
+temp_df <- dplyr::tibble(
+  sim.ret = sim_garch$garch,
+  idx=seq_along(sim_garch$garch))
+
+library(ggplot2)
+p <- ggplot(temp_df, aes(x=idx, y=sim.ret)) +
+  geom_line()
+
+print(p)
+```
+
+
+## Estimating Garch Models {#estimating-garch}
+
+```{r}
+# estimate garch model
+my_garchfit <- fGarch::garchFit(
+  data = sim_garch, 
+  formula = ~ arma(1,0) + garch(1,1), 
+  trace = FALSE
+)
+
+print(my_garchfit)
+```
+
+
+## Example for SP500
+
+Steps:
+
+1. Check for GARCH effects using LM Arch test
+
+```{r}
+#| output-location: column
+# test for Arch effects
+MTS::archTest(
+  rt = df_SP500$ret_adjusted_prices
+)
+```
+
+---
+
+2. Estimate model
+
+```{r}
+#| output-location: column
+# set object for estimation
+df_est <- fBasics::as.timeSeries(df_SP500)
+
+# estimate garch model for SP500
+my_garchfit_sp500 <- fGarch::garchFit(
+  data = df_est , 
+  formula = ret_adjusted_prices ~ arma(1,0) + garch(1,1), 
+  trace = FALSE)
+
+print(my_garchfit_sp500)
+```
+
+
+## Forecasting Garch Models
+
+```{r}
+#| output-location: column
+# static forecast for garch
+my_forecast <- fGarch::predict(
+  my_garchfit_sp500, n.ahead = 3)
+
+# print df
+print(my_forecast)
+```
+
+## An empirical application of Garch Models
+
+> "A GARCH Tutorial with R" -- [RAC](https://rac.anpad.org.br/index.php/rac/article/view/1420)
+
+
+## Exercises {-}
+
+1. Using package `r classtools::cite_pkg("yfR")`, download data for the SP500 (ticker ^GSPC) between 2015 and today. Estimate a ARIMA (1, 0, 0) for the adjusted returns. What is the value of the autoregressive parameter?
+
+2. Using same package, download data for the FTSE between 2010 and today. However, download data for daily, monthly and yeary observations. Estimate a ARIMA(1, 0, 1) for each of the time series of returns. Can you find any difference in the estimated coefficients?
+
+3. Using same data from exercise 1, use function `r classtools::format_fct_text("forecast::auto.arima")` to estimate a ARIMA model with automatic selection of lags. What is the chosem model?
+
+4. Using package `r classtools::cite_pkg("fGarch")`, simulate 10000 observations of a GARCH(1,1) model with the following specification:
+
+$$
+\begin{aligned}
+y _t &=  0.015 -0.15 y_{t-1} + \epsilon _t \\
+\epsilon _t &\sim N \left(0, h _t \right ) \\
+h _t &= 0.001 + 0.1 \epsilon ^2 _{t-1}+ 0.85 h_{t-1} 
+\end{aligned}
+$$
+
+5. Using the simulated data from previous exercise, estimate a GARCH(1, 1) model with `r classtools::format_fct_text("fGarch::garchFit")`. Do the estimated coefficients match the ones from the simulation?
+
+6. Using package `yfR`, download data for the IBOVESPA index (ticker ^BVSP) between 2015 and today. Test the existence of arch effects in 1) prices series and 2) in the returns series. Report an discuss both results.
+
+7. For the same data used in 4, estimate a GARCH(1, 1) for the adjusted returns. Report the model and its coefficients in the screen of R. 
+
+
+## References {.unlisted}
+
