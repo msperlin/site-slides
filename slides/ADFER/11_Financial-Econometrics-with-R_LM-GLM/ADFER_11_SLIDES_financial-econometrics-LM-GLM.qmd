@@ -1,6 +1,6 @@
 ---
-title: "Análise de Dados Financeiros e Econômicos com o R"
-subtitle: "Aula 10 - Econometria Financeira [@adfer, cap 11]"
+title: "Econometria Financeira com o R -- OLS e GLM"
+subtitle: "Análise de Dados Financeiros e Econômicos com o R"
 author: "Marcelo S. Perlin"
 date: last-modified
 date-format: DD/MM/YYYY
@@ -75,10 +75,6 @@ knitr::opts_chunk$set(fig.align = 'center',
 
 - can be very flexible towards a functional form of the data generating process
 
-::: {.notes}
-Framing (2 min): the goal of this class is not to memorize formulas, but to learn how to go from a research question to a model, and from a model to a defensible conclusion. Use the stock beta and credit default examples as the two running cases.
-:::
-
 
 ## Most popular models:
 
@@ -89,7 +85,6 @@ Framing (2 min): the goal of this class is not to memorize formulas, but to lear
 - **Garch models (generalized autoregressive conditional heteroskedasticity)**
 - ~~Regime switching models~~
 
-We will focus on the four models in bold. The crossed-out models are advanced topics that you can revisit later.
 
 ## Please read the references!
 
@@ -206,7 +201,7 @@ tidy(my_lm, conf.int = TRUE)
 
 ---
 
-In R, to obtain more information about the previously estimated model, we use function `summary`. 
+more information about the previously estimated can be found with `summary`: 
 
 ```{r}
 print(summary(my_lm))
@@ -248,8 +243,6 @@ htmlreg(l = list(model_1, model_2, model_3),
 
 > The table is from published paper titled "The Academic Inbreeding Controversy: Analysis and Evidence from Brazil", published in [Journal of Informetrics](https://doi.org/10.1016/j.joi.2022.101287)
 
-Look at the sign, magnitude and statistical significance of the coefficients. This is the same type of table we will build in R.
-
 ```{r}
 #| echo: false
 #| fig-alt: "Regression table from the paper on academic inbreeding, showing coefficients and significance stars."
@@ -261,8 +254,6 @@ knitr::include_graphics("figs/example-table-01.png")
 ## Another real world example 
 
 > The table is from a **working paper** titled "The Academia Downturn: the Impact of COVID-19 in the Brazilian Academic Output"
-
-Notice how the table reports several model specifications side by side. This is useful when the reader wants to compare robustness across specifications.
 
 ```{r}
 #| echo: false
@@ -454,7 +445,7 @@ print(coeftest(lm_het, vcov = vcovHC(lm_het, type = "HC1")))
 
 ## Global validation
 
-> Package `gvlma` [@R-gvlma] provides a top level function that can execute all sorts of tests in linear models, including the ones described before. The main advantage is that it outputs all tests in a single function call. It is a convenient but older wrapper; `performance::check_model()` is a modern alternative.
+> Package `gvlma` [@R-gvlma] provides a top level function that can execute all sorts of tests in linear models, including the ones described before. The main advantage is that it outputs all tests in a single function call. 
 
 ```{r}
 library(gvlma)
@@ -573,10 +564,6 @@ ggplot(sim_df, aes(x = x, y = p)) +
 - The blue curve is the true probability $p_t = \exp(2 + 5x_t) / (1 + \exp(2 + 5x_t))$.
 - The points are the realized binary outcomes $y_t \in \{0, 1\}$.
 
-::: {.notes}
-Emphasize that we observe only the 0/1 outcomes, never the probability itself. The model's job is to recover the curve from the points. The strong slope (beta = 5) makes the S-shape visible; with a weak slope, the curve would look almost flat.
-:::
-
 
 ## Estimating a GLM Model
 
@@ -662,7 +649,7 @@ glm_credit <- glm(data=df_default,
 summary(glm_credit)
 ```
 
-With the corrected coding, `D_male_gender`, `D_marriage` and education are statistically significant at 5%, while `age` is not. The positive coefficients for `D_male_gender` and `D_marriage` imply that, holding the other variables constant, male and married applicants have higher odds of default. Education is also associated with default, but the pattern is not monotonic: compared with the `Grad` group, `High School` and `University` show higher odds, while `Others` and `Unknown` show lower odds. These categories are coarse, so this should not be read as a causal effect of schooling.
+
 
 ## Odds ratios
 
