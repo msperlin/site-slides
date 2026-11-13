@@ -1,0 +1,122 @@
+/*-- scss:defaults --*/
+$body-bg: #f6f2e8;
+$body-color: #161616;
+$link-color: #1d4ed8;
+$code-color: #b91c1c;
+$code-bg: #ebe4d3;
+$code-block-bg: #18181b;
+$code-block-border-color: #161616;
+
+$font-family-sans-serif: "Space Grotesk", "DM Sans", "Segoe UI", sans-serif;
+$font-family-monospace: "JetBrains Mono", "Fira Code", monospace;
+
+$presentation-heading-color: #111111;
+$presentation-font-size-root: 28px;
+$presentation-h1-font-size: 2.0em;
+$presentation-h2-font-size: 1.35em;
+$presentation-h3-font-size: 1.05em;
+$presentation-slide-text-align: left;
+$code-block-font-size: 0.72em;
+
+/*-- scss:rules --*/
+.reveal h1, .reveal h2, .reveal h3 {
+  text-transform: none;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.reveal h2 {
+  display: inline-block;
+  background: #1d4ed8;
+  color: #ffffff;
+  padding: 0.18em 0.55em;
+  border-radius: 4px;
+  box-shadow: 5px 5px 0px #161616;
+  margin-bottom: 0.7em;
+}
+
+#title-slide {
+  text-align: left;
+  background: #ffffff;
+  border: 3px solid #161616;
+  border-left: 18px solid #dc2626;
+  padding: 1.3em 1.5em;
+  box-shadow: 10px 10px 0px #1d4ed8;
+  .title {
+    font-size: 2.15em;
+    font-weight: 800;
+    color: #111111;
+  }
+  .subtitle {
+    display: inline-block;
+    background: #fbbf24;
+    color: #111111;
+    font-weight: 700;
+    padding: 0.15em 0.5em;
+    font-size: 0.95em;
+    margin-top: 0.3em;
+    margin-bottom: 1.3em;
+  }
+  .quarto-title-authors {
+    justify-content: flex-start;
+    border-top: 2px solid #161616;
+    padding-top: 0.75em;
+  }
+  .quarto-title-author-name, .quarto-title-affiliation, .date {
+    color: #222222;
+    font-size: 0.78em;
+    font-weight: 600;
+  }
+}
+
+.reveal blockquote {
+  background: #fffbeb;
+  border: 2px solid #161616;
+  border-left: 8px solid #dc2626;
+  padding: 0.55em 0.9em;
+  color: #161616;
+  font-style: normal;
+  box-shadow: 5px 5px 0px #fbbf24;
+}
+
+.reveal pre {
+  border: 2px solid #161616;
+  box-shadow: 6px 6px 0px #1d4ed8;
+  border-radius: 4px;
+}
+
+.reveal table {
+  font-size: 0.74em;
+  border: 2px solid #161616;
+  background: #ffffff;
+}
+.reveal table th {
+  background: #fbbf24;
+  color: #111111;
+  font-weight: 800;
+  border-bottom: 2px solid #161616;
+}
+.reveal table td {
+  border-bottom: 1px solid #d6d0c4;
+}
+
+.reveal .callout {
+  background: #ffffff;
+  border: 2px solid #161616;
+  border-left: 8px solid #1d4ed8;
+  border-radius: 4px;
+  box-shadow: 6px 6px 0px #161616;
+}
+
+.reveal .slide-number {
+  background: #161616;
+  color: #fbbf24;
+  padding: 4px 10px;
+  font-weight: 700;
+  font-size: 0.46em;
+}
+.reveal .footer {
+  color: #44403c;
+  font-weight: 600;
+  font-size: 0.43em;
+}

@@ -7,10 +7,15 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
+    theme: [default, "../slides-design/bold_02_bauhaus_studio.scss"]
+    slide-number: true
+    embed-resources: true
+    transition: slide
+    width: 1280
+    height: 720
+    margin: 0.07
     include-after-body: "content/clock.txt"
-    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
-self-contained: true
 execute: 
   echo: false
   cache: false
@@ -135,10 +140,9 @@ df_ibov <- yfR::yf_get("^BVSP", first_date) |>
          invest_value = cumret_adjusted_prices) 
   
 df_cdi <- GetBCBData::gbcbd_get_series(c(cdi = 12), first_date) |>
-  filter(ref.date >= first_date) |>
+  filter(ref_date >= first_date) |>
   mutate(cumvalue = cumprod(1+value/100),
-         year = lubridate::year(ref.date),
-         ref_date = ref.date,
+         year = lubridate::year(ref_date),
          invest_name = "CDI",
          invest_value = cumvalue)  
 

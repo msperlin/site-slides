@@ -7,10 +7,15 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
+    theme: [default, "../slides-design/bold_02_bauhaus_studio.scss"]
+    slide-number: true
+    embed-resources: true
+    transition: slide
+    width: 1280
+    height: 720
+    margin: 0.07
     include-after-body: "resources/clock.txt"
-    theme: "resources/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
-self-contained: true
 execute: 
   echo: false
   cache: false
@@ -436,14 +441,14 @@ id <- c(ipca = 433)
 df_ipca <- GetBCBData::gbcbd_get_series(id, first.date = min_date)
 mean_ipca <- mean(df_ipca$value/100)
 
-first_date <- min(df_ipca$ref.date)
-last_date <- max(df_ipca$ref.date)
+first_date <- min(df_ipca$ref_date)
+last_date <- max(df_ipca$ref_date)
 
 mean_aa <- classtools::format_percent(
   (1+mean_ipca)^(12) - 1
 )
 
-p <- ggplot(df_ipca, aes(x = ref.date, y = value/100)) + 
+p <- ggplot(df_ipca, aes(x = ref_date, y = value/100)) + 
   geom_col() + 
   scale_y_continuous(labels = classtools::format_percent) + 
   theme_light() + 
@@ -479,7 +484,7 @@ df_ipca <- GetBCBData::gbcbd_get_series(
   cache.path = "gbcb-cache"
   ) |>
   dplyr::mutate(
-    year = lubridate::year(ref.date)
+    year = lubridate::year(ref_date)
     ) |>
   dplyr::group_by(year) |>
   dplyr::reframe(r_aa = dplyr::last(cumprod(1+value/100) - 1)) |>
@@ -488,7 +493,7 @@ df_ipca <- GetBCBData::gbcbd_get_series(
 id <- c(selic = 432)
 df_selic <- GetBCBData::gbcbd_get_series(id, first.date = min_date,
 cache.path = "gbcb-cache") |>
-  mutate(year = lubridate::year(ref.date)) |>
+  mutate(year = lubridate::year(ref_date)) |>
   group_by(year) |>
   reframe(r_aa = last(value/100)) |>
   mutate(series = "SELIC")
@@ -667,7 +672,7 @@ ref_dates <- unique(c(
 ))
 
 # baixa as curvas de juros nominais (PRE) direto do B3
-fetch_marketdata("b3-reference-rates", refdate = ref_dates)
+fetch_marketdata("b3-reference-rates", refdate = ref_dates, curve_name = "PRE")
 
 df_yc <- yc_brl_get() |>
   collect() |>

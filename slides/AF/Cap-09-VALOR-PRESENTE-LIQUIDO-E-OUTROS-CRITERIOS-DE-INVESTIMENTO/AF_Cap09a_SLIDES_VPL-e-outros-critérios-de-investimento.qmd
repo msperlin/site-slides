@@ -7,10 +7,15 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
+    theme: [default, "../slides-design/bold_02_bauhaus_studio.scss"]
+    slide-number: true
+    embed-resources: true
+    transition: slide
+    width: 1280
+    height: 720
+    margin: 0.07
     include-after-body: "content/clock.txt"
-    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
-self-contained: true
 execute: 
   echo: false
   cache: false
@@ -191,7 +196,6 @@ l$p
 
 ```{r}
 library(ggplot2)
-library(ggtext)
 
 r_vec <- seq(0, 0.3, by=0.01)
 
@@ -208,9 +212,9 @@ p <- ggplot(df_plot, aes(x = r_vec, y = pvs)) +
   geom_line() +
   geom_hline(yintercept = 0, linewidth = 1, color = 'gray') + 
   geom_point(aes(x = my_irr, y = 0), size = 5, color = "blue") +
-  geom_textbox(x = my_irr*1.5, y = -0.15*(max(pvs)-min(pvs)), 
-                   label = glue::glue("TIR é encontrada quando VPL = 0, isto é TIR={classtools::format_percent(my_irr)}" ),
-               color = 'blue') +
+  annotate("label", x = my_irr*1.5, y = -0.15*(max(pvs)-min(pvs)), 
+           label = glue::glue("TIR é encontrada quando VPL = 0,\nisto é TIR={classtools::format_percent(my_irr)}" ),
+           color = 'blue') +
   labs(x = "Custo do Capital (r)",
        y = "VPL") + 
   theme_light() + 
@@ -274,7 +278,6 @@ l$p
 
 ```{r}
 library(ggplot2)
-library(ggtext)
 
 r_vec <- seq(0.2, 0.4, by=0.01)
 
@@ -311,7 +314,6 @@ l$p
 
 ```{r}
 library(ggplot2)
-library(ggtext)
 
 r_vec <- seq(0, 0.2, by=0.01)
 
@@ -348,7 +350,6 @@ p
 
 ```{r}
 library(ggplot2)
-library(ggtext)
 
 FCs <- tibble::tibble(
   Tempo = 0:4,

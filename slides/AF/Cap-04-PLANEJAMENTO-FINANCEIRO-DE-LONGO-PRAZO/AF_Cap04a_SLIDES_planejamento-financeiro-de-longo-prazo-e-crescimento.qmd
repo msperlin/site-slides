@@ -7,13 +7,17 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "content/theme-msperlin.scss"
-    include-after-body: "content/clock.txt"
+    theme: [default, "../slides-design/bold_02_bauhaus_studio.scss"]
     slide-number: true
+    embed-resources: true
+    transition: slide
+    width: 1280
+    height: 720
+    margin: 0.07
+    include-after-body: "content/clock.txt"
     number-sections: true
     number-depth: 2
 footer: 'Administração Financeira - UFRGS'
-self-contained: true
 execute: 
   echo: false
 bibliography: "content/bibfile.bib"
