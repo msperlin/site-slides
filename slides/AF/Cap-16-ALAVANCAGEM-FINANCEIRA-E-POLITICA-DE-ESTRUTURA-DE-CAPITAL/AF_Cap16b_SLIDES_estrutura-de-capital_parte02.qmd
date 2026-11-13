@@ -7,10 +7,15 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
+    theme: [default, "../slides-design/bold_02_bauhaus_studio.scss"]
+    slide-number: true
+    embed-resources: true
+    transition: slide
+    width: 1280
+    height: 720
+    margin: 0.07
     include-after-body: "content/clock.txt"
-    theme: "content/theme-msperlin.scss"
 footer: 'Administração Financeira - UFRGS'
-self-contained: true
 execute: 
   echo: false
   cache: false
@@ -263,7 +268,7 @@ df_endiv <- selected |>
 ```{r}
 library(dplyr)
 
-f_sql <- "~/GDrive/99-backups/02-work/02-research/01-databases/eodhd/sqlite-files/20250328_eodhd_data_Brazil.sqlite"
+f_sql <- "~/GDrive/99-backups/02-work/02-research/01-databases/eodhd/sqlite-files/20250729_eodhd_data_Brazil.sqlite"
 
 max_date <- as.Date("2024-12-31")
 this_year <- lubridate::year(max_date)
