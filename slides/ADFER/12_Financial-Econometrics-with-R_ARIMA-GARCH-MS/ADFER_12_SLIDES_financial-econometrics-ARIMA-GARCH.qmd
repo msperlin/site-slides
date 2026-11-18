@@ -7,7 +7,7 @@ date-format: DD/MM/YYYY
 institute: EA-UFRGS
 format:
   revealjs: 
-    theme: "/home/msperlin/R/x86_64-pc-linux-gnu-library/4.4/classtools/extdata/templates/theme-msperlin.scss"
+    theme: "../slides-design/theme-msperlin.scss"
     scrollable: true
     favicon: figs/R_logo.svg.png
 footer: 'ADFER - UFRGS'
@@ -15,8 +15,7 @@ self-contained: true
 execute: 
   echo: true
   cache: false
-bibliography: ["/home/msperlin/R/x86_64-pc-linux-gnu-library/4.4/classtools/extdata/templates/bibfile_ADFER.bib",
-                "bib/pkgs_bib.bib"]
+bibliography: ["../slides-design/bibfile_ADFER.bib"]
 title-block-banner: true
 toc: true
 toc-depth: 1
