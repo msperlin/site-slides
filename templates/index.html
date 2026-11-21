@@ -64,6 +64,7 @@
     </div>
 
     <section class="grid" id="slides-grid" aria-label="Lista de apresentações">
+        {% set ns = namespace(card_index=0) %}
         {% for group in groups %}
         <div
             class="chapter-heading"
@@ -110,13 +111,14 @@
                 <img
                     src="{{ slide.thumbnail_url }}"
                     alt=""
-                    width="1280"
-                    height="720"
-                    loading="{{ 'eager' if loop.index0 < 2 else 'lazy' }}"
+                    width="640"
+                    height="360"
+                    loading="{{ 'eager' if ns.card_index < 2 else 'lazy' }}"
                     decoding="async"
                     onerror="this.closest('.slide-thumbnail').hidden = true"
                 >
             </div>
+            {% set ns.card_index = ns.card_index + 1 %}
 
             <div class="slide-actions">
                 {% if slide.pdf_url %}

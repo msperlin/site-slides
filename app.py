@@ -239,7 +239,7 @@ def index():
                 "title": title,
                 "url": url,
                 "pdf_url": pdf_url,
-                "thumbnail_url": url.replace(".html", ".png"),
+                "thumbnail_url": url.replace(".html", ".webp"),
                 "filename": path.name,
                 "date": date,
                 "mtime": timestamp,

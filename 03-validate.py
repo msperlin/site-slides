@@ -91,7 +91,7 @@ def main():
     )
 
     for deck in deck_files:
-        if not deck.with_suffix(".png").exists():
+        if not deck.with_suffix(".webp").exists():
             errors.append(f"Thumbnail ausente: {deck.relative_to(BASE_DIR)}")
         if not deck.with_suffix(".pdf").exists():
             warnings.append(f"PDF ausente: {deck.relative_to(BASE_DIR)}")

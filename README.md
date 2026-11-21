@@ -10,7 +10,7 @@ This project uses a lightweight Flask application to dynamically discover HTML p
 - **Search & Filters:** Instant search over titles, chapters, filenames **and slide content**, plus class/chapter filters. The current view is stored in the URL so it can be shared.
 - **Sorting:** Browse by chapter (default) or by most recently updated.
 - **Freshness:** Slides changed in the last 45 days get a "Novo" badge.
-- **Auto-Generated Thumbnails:** Automatically creates image thumbnails (`.png`) for each presentation using headless Chromium.
+- **Auto-Generated Thumbnails:** Automatically creates WebP thumbnails (`.webp`, 640×360) for each presentation using headless Chromium and ImageMagick.
 - **Static Site Generation:** Compiles the dynamic Flask app into a single, static `index.html`, plus `sitemap.xml`, `robots.txt`, `404.html` and the content search index.
 - **Validation:** A link/structure checker verifies every local asset, thumbnail and search-index entry.
 
@@ -26,7 +26,7 @@ slides/
 
 Optional companions are picked up automatically:
 - `presentation_name.qmd` → used for the readable title.
-- `presentation_name.png` → thumbnail (1280×720).
+- `presentation_name.webp` → thumbnail (640×360).
 - `presentation_name.pdf` → PDF link.
 
 Class and chapter display names live in `app.py` (`CLASS_LABELS` and `CHAPTER_LABELS`); new folders still work with a sensible fallback.
